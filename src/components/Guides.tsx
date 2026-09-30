@@ -60,7 +60,7 @@ export default function Guides() {
               >
                 <div className={`relative w-full overflow-hidden ${isLeader ? 'aspect-[4/5]' : 'aspect-[1/1] sm:aspect-[4/5]'}`}>
                   <img
-                    src={member.img}
+                    src={member.img.src}
                     alt={member.name}
                     className={`h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105 ${isLeader ? 'object-[30%_20%]' : 'object-center'}`}
                     loading="lazy"

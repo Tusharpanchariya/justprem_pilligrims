@@ -135,7 +135,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
             </p>
             
             <div className="relative z-50 min-h-[150px]">
-              <PayPalScriptProvider options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID || "test", currency: "EUR" }}>
+              <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test", currency: "EUR" }}>
                 <PayPalButtons 
                   style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }} 
                   createOrder={(data, actions) => {

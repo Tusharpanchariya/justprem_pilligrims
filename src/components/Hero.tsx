@@ -28,7 +28,7 @@ export default function Hero({ onEnquire }: HeroProps) {
         }}
       >
         <img
-          src={mainPageBg}
+          src={mainPageBg.src}
           alt="Himalayan snow peak at sunrise"
           className="h-full w-full object-cover"
           style={{ animation: 'slowZoom 25s ease-out forwards' }}
