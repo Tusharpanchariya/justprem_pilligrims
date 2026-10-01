@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.192.0/http/server.ts"
-import nodemailer from "npm:nodemailer@6.9.8"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,19 +14,8 @@ serve(async (req) => {
   try {
     const { name, email, paymentMethod } = await req.json()
 
-    // Create reusable transporter object using SMTP transport
-    const transporter = nodemailer.createTransport({
-      host: Deno.env.get("SMTP_HOST") || "smtp.office365.com",
-      port: Number(Deno.env.get("SMTP_PORT")) || 587,
-      secure: false,
-      auth: {
-        user: Deno.env.get("SMTP_USER") || "connect@justprem.shop",
-        pass: Deno.env.get("SMTP_PASSWORD"),
-      },
-    })
-
     // Email content based on payment method
-    const paymentText = paymentMethod === 'paypal' 
+    const paymentText = paymentMethod === 'paypal'
       ? 'We have successfully received your €1,900 Early Bird payment via PayPal.'
       : 'We have received your enquiry and your spot is held. Please complete your Wise transfer to finalize your booking.'
 
@@ -42,16 +30,34 @@ serve(async (req) => {
       </div>
     `
 
-    // Send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: '"Just Prem" <connect@justprem.shop>',
-      to: email, // receiver
-      subject: "Welcome to the Heart of the Himalayas Pilgrimage",
-      html: htmlContent,
+    // Use Resend to send the email
+    const resendApiKey = Deno.env.get('RESEND_API_KEY')
+    const fromEmail = Deno.env.get('SMTP_FROM_EMAIL') || 'orders@justprem.shop'
+    const adminEmail = 'connect@justprem.shop'
+
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${resendApiKey}`
+      },
+      body: JSON.stringify({
+        from: `Just Prem <${fromEmail}>`,
+        to: email, // Send to the user
+        bcc: adminEmail, // Admin also receives a copy
+        subject: "Welcome to the Heart of the Himalayas Pilgrimage",
+        html: htmlContent
+      })
     })
 
+    const data = await res.json()
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Failed to send email via Resend')
+    }
+
     return new Response(
-      JSON.stringify({ message: "Email sent successfully", messageId: info.messageId }),
+      JSON.stringify({ message: "Email sent successfully", data }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,

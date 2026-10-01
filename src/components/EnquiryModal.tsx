@@ -196,11 +196,15 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   <div className="space-y-4 font-sans text-[13px] font-light text-[#F1EEE7]">
                     <div className="flex justify-between items-center border-b border-[#E6DCC8]/10 pb-3">
                       <span className="text-[#EBE7DE]/50">Account Name</span>
-                      <span className="font-medium text-right">[JustPrem Name]</span>
+                      <span className="font-medium text-right">vitthal prem travels llp</span>
                     </div>
                     <div className="flex justify-between items-center border-b border-[#E6DCC8]/10 pb-3">
-                      <span className="text-[#EBE7DE]/50">IBAN / Account Number</span>
-                      <span className="font-medium text-right">[YOUR WISE IBAN]</span>
+                      <span className="text-[#EBE7DE]/50">IBAN</span>
+                      <span className="font-medium text-right">BE75 9059 5938 2951</span>
+                    </div>
+                    <div className="flex justify-between items-center border-b border-[#E6DCC8]/10 pb-3">
+                      <span className="text-[#EBE7DE]/50">Swift/BIC</span>
+                      <span className="font-medium text-right">TRWIBEB1XXX</span>
                     </div>
                     <div className="flex justify-between items-center pb-1">
                       <span className="text-[#EBE7DE]/50">Amount</span>
