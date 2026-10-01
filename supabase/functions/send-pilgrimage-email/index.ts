@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, paymentMethod } = await req.json()
+    const { name, email, phone, country, paymentMethod } = await req.json()
 
     // Email content based on payment method
     const paymentText = paymentMethod === 'paypal'
@@ -30,12 +30,24 @@ serve(async (req) => {
       </div>
     `
 
-    // Use Resend to send the email
+    const adminHtmlContent = `
+      <div style="font-family: sans-serif; color: #333; padding: 20px;">
+        <h2>New Pilgrimage Enquiry</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+        <p><strong>Country:</strong> ${country || 'Not provided'}</p>
+        <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+      </div>
+    `
+
+    // Use Resend to send the emails
     const resendApiKey = Deno.env.get('RESEND_API_KEY')
     const fromEmail = Deno.env.get('SMTP_FROM_EMAIL') || 'orders@justprem.shop'
     const adminEmail = 'connect@justprem.shop'
 
-    const res = await fetch('https://api.resend.com/emails', {
+    // 1. Send Email to User
+    const userRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,21 +55,38 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: `Just Prem <${fromEmail}>`,
-        to: email, // Send to the user
-        bcc: adminEmail, // Admin also receives a copy
+        to: email, 
         subject: "Welcome to the Heart of the Himalayas Pilgrimage",
         html: htmlContent
       })
     })
 
-    const data = await res.json()
+    if (!userRes.ok) {
+      const errData = await userRes.json()
+      throw new Error(errData.message || 'Failed to send email to user via Resend')
+    }
 
-    if (!res.ok) {
-      throw new Error(data.message || 'Failed to send email via Resend')
+    // 2. Send Notification Email to Admin
+    const adminRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${resendApiKey}`
+      },
+      body: JSON.stringify({
+        from: `Just Prem <${fromEmail}>`,
+        to: adminEmail,
+        subject: "New Enquiry: Heart of the Himalayas",
+        html: adminHtmlContent
+      })
+    })
+
+    if (!adminRes.ok) {
+      console.error('Failed to send admin notification email')
     }
 
     return new Response(
-      JSON.stringify({ message: "Email sent successfully", data }),
+      JSON.stringify({ message: "Emails sent successfully" }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,

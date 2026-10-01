@@ -2,6 +2,8 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { X, Check, Loader2, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { countries } from '@/lib/countries';
+import { ChevronDown } from 'lucide-react';
 
 type PaymentMethod = 'paypal' | 'wise';
 
@@ -14,7 +16,8 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [country, setCountry] = useState('');
+  const [dialCode, setDialCode] = useState('+44');
+  const [country, setCountry] = useState('United Kingdom');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('paypal');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'paypal-checkout' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -43,7 +46,8 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setName('');
     setEmail('');
     setPhone('');
-    setCountry('');
+    setDialCode('+44');
+    setCountry('United Kingdom');
     setPaymentMethod('paypal');
     setStatus('idle');
     setErrorMsg('');
@@ -77,7 +81,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     const { error } = await supabase.from('pilgrimage_enquiries').insert({
       name: name.trim(),
       email: email.trim(),
-      phone: phone.trim(),
+      phone: `${dialCode} ${phone.trim()}`,
       country: country.trim(),
       payment_method: paymentMethod,
     });
@@ -94,7 +98,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
       setStatus('success');
       // Send the email for Wise via Edge Function
       supabase.functions.invoke('send-pilgrimage-email', {
-        body: { name: name.trim(), email: email.trim(), paymentMethod: 'wise' }
+        body: { 
+          name: name.trim(), 
+          email: email.trim(), 
+          phone: `${dialCode} ${phone.trim()}`,
+          country: country.trim(),
+          paymentMethod: 'wise' 
+        }
       }).catch(console.error);
     }
   };
@@ -158,7 +168,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                         setStatus('success');
                         // Send the email for PayPal via Edge Function
                         supabase.functions.invoke('send-pilgrimage-email', {
-                          body: { name: name.trim(), email: email.trim(), paymentMethod: 'paypal' }
+                          body: { 
+                            name: name.trim(), 
+                            email: email.trim(), 
+                            phone: `${dialCode} ${phone.trim()}`,
+                            country: country.trim(),
+                            paymentMethod: 'paypal' 
+                          }
                         }).catch(console.error);
                       });
                     }
@@ -295,15 +311,33 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 >
                   Phone Number
                 </label>
-                <input
-                  id="enq-phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full border-b border-[#E6DCC8]/20 bg-transparent py-3 font-sans text-[14px] font-light text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none transition-colors focus:border-[#E6DCC8]/60"
-                  placeholder="+44 123 456 7890"
-                  autoComplete="tel"
-                />
+                <div className="flex items-end gap-3">
+                  <div className="relative w-[100px] border-b border-[#E6DCC8]/20 transition-colors focus-within:border-[#E6DCC8]/60">
+                    <select
+                      value={dialCode}
+                      onChange={(e) => setDialCode(e.target.value)}
+                      className="w-full appearance-none bg-transparent py-3 pl-2 pr-6 font-sans text-[14px] font-light text-[#F1EEE7] outline-none cursor-pointer"
+                    >
+                      {countries.map((c) => (
+                        <option key={c.code} value={c.dialCode} className="bg-[#101012] text-[#F1EEE7]">
+                          {c.code} ({c.dialCode})
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown size={14} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[#E6DCC8]/60" />
+                  </div>
+                  <div className="flex-1 border-b border-[#E6DCC8]/20 transition-colors focus-within:border-[#E6DCC8]/60">
+                    <input
+                      id="enq-phone"
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full bg-transparent py-3 font-sans text-[14px] font-light text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none"
+                      placeholder="123 456 7890"
+                      autoComplete="tel-national"
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Country */}
@@ -314,15 +348,22 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 >
                   Country
                 </label>
-                <input
-                  id="enq-country"
-                  type="text"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="w-full border-b border-[#E6DCC8]/20 bg-transparent py-3 font-sans text-[14px] font-light text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none transition-colors focus:border-[#E6DCC8]/60"
-                  placeholder="Your country of residence"
-                  autoComplete="country-name"
-                />
+                <div className="relative border-b border-[#E6DCC8]/20 transition-colors focus-within:border-[#E6DCC8]/60">
+                  <select
+                    id="enq-country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full appearance-none bg-transparent py-3 pl-2 pr-10 font-sans text-[14px] font-light text-[#F1EEE7] outline-none cursor-pointer"
+                  >
+                    <option value="" disabled className="bg-[#101012] text-[#EBE7DE]/30">Select your country</option>
+                    {countries.map((c) => (
+                      <option key={c.code} value={c.name} className="bg-[#101012] text-[#F1EEE7]">
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown size={16} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[#E6DCC8]/60" />
+                </div>
               </div>
 
               {/* Payment method */}
