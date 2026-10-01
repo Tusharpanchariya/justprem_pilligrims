@@ -1,26 +1,66 @@
+'use client';
+
+import { useState } from 'react';
 import { Play } from 'lucide-react';
-import { images } from '@/data/images';
 
 const testimonials = [
   {
-    name: '[GUEST NAME]',
-    country: '[Country]',
-    quote: '[One-line testimonial — to be supplied by client]',
-    img: images.testimonial1,
+    videoId: 'QmgiEFCbq5k',
   },
   {
-    name: '[GUEST NAME]',
-    country: '[Country]',
-    quote: '[One-line testimonial — to be supplied by client]',
-    img: images.testimonial2,
+    videoId: 'qiH56T4lIE4',
   },
   {
-    name: '[GUEST NAME]',
-    country: '[Country]',
-    quote: '[One-line testimonial — to be supplied by client]',
-    img: images.testimonial3,
+    videoId: 'WZVMLgWmhio',
   },
 ];
+
+function VideoFacade({ videoId }: { videoId: string }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  return (
+    <div
+      className="relative aspect-video w-full overflow-hidden rounded-lg border border-ivory/10 shadow-lg cursor-pointer group"
+      onClick={() => setIsPlaying(true)}
+    >
+      {!isPlaying ? (
+        <>
+          <img
+            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+            alt="Video Thumbnail"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-near-black/20 transition-opacity duration-700 group-hover:bg-near-black/10" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <button
+              className="flex h-14 w-14 items-center justify-center rounded-full border border-ivory/30 bg-near-black/40 backdrop-blur-sm transition-all duration-700 group-hover:scale-110 group-hover:border-antique-gold group-hover:bg-near-black/60"
+              aria-label="Play video"
+            >
+              <Play
+                size={18}
+                strokeWidth={1}
+                className="ml-0.5 text-ivory"
+                fill="currentColor"
+              />
+            </button>
+          </div>
+        </>
+      ) : (
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
+          title="Guest Review"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="absolute left-0 top-0 h-full w-full"
+        ></iframe>
+      )}
+    </div>
+  );
+}
 
 export default function Testimonials() {
   return (
@@ -29,12 +69,9 @@ export default function Testimonials() {
       className="relative bg-charcoal px-6 py-32 md:px-12 md:py-48"
     >
       <div className="mx-auto max-w-[1400px]">
-        <div className="mb-20 md:mb-32">
-          <p className="reveal mb-6 text-[11px] uppercase tracking-ultra text-antique-gold">
-            Voices
-          </p>
-          <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light text-ivory md:text-6xl lg:text-7xl">
-            Stories from the Path
+        <div className="mb-20 text-center md:mb-32">
+          <h2 className="reveal font-serif text-4xl font-light text-ivory md:text-5xl lg:text-6xl">
+            Reviews from our guests
           </h2>
         </div>
 
@@ -42,41 +79,9 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <article
               key={i}
-              className={`group reveal ${i > 0 ? `reveal-delay-${Math.min(i, 5)}` : ''}`}
+              className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 5)}` : ''}`}
             >
-              <div className="relative aspect-video overflow-hidden md:aspect-[3/4]">
-                <img
-                  src={t.img}
-                  alt={t.name}
-                  className="img-zoom h-full w-full object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-near-black/85 via-near-black/20 to-near-black/40 transition-opacity duration-700 group-hover:from-near-black/70" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button
-                    className="flex h-14 w-14 items-center justify-center rounded-full border border-ivory/30 backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:border-antique-gold"
-                    aria-label={`Play testimonial from ${t.name}`}
-                  >
-                    <Play
-                      size={18}
-                      strokeWidth={1}
-                      className="ml-0.5 text-ivory"
-                      fill="currentColor"
-                    />
-                  </button>
-                </div>
-                <div className="absolute bottom-0 left-0 p-6">
-                  <p className="font-serif text-xl font-light text-ivory">
-                    {t.name}
-                  </p>
-                  <p className="mt-1 text-[10px] uppercase tracking-wide-sm text-antique-gold/80">
-                    {t.country}
-                  </p>
-                </div>
-              </div>
-              <p className="mt-5 font-serif text-lg font-light italic leading-relaxed text-stone/70">
-                {t.quote}
-              </p>
+              <VideoFacade videoId={t.videoId} />
             </article>
           ))}
         </div>
