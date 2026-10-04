@@ -8,13 +8,11 @@ import MountainStatement from '@/components/MountainStatement';
 import JourneyTimeline from '@/components/JourneyTimeline';
 import NepalMap from '@/components/NepalMap';
 import Experiences from '@/components/Experiences';
-import SpiritualExperience from '@/components/SpiritualExperience';
 import VideoStory from '@/components/VideoStory';
 import DayInHimalayas from '@/components/DayInHimalayas';
 import Guides from '@/components/Guides';
 import Testimonials from '@/components/Testimonials';
 import PhotoJournal from '@/components/PhotoJournal';
-import WhyNepal from '@/components/WhyNepal';
 import Package from '@/components/Package';
 import Included from '@/components/Included';
 import FinalCTA from '@/components/FinalCTA';
@@ -38,13 +36,11 @@ export default function Page() {
         <JourneyTimeline />
         <NepalMap />
         <Experiences />
-        <SpiritualExperience />
         <VideoStory />
         <DayInHimalayas />
         <Guides />
         <Testimonials />
         <PhotoJournal />
-        <WhyNepal />
         <Package onEnquire={openEnquiry} />
         <Included />
         <FinalCTA onEnquire={openEnquiry} />
