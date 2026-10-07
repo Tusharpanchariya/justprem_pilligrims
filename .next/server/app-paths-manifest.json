@@ -1,4 +1,15 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/gallery/page": "app/gallery/page.js",
+  "/our-story/page": "app/our-story/page.js",
+  "/page": "app/page.js",
+  "/connect/page": "app/connect/page.js",
+  "/experiences/[slug]/page": "app/experiences/[slug]/page.js",
+  "/pilgrimages/[slug]/page": "app/pilgrimages/[slug]/page.js",
+  "/retreats/[slug]/page": "app/retreats/[slug]/page.js",
+  "/pilgrimages/nepal/page": "app/pilgrimages/nepal/page.js",
   "/retreats-and-pilgrimages/page": "app/retreats-and-pilgrimages/page.js",
-  "/page": "app/page.js"
+  "/pilgrimages/page": "app/pilgrimages/page.js",
+  "/retreats/page": "app/retreats/page.js",
+  "/testimonials/page": "app/testimonials/page.js"
 }

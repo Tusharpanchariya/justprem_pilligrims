@@ -6,7 +6,7 @@ export default function Intro() {
     >
       <div className="mx-auto max-w-7xl">
         <p className="reveal mb-8 text-[11px] uppercase tracking-ultra text-antique-gold md:mb-12">
-          The Call
+          Description
         </p>
 
         <h2 className="reveal reveal-delay-1 font-serif text-3xl font-light leading-[1.2] text-ivory sm:text-4xl md:text-5xl lg:text-6xl mb-16 md:mb-20">
@@ -33,9 +33,10 @@ export default function Intro() {
               From there, we continue our trekking through villages, valleys, forests, and high-altitude landscapes, meeting local communities and experiencing Nepal beyond the trail. Our days are enriched with yoga, meditation, kirtan, and satsang with Swami Aniruddha, a travelling monk who has followed the yogic path for over 20 years, creating space to embrace the journey around us while reconnecting more deeply within.
             </p>
 
-            <p className="reveal reveal-delay-5 font-serif text-2xl font-light italic leading-relaxed text-ivory md:text-3xl pt-4 border-t border-antique-gold/15">
+            <p className="reveal reveal-delay-4 text-base font-light leading-[1.8] text-stone/80 md:text-lg">
               Our journey culminates at Muktinath Temple, at around 3,800 metres. Revered by both Hindus and Buddhists, Muktinath means “Lord of Liberation.” Reaching this sacred place becomes a symbolic moment to turn inward and explore what liberation means for each of us.
             </p>
+
           </div>
 
           {/* Right Column - 3 Pictures Stacked Vertically */}

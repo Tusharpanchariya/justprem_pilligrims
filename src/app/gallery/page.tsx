@@ -17,76 +17,148 @@ interface GalleryItem {
 
 const GALLERY_ITEMS: GalleryItem[] = [
   {
-    id: 'g1',
-    url: 'https://images.pexels.com/photos/38902559/pexels-photo-38902559.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Sunrise Over Annapurna Range',
+    id: 'fg1',
+    url: '/phots_for_gallery/DSC03924.JPG',
+    title: 'Himalayan Trekking Trail',
     category: 'himalayas',
-    location: 'Sarangkot, Nepal',
-    description: 'Golden morning sunlight breaking over Fishtail Peak during our Nepal Retreat.'
+    location: 'Nepal Himalayas',
+    description: 'Breathtaking mountain trails winding through high-altitude Himalayan valleys.'
   },
   {
-    id: 'g2',
-    url: 'https://images.pexels.com/photos/32225795/pexels-photo-32225795.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Boudhanath Stupa Prayer Flags',
+    id: 'fg2',
+    url: '/phots_for_gallery/DSC04045.JPG',
+    title: 'Devotional Kirtan & Chanting',
+    category: 'music',
+    location: 'Nepal Retreat',
+    description: 'Chanting sacred mantras and devotional music during our mountain immersion.'
+  },
+  {
+    id: 'fg3',
+    url: '/phots_for_gallery/DSC04254.JPG',
+    title: 'Sacred Mountain Sanctuary',
+    category: 'sacred-places',
+    location: 'Muktinath Valley, Nepal',
+    description: 'Ancient mountain shrines surrounded by majestic high-altitude peaks.'
+  },
+  {
+    id: 'fg4',
+    url: '/phots_for_gallery/DSC04529.JPG',
+    title: 'Group Meditation & Circle',
+    category: 'retreats',
+    location: 'Nepal Valley',
+    description: 'Morning meditation and satsang circle in the peaceful mountain air.'
+  },
+  {
+    id: 'fg5',
+    url: '/phots_for_gallery/DSC04798.JPG',
+    title: 'Poon Hill Himalayan Vista',
+    category: 'himalayas',
+    location: 'Poon Hill, Nepal',
+    description: 'Panoramic views of Annapurna snow-capped range bathed in morning light.'
+  },
+  {
+    id: 'fg6',
+    url: '/phots_for_gallery/DSC04907.JPG',
+    title: 'Cultural Village Walk',
+    category: 'people',
+    location: 'Nepalese Village',
+    description: 'Connecting with warm local communities and traditional Himalayan villagers.'
+  },
+  {
+    id: 'fg7',
+    url: '/phots_for_gallery/DSC04914.JPG',
+    title: 'Kathmandu Temple Reflections',
     category: 'sacred-places',
     location: 'Kathmandu, Nepal',
-    description: 'Hundreds of colorful prayer flags fluttering in the breeze surrounding the ancient white stupa dome.'
+    description: 'Intricate wood carvings and serene courtyards of ancient Nepalese temples.'
   },
   {
-    id: 'g3',
-    url: 'https://images.pexels.com/photos/32436570/pexels-photo-32436570.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Devotional Kirtan by the Bonfire',
-    category: 'music',
-    location: 'Harsil Valley, Himalayas',
-    description: 'Harmonium and acoustic guitars echoing through the pine forests during the Himalayan Bhakti Retreat.'
-  },
-  {
-    id: 'g4',
-    url: 'https://images.pexels.com/photos/31874584/pexels-photo-31874584.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Silent Mountain Walk',
+    id: 'fg8',
+    url: '/phots_for_gallery/DSC04916.JPG',
+    title: 'Pokhara Lakeside Serenity',
     category: 'retreats',
-    location: 'Annapurna Foothills',
-    description: 'Participants walking in quiet mindfulness through green rhododendron paths.'
+    location: 'Pokhara, Nepal',
+    description: 'Gentle lake waters offering stillness before ascending into the high mountains.'
   },
   {
-    id: 'g5',
-    url: 'https://images.pexels.com/photos/32261503/pexels-photo-32261503.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Red Canyons of Upper Mustang',
-    category: 'pilgrimages',
-    location: 'Upper Mustang, Nepal',
-    description: 'Wind-carved desert rock cliffs leading to the walled royal city of Lo Manthang.'
-  },
-  {
-    id: 'g6',
-    url: 'https://images.pexels.com/photos/34792307/pexels-photo-34792307.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Ganga River Meditation at Dawn',
-    category: 'retreats',
-    location: 'Rishikesh Ganga Beach',
-    description: 'Practicing morning pranayama and silent reflection by pristine river waters.'
-  },
-  {
-    id: 'g7',
-    url: 'https://images.pexels.com/photos/29764242/pexels-photo-29764242.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Pilgrims Gathering at Pashupati',
-    category: 'people',
-    location: 'Pashupatinath Temple',
-    description: 'Intimate conversation with traditional sadhus and wisdom keepers.'
-  },
-  {
-    id: 'g8',
-    url: 'https://images.pexels.com/photos/29622178/pexels-photo-29622178.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Evening Ganga Aarti Lights',
+    id: 'fg9',
+    url: '/phots_for_gallery/KAthmandu 3.png',
+    title: 'Heritage Courtyard',
     category: 'sacred-places',
-    location: 'Bagmati Riverbank',
-    description: 'Rhythmic brass lamp ceremonies illuminating the evening sky.'
+    location: 'Kathmandu Valley',
+    description: 'Exploring UNESCO world heritage stupas and shrines.'
   },
   {
-    id: 'g9',
-    url: 'https://images.pexels.com/photos/36520323/pexels-photo-36520323.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    title: 'Reflections on Glacial Stream',
+    id: 'fg10',
+    url: '/phots_for_gallery/Kathmandu 2.png',
+    title: 'Boudhanath Stupa Serenity',
+    category: 'sacred-places',
+    location: 'Kathmandu, Nepal',
+    description: 'Sacred stupa surrounded by spinning prayer wheels and chanting monks.'
+  },
+  {
+    id: 'fg11',
+    url: '/phots_for_gallery/Nepal 4.avif',
+    title: 'Alpine Forest Trail',
     category: 'himalayas',
-    location: 'Harsil Valley',
-    description: 'Turquoise waters rushing down snow-melt Himalayan rivers.'
+    location: 'Annapurna Conservation Area',
+    description: 'Walking through lush pine and rhododendron forests in quiet mindfulness.'
+  },
+  {
+    id: 'fg12',
+    url: '/phots_for_gallery/Nepal 5.avif',
+    title: 'High Altitude Pass View',
+    category: 'himalayas',
+    location: 'Mustang Region',
+    description: 'Reaching high Himalayan ridges with vast panoramic horizon views.'
+  },
+  {
+    id: 'fg13',
+    url: '/phots_for_gallery/Nepal 6.png',
+    title: 'Himalayan Sunrise Glow',
+    category: 'himalayas',
+    location: 'Nepal Peaks',
+    description: 'First rays of sun illuminating golden snow ridges across the horizon.'
+  },
+  {
+    id: 'fg14',
+    url: '/phots_for_gallery/Nepal 7.png',
+    title: 'River Valley Sanctuary',
+    category: 'retreats',
+    location: 'Himalayan Stream',
+    description: 'Resting by pristine glacial streams flowing down sacred mountain slopes.'
+  },
+  {
+    id: 'fg15',
+    url: '/phots_for_gallery/Nepalese woman.png',
+    title: 'Heart Connection & Hospitality',
+    category: 'people',
+    location: 'Local Himalayan Home',
+    description: 'Authentic encounters and welcoming smiles from local Himalayan wisdom keepers.'
+  },
+  {
+    id: 'fg16',
+    url: '/phots_for_gallery/Pokhara 2.png',
+    title: 'Phewa Lake Reflections',
+    category: 'retreats',
+    location: 'Pokhara, Nepal',
+    description: 'Tranquil lake waters reflecting snow-capped peaks in silent contemplation.'
+  },
+  {
+    id: 'fg17',
+    url: '/phots_for_gallery/Poon hill.jpg',
+    title: 'Poon Hill Panorama',
+    category: 'himalayas',
+    location: 'Poon Hill, Nepal',
+    description: 'Standing above the clouds at dawn with 360-degree views of Himalayan giants.'
+  },
+  {
+    id: 'fg18',
+    url: '/phots_for_gallery/Temples.png',
+    title: 'Ancient Shrine Sanctuary',
+    category: 'sacred-places',
+    location: 'Pashupatinath, Nepal',
+    description: 'Sacred temple complexes along the riverbank filled with timeless devotion.'
   }
 ];
 

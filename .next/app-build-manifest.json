@@ -1,20 +1,150 @@
 {
   "pages": {
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+    "/_not-found/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/app/_not-found/page-6a9f4a39b2738ce7.js"
     ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/css/dde8c2b3a630dceb.css",
+      "static/chunks/app/layout-522f7349c0d2d0ee.js"
+    ],
+    "/gallery/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/app/gallery/page-956d45d39293de35.js"
+    ],
+    "/our-story/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/app/our-story/page-40edd4d4bb74e816.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/226-23f4f8145ed31aec.js",
+      "static/chunks/app/page-d8109f69de59f372.js"
+    ],
+    "/connect/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/app/connect/page-43de3363bcb516eb.js"
+    ],
+    "/experiences/[slug]/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/226-23f4f8145ed31aec.js",
+      "static/chunks/950-a985c18a792cb359.js",
+      "static/chunks/app/experiences/[slug]/page-56ab377c965e60dc.js"
+    ],
+    "/pilgrimages/[slug]/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/226-23f4f8145ed31aec.js",
+      "static/chunks/950-a985c18a792cb359.js",
+      "static/chunks/899-40e6c3a7388d8678.js",
+      "static/chunks/app/pilgrimages/[slug]/page-70f4394b0a58f058.js"
+    ],
+    "/retreats/[slug]/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/226-23f4f8145ed31aec.js",
+      "static/chunks/950-a985c18a792cb359.js",
+      "static/chunks/app/retreats/[slug]/page-1bfca593837c65ba.js"
+    ],
+    "/pilgrimages/nepal/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/899-40e6c3a7388d8678.js",
+      "static/chunks/app/pilgrimages/nepal/page-639aeb9ade67429c.js"
     ],
     "/retreats-and-pilgrimages/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/retreats-and-pilgrimages/page.js"
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/app/retreats-and-pilgrimages/page-1ff4a34c895ddcbe.js"
+    ],
+    "/pilgrimages/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/226-23f4f8145ed31aec.js",
+      "static/chunks/app/pilgrimages/page-a6b859f561f1a544.js"
+    ],
+    "/retreats/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/226-23f4f8145ed31aec.js",
+      "static/chunks/app/retreats/page-d7392ea59bb6508d.js"
+    ],
+    "/testimonials/page": [
+      "static/chunks/webpack-c84e7b3dbc67fa68.js",
+      "static/chunks/fd9d1056-cc804a1e952f84f5.js",
+      "static/chunks/23-65677de2e490e323.js",
+      "static/chunks/main-app-1c6e7efa54215a11.js",
+      "static/chunks/44530001-5891341dcc2dcbdf.js",
+      "static/chunks/939-672a00b1f292c316.js",
+      "static/chunks/816-541827656a6f2080.js",
+      "static/chunks/app/testimonials/page-d9c5b862e6d2e7c8.js"
     ]
   }
 }

@@ -75,7 +75,7 @@ export default function Hero({ onEnquire }: HeroProps) {
             href="#intro"
             className="group flex items-center gap-2 font-sans text-[10px] md:text-[11px] uppercase font-medium tracking-[0.18em] text-[#EBE7DE]/80 transition-colors duration-500 hover:text-ivory"
           >
-            Explore the Pilgrimage
+            Explore the Retreat
             <span className="inline-block transition-transform duration-500 group-hover:translate-y-0.5">
               &#8595;
             </span>
