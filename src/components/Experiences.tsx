@@ -2,33 +2,33 @@ import { images } from '@/data/images';
 
 const experiences = [
   {
-    title: 'Sacred Encounters',
-    desc: 'Meet Nepal through its living spiritual traditions.',
+    title: 'The Living Himalayas',
+    desc: 'Meet Nepal through its living culture and traditions.',
     img: images.sacredEncounters,
   },
   {
-    title: 'Himalayan Silence',
-    desc: 'Moments of stillness surrounded by enormous landscapes.',
+    title: 'Mountain Trekking',
+    desc: 'Walk through villages, forests, valleys, and dramatic Himalayan landscapes.',
     img: images.himalayanSilence,
   },
   {
-    title: 'Ancient Wisdom',
-    desc: 'Teachings, stories and practices carried through generations.',
+    title: 'Spiritual Heritage',
+    desc: 'Experience Nepal’s spiritual heritage through temples and sacred rituals..',
     img: images.ancientWisdom,
   },
   {
-    title: 'Mountain Walks',
-    desc: 'Move slowly through dramatic Himalayan terrain.',
+    title: 'Kirtan & Sacred Sound',
+    desc: 'Chant, sing, and connect through the transformative power of sound.',
     img: images.mountainWalks,
   },
   {
-    title: 'Meditation & Yoga',
-    desc: 'Return to the breath beneath open Himalayan skies.',
+    title: 'Daily Sadhana',
+    desc: 'Begin each day with meditation, yoga, and shared stillness.',
     img: images.meditationYoga,
   },
   {
-    title: 'Devotional Music',
-    desc: 'Mantra, kirtan and sacred sound.',
+    title: 'Satsang & Yogic Wisdom',
+    desc: 'Explore yoga philosophy and the deeper questions of life.',
     img: images.devotionalMusic,
   },
 ];
@@ -45,9 +45,9 @@ export default function Experiences() {
             The Nepal Experience
           </p>
           <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light leading-tight text-ivory md:text-6xl lg:text-7xl">
-            A Pilgrimage Beyond
+            More Than a Retreat
             <br />
-            the Ordinary
+
           </h2>
         </div>
 

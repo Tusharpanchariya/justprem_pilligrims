@@ -56,8 +56,9 @@ export default function Hero({ onEnquire }: HeroProps) {
         </h1>
 
         <p className="reveal reveal-delay-3 font-sans text-[15px] md:text-[18px] font-normal leading-[1.55] max-w-[620px] text-[#F5F2EB]/82 mb-[72px]">
-          A sacred journey through Nepal, where ancient paths meet the silence
-          of the world's highest mountains.
+
+          A journey through Nepal, where sacred mountains, wisdom of yoga, sound of kirtan, and the stillness of nature will guide you inward.
+
         </p>
 
 
@@ -69,7 +70,7 @@ export default function Hero({ onEnquire }: HeroProps) {
           >
             Begin the Journey
           </button>
-          
+
           <a
             href="#intro"
             className="group flex items-center gap-2 font-sans text-[10px] md:text-[11px] uppercase font-medium tracking-[0.18em] text-[#EBE7DE]/80 transition-colors duration-500 hover:text-ivory"

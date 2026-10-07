@@ -23,9 +23,9 @@ export default function NepalMap() {
         <div className="reveal reveal-delay-3 relative w-full max-w-5xl mx-auto flex items-center justify-center min-h-[400px]">
           <div className="relative w-full aspect-[4/3] md:aspect-[16/9]">
             {/* 3D Map Background */}
-            <img 
-              src={mapBg.src} 
-              alt="3D Relief Map of Nepal" 
+            <img
+              src={mapBg.src}
+              alt="3D Relief Map of Nepal"
               className="absolute inset-0 w-full h-full object-contain"
               style={{ filter: 'drop-shadow(0 0 20px rgba(169, 137, 94, 0.1)) contrast(1.1) brightness(0.9)' }}
             />

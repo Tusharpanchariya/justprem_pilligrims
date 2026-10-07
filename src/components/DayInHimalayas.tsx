@@ -3,27 +3,27 @@ import { images } from '@/data/images';
 const dayParts = [
   {
     time: 'Dawn',
-    desc: 'Meditation &middot; silence &middot; Himalayan sunrise',
+    desc: 'MEDITATION · PRANAYAMA · HIMALAYAN SUNRISE',
     img: images.dawn,
   },
   {
     time: 'Morning',
-    desc: 'Yoga &middot; breakfast &middot; journey',
+    desc: 'YOGA · BREAKFAST · MORNING RITUALS',
     img: images.morning,
   },
   {
     time: 'Day',
-    desc: 'Mountain exploration &middot; sacred sites &middot; local experiences',
+    desc: 'Mountain exploration · sacred sites · local experiences',
     img: images.day,
   },
   {
     time: 'Evening',
-    desc: 'Reflection &middot; music &middot; gathering',
+    desc: 'Reflection · kirtan · shared gathering',
     img: images.evening,
   },
   {
     time: 'Night',
-    desc: 'Silence beneath the Himalayan sky',
+    desc: 'REST · SILENCE · UNDER THE HIMALAYAN SKY',
     img: images.night,
   },
 ];

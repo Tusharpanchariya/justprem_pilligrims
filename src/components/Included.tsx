@@ -1,15 +1,14 @@
 const includedItems = [
-  'Accommodation',
-  'Daily meals',
-  'Transportation',
-  'Guided pilgrimage',
-  'Yoga & meditation',
-  'Sacred experiences',
-  'Local experiences',
+  'Comfortable twin-shared accommodation',
+  'Daily vegetarian meals',
+  'Domestic flights (Kathmandu-Pokhara-Kathmandu)',
+  'Local transportation',
+  'Guided trekking & excursions',
+  'Yoga, meditation & pranayama',
+  'Kirtan & devotional music',
+  'Lectures on philosophy',
   'Emergency support',
-  'Workshop materials',
 ];
-
 export default function Included() {
   return (
     <section className="relative bg-charcoal px-6 py-32 md:px-12 md:py-48">
@@ -21,15 +20,15 @@ export default function Included() {
               What is Included
             </p>
             <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light leading-[1.15] text-ivory md:text-5xl lg:text-6xl">
-              Everything you need.
+              Everything is taken care of.
               <br />
               <span className="text-stone/60 italic">
-                Nothing unnecessary.
+                So you can be fully present.
+
               </span>
             </h2>
             <p className="reveal reveal-delay-2 mt-8 max-w-md text-sm font-light leading-relaxed text-stone/55">
-              Every element of the pilgrimage is considered, arranged and
-              held — so you can walk freely, breathe deeply and remain present.
+              From accommodation and meals to transportation, trekking support, and our daily practices — we take care of the details so you can focus on the journey.
             </p>
           </div>
 
@@ -39,12 +38,12 @@ export default function Included() {
               {includedItems.map((item, i) => (
                 <li
                   key={item}
-                  className={`reveal reveal-delay-${Math.min(i + 1, 5)} group flex items-center justify-between border-b border-antique-gold/10 py-5 transition-colors hover:border-antique-gold/30`}
+                  className={`reveal reveal-delay-${Math.min(i + 1, 5)} group flex items-center justify-between gap-6 border-b border-antique-gold/10 py-5 transition-colors hover:border-antique-gold/30`}
                 >
-                  <span className="font-serif text-xl font-light text-ivory transition-transform duration-500 group-hover:translate-x-2 md:text-2xl">
+                  <span className="font-serif text-lg font-light text-ivory transition-transform duration-500 group-hover:translate-x-2 md:text-xl">
                     {item}
                   </span>
-                  <span className="text-[10px] uppercase tracking-wide-sm text-antique-gold/50">
+                  <span className="shrink-0 text-[10px] uppercase tracking-wide-sm text-antique-gold/50">
                     Included
                   </span>
                 </li>

@@ -1,12 +1,12 @@
 /*
-# Create pilgrimage_enquiries table
+# Create Retreat_enquiries table
 
 1. Purpose
    Stores enquiry submissions from visitors who apply for the
-   "Heart of the Himalayas" pilgrimage. Each row captures the
+   "Heart of the Himalayas" Retreat. Each row captures the
    visitor's basic contact details and preferred payment method.
 
-2. New Table: pilgrimage_enquiries
+2. New Table: Retreat_enquiries
    - id            (uuid, primary key)
    - name          (text, not null) — full name of the applicant
    - email         (text, not null) — contact email
@@ -17,14 +17,14 @@
    - created_at    (timestamptz, default now())
 
 3. Security
-   - Enable RLS on pilgrimage_enquiries.
+   - Enable RLS on Retreat_enquiries.
    - This is a no-auth landing page: the anon-key frontend submits enquiries.
      Allow anon + authenticated to INSERT so visitors can apply without signing in.
    - Do NOT allow anon SELECT/UPDATE/DELETE — enquiry data is private to operators.
      Only authenticated operators (Supabase dashboard / service role) can read/manage rows.
 */
 
-CREATE TABLE IF NOT EXISTS pilgrimage_enquiries (
+CREATE TABLE IF NOT EXISTS Retreat_enquiries (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   email text NOT NULL,
@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS pilgrimage_enquiries (
   created_at timestamptz DEFAULT now()
 );
 
-ALTER TABLE pilgrimage_enquiries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE Retreat_enquiries ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS "anon_insert_enquiries" ON pilgrimage_enquiries;
+DROP POLICY IF EXISTS "anon_insert_enquiries" ON Retreat_enquiries;
 CREATE POLICY "anon_insert_enquiries"
-ON pilgrimage_enquiries FOR INSERT
+ON Retreat_enquiries FOR INSERT
 TO anon, authenticated WITH CHECK (true);

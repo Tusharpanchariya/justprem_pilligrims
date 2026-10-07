@@ -24,7 +24,7 @@ serve(async (req) => {
         <h1 style="font-weight: 400; font-size: 28px; text-align: center; margin-bottom: 30px; color: #101012;">Heart of the Himalayas</h1>
         <p style="font-family: 'Arial', sans-serif; font-size: 15px; line-height: 1.6; color: #333;">Dear ${name},</p>
         <p style="font-family: 'Arial', sans-serif; font-size: 15px; line-height: 1.6; color: #333;">Thank you for joining us on this sacred journey. ${paymentText}</p>
-        <p style="font-family: 'Arial', sans-serif; font-size: 15px; line-height: 1.6; color: #333;">We are thrilled to welcome you to the Heart of the Himalayas pilgrimage (11 Nights / 12 Days). We will be in touch shortly with further preparation details and your complete itinerary.</p>
+        <p style="font-family: 'Arial', sans-serif; font-size: 15px; line-height: 1.6; color: #333;">We are thrilled to welcome you to the Heart of the Himalayas Retreat (11 Nights / 12 Days). We will be in touch shortly with further preparation details and your complete itinerary.</p>
         <br/>
         <p style="font-family: 'Arial', sans-serif; font-size: 15px; line-height: 1.6; color: #333;">With love and light,<br/><strong>The Just Prem Team</strong></p>
       </div>
@@ -32,7 +32,7 @@ serve(async (req) => {
 
     const adminHtmlContent = `
       <div style="font-family: sans-serif; color: #333; padding: 20px;">
-        <h2>New Pilgrimage Enquiry</h2>
+        <h2>New Retreat Enquiry</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
@@ -55,8 +55,8 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: `Just Prem <${fromEmail}>`,
-        to: email, 
-        subject: "Welcome to the Heart of the Himalayas Pilgrimage",
+        to: email,
+        subject: "Welcome to the Heart of the Himalayas Retreat",
         html: htmlContent
       })
     })

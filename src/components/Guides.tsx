@@ -15,14 +15,14 @@ const team = [
   {
     name: 'Swami Aniruddha',
     role: 'Guide',
-    bio: 'A devoted disciple of Paramahamsa Vishwananda, Swami Aniruddha has walked the yogic path for over 20 years. He is known for leading Himalayan pilgrimages, blending yoga, devotion, and community. He inspires seekers to discover the sacred in every step of life.',
+    bio: 'A devoted disciple of Paramahamsa Vishwananda, Swami Aniruddha has walked the yogic path for over 20 years. He is known for leading Himalayan Retreats, blending yoga, devotion, and community. He inspires seekers to discover the sacred in every step of life.',
     img: swamiImg,
     link: 'Instagram',
     url: 'https://www.instagram.com/sv.aniruddha/'
   },
   {
     name: 'Vanamali Dasi',
-    role: 'Pilgrimage organiser',
+    role: 'Retreat organiser',
     bio: 'Vanamali Dasi blends art, music, and spirituality through meditation, chanting, yoga, and retreats. A devoted disciple of Paramahamsa Vishwananda, she inspires hearts at spiritual events worldwide.',
     img: vanamaliImg,
     link: 'Instagram',
@@ -54,9 +54,8 @@ export default function Guides() {
             return (
               <article
                 key={i}
-                className={`group reveal reveal-delay-${i + 1} flex flex-col bg-gradient-to-b from-[#121214] to-near-black border border-[#E6DCC8]/15 shadow-2xl transition-all duration-700 hover:border-[#E6DCC8]/30 hover:shadow-[0_8px_40px_rgba(230,220,200,0.05)] ${
-                  isLeader ? 'lg:col-span-2' : 'lg:col-span-1 mt-0 lg:mt-12'
-                }`}
+                className={`group reveal reveal-delay-${i + 1} flex flex-col bg-gradient-to-b from-[#121214] to-near-black border border-[#E6DCC8]/15 shadow-2xl transition-all duration-700 hover:border-[#E6DCC8]/30 hover:shadow-[0_8px_40px_rgba(230,220,200,0.05)] ${isLeader ? 'lg:col-span-2' : 'lg:col-span-1 mt-0 lg:mt-12'
+                  }`}
               >
                 <div className={`relative w-full overflow-hidden ${isLeader ? 'aspect-[4/5]' : 'aspect-[1/1] sm:aspect-[4/5]'}`}>
                   <img

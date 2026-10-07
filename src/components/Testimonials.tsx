@@ -11,6 +11,11 @@ type TestimonialItem = {
 
 const testimonials: TestimonialItem[] = [
   {
+    id: 'yt-main',
+    type: 'youtube',
+    src: 'DCnkvgjX-1A',
+  },
+  {
     id: 'yt-1',
     type: 'youtube',
     src: 'QmgiEFCbq5k',
@@ -106,6 +111,9 @@ function VideoFacade({ item }: { item: TestimonialItem }) {
             alt="Video Thumbnail"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.src = `https://img.youtube.com/vi/${item.src}/hqdefault.jpg`;
+            }}
           />
           <div className="absolute inset-0 bg-near-black/20 transition-opacity duration-700 group-hover:bg-near-black/10" />
           <div className="absolute inset-0 flex items-center justify-center">

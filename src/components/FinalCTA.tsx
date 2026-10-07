@@ -34,7 +34,7 @@ export default function FinalCTA({ onEnquire }: FinalCTAProps) {
             onClick={onEnquire}
             className="group relative overflow-hidden border border-antique-gold/60 px-10 py-4 text-[11px] uppercase tracking-editorial text-ivory transition-colors duration-700 hover:text-near-black"
           >
-            <span className="relative z-10">Enquire for the Pilgrimage</span>
+            <span className="relative z-10">Enquire for the Retreat</span>
             <span className="absolute inset-0 -translate-y-full bg-antique-gold transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
           </button>
           <a

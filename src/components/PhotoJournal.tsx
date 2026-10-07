@@ -2,18 +2,13 @@ import { images } from '@/data/images';
 
 // Masonry grid: each item gets a span class for varied sizes
 const gallery = [
-  { img: images.pj2, span: 'md:col-span-2 md:row-span-2', aspect: 'aspect-[16/10]' },
-  { img: images.pj1, span: '', aspect: 'aspect-[3/4]' },
-  { img: images.pj3, span: '', aspect: 'aspect-[3/4]' },
-  { img: images.pj4, span: 'md:col-span-2', aspect: 'aspect-[16/9]' },
-  { img: images.pj5, span: '', aspect: 'aspect-[3/4]' },
-  { img: images.pj6, span: 'md:col-span-2', aspect: 'aspect-[16/10]' },
-  { img: images.pj7, span: '', aspect: 'aspect-[4/3]' },
-  { img: images.pj8, span: '', aspect: 'aspect-[3/4]' },
-  { img: images.pj9, span: 'md:col-span-2 md:row-span-2', aspect: 'aspect-[16/12]' },
+  { img: images.pj11, span: 'md:col-span-2', aspect: 'aspect-[16/10]' },
   { img: images.pj10, span: '', aspect: 'aspect-[3/4]' },
-  { img: images.pj11, span: '', aspect: 'aspect-[4/3]' },
-  { img: images.pj12, span: 'md:col-span-2', aspect: 'aspect-[16/9]' },
+  { img: images.pj2, span: 'md:col-span-2 md:row-span-2', aspect: 'aspect-[16/10]' },
+  { img: images.pj3, span: '', aspect: 'aspect-[4/3]' },
+  { img: images.pj4, span: 'md:col-span-2', aspect: 'aspect-[16/9]' },
+  { img: images.pj6, span: 'md:col-span-2', aspect: 'aspect-[16/10]' },
+  { img: images.pj12, span: '', aspect: 'aspect-[4/3]' },
 ];
 
 export default function PhotoJournal() {

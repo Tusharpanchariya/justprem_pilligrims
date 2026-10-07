@@ -1,4 +1,4 @@
-// Centralized image references for the Heart of the Himalayas pilgrimage.
+// Centralized image references for the Heart of the Himalayas Retreat.
 // All sourced from Pexels (license-free, guaranteed-loadable URLs).
 
 export const images = {
@@ -27,17 +27,17 @@ export const images = {
 
   // Experiences
   sacredEncounters:
-    'https://images.pexels.com/photos/14461598/pexels-photo-14461598.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    '/places_images/livinghimalayan.png',
   himalayanSilence:
-    'https://images.pexels.com/photos/29494794/pexels-photo-29494794.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    '/places_images/mountaintrekking.JPG',
   ancientWisdom:
-    'https://images.pexels.com/photos/24032593/pexels-photo-24032593.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    '/places_images/spritualheritage.png',
   mountainWalks:
-    'https://images.pexels.com/photos/20046905/pexels-photo-20046905.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    '/places_images/kirtanandsacredsound.JPG',
   meditationYoga:
     'https://images.pexels.com/photos/13849093/pexels-photo-13849093.jpeg?auto=compress&cs=tinysrgb&w=1200',
   devotionalMusic:
-    'https://images.pexels.com/photos/32436570/pexels-photo-32436570.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    '/places_images/satsangandyogicwisdom.JPG',
 
   // Spiritual experience background
   spiritualBg:
@@ -86,12 +86,9 @@ export const images = {
     'https://images.pexels.com/photos/34544039/pexels-photo-34544039.jpeg?auto=compress&cs=tinysrgb&w=1920',
 
   // Day in the Himalayas
-  dawn: 'https://images.pexels.com/photos/29167628/pexels-photo-29167628.jpeg?auto=compress&cs=tinysrgb&w=1000',
-  morning:
-    'https://images.pexels.com/photos/14025625/pexels-photo-14025625.jpeg?auto=compress&cs=tinysrgb&w=1000',
-  day: 'https://images.pexels.com/photos/36867212/pexels-photo-36867212.jpeg?auto=compress&cs=tinysrgb&w=1000',
-  evening:
-    'https://images.pexels.com/photos/12123474/pexels-photo-12123474.jpeg?auto=compress&cs=tinysrgb&w=1000',
-  night:
-    'https://images.pexels.com/photos/39276178/pexels-photo-39276178.jpeg?auto=compress&cs=tinysrgb&w=1000',
+  dawn: '/places_images/dawn.JPG',
+  morning: '/places_images/morning.png',
+  day: '/places_images/day.png',
+  evening: '/places_images/evening.JPG',
+  night: '/places_images/night.png',
 };

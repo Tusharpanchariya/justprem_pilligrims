@@ -78,7 +78,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setStatus('submitting');
     setErrorMsg('');
 
-    const { error } = await supabase.from('pilgrimage_enquiries').insert({
+    const { error } = await supabase.from('Retreat_enquiries').insert({
       name: name.trim(),
       email: email.trim(),
       phone: `${dialCode} ${phone.trim()}`,
@@ -97,13 +97,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     } else {
       setStatus('success');
       // Send the email for Wise via Edge Function
-      supabase.functions.invoke('send-pilgrimage-email', {
-        body: { 
-          name: name.trim(), 
-          email: email.trim(), 
+      supabase.functions.invoke('send-Retreat-email', {
+        body: {
+          name: name.trim(),
+          email: email.trim(),
           phone: `${dialCode} ${phone.trim()}`,
           country: country.trim(),
-          paymentMethod: 'wise' 
+          paymentMethod: 'wise'
         }
       }).catch(console.error);
     }
@@ -143,11 +143,11 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
             <p className="mb-10 font-sans text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
               Your details have been saved securely. Please complete the &euro;1,900 Early Bird payment to reserve your spot.
             </p>
-            
+
             <div className="relative z-50 min-h-[150px]">
               <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test", currency: "EUR" }}>
-                <PayPalButtons 
-                  style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }} 
+                <PayPalButtons
+                  style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }}
                   createOrder={(data, actions) => {
                     return actions.order.create({
                       intent: "CAPTURE",
@@ -157,7 +157,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                             currency_code: "EUR",
                             value: "1900.00",
                           },
-                          description: "11 Nights / 12 Days Pilgrimage (Early Bird)",
+                          description: "11 Nights / 12 Days Retreat (Early Bird)",
                         },
                       ],
                     });
@@ -167,13 +167,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                       return actions.order.capture().then(() => {
                         setStatus('success');
                         // Send the email for PayPal via Edge Function
-                        supabase.functions.invoke('send-pilgrimage-email', {
-                          body: { 
-                            name: name.trim(), 
-                            email: email.trim(), 
+                        supabase.functions.invoke('send-Retreat-email', {
+                          body: {
+                            name: name.trim(),
+                            email: email.trim(),
                             phone: `${dialCode} ${phone.trim()}`,
                             country: country.trim(),
-                            paymentMethod: 'paypal' 
+                            paymentMethod: 'paypal'
                           }
                         }).catch(console.error);
                       });
@@ -196,7 +196,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
             <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full border border-[#E6DCC8]/30">
               <Check size={24} strokeWidth={1} className="text-[#E6DCC8]" />
             </div>
-            
+
             {paymentMethod === 'wise' ? (
               <>
                 <h3 className="mb-4 font-serif text-3xl font-medium tracking-[-0.02em] text-[#F1EEE7]">
@@ -208,7 +208,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
 
                 <div className="mt-8 text-left border border-[#E6DCC8]/20 bg-[#141416] p-6 shadow-inner">
                   <h4 className="font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/80 mb-5">Wise Transfer Details</h4>
-                  
+
                   <div className="space-y-4 font-sans text-[13px] font-light text-[#F1EEE7]">
                     <div className="flex justify-between items-center border-b border-[#E6DCC8]/10 pb-3">
                       <span className="text-[#EBE7DE]/50">Account Name</span>
@@ -239,7 +239,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   Payment Successful
                 </h3>
                 <p className="mb-4 font-sans text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-                  Thank you, {name.split(' ')[0] || 'traveler'}. Your pilgrimage is officially booked! We will contact you shortly with preparation details.
+                  Thank you, {name.split(' ')[0] || 'traveler'}. Your Retreat is officially booked! We will contact you shortly with preparation details.
                 </p>
               </>
             )}
@@ -254,10 +254,10 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
         ) : (
           <>
             <p className="mb-4 font-sans text-[10px] md:text-[11px] font-medium uppercase tracking-[0.28em] text-[#E6DCC8]/75">
-              Begin Your Pilgrimage
+              Begin Your Retreat
             </p>
             <h3 className="mb-4 font-serif text-3xl md:text-4xl font-medium tracking-[-0.025em] text-[#F1EEE7]">
-              Enquire for the Pilgrimage
+              Enquire for the Retreat
             </h3>
             <p className="mb-10 font-sans text-[13px] md:text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
               Share your details and we will guide you through the next steps of
@@ -375,11 +375,10 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('paypal')}
-                    className={`flex items-center justify-center border h-[52px] transition-colors duration-500 ${
-                      paymentMethod === 'paypal'
+                    className={`flex items-center justify-center border h-[52px] transition-colors duration-500 ${paymentMethod === 'paypal'
                         ? 'border-[#E6DCC8]/40 bg-[#E6DCC8]/10 text-[#F1EEE7]'
                         : 'border-[#E6DCC8]/15 bg-transparent text-[#EBE7DE]/50 hover:bg-white/5 hover:text-[#EBE7DE]/80'
-                    }`}
+                      }`}
                   >
                     <span className="font-sans text-[11px] font-medium tracking-[0.2em] uppercase">
                       PayPal
@@ -388,11 +387,10 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('wise')}
-                    className={`flex items-center justify-center border h-[52px] transition-colors duration-500 ${
-                      paymentMethod === 'wise'
+                    className={`flex items-center justify-center border h-[52px] transition-colors duration-500 ${paymentMethod === 'wise'
                         ? 'border-[#E6DCC8]/40 bg-[#E6DCC8]/10 text-[#F1EEE7]'
                         : 'border-[#E6DCC8]/15 bg-transparent text-[#EBE7DE]/50 hover:bg-white/5 hover:text-[#EBE7DE]/80'
-                    }`}
+                      }`}
                   >
                     <span className="font-sans text-[11px] font-medium tracking-[0.2em] uppercase">
                       Wise
@@ -422,7 +420,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 ) : (
                   <>
                     <span className="font-sans text-[10px] md:text-[11px] font-medium uppercase tracking-[0.2em] text-[#F1EEE7] transition-colors duration-700 group-hover:text-white">
-                      Apply for the Pilgrimage
+                      Apply for the Retreat
                     </span>
                     <ArrowRight
                       size={14}

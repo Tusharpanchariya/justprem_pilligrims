@@ -4,17 +4,16 @@ import { useState, useRef, useEffect } from 'react';
 import { images } from '@/data/images';
 
 const destinations = [
-  { num: '01', name: 'Kathmandu', desc: 'Ancient temples &middot; sacred beginnings &middot; living culture', img: images.kathmandu },
-  { num: '02', name: 'Pokhara', desc: 'Lakeside serenity &middot; gateway to the mountains', img: images.intoHimalayas },
-  { num: '03', name: 'Chandragau', desc: 'Terraced fields &middot; traditional village life', img: images.pj1 },
-  { num: '04', name: 'Tadapani', desc: 'Dense rhododendron forests &middot; mountain vistas', img: images.pj2 },
-  { num: '05', name: 'Chhomrong', desc: 'Stone steps &middot; heart of the Annapurna sanctuary', img: images.pj3 },
-  { num: '06', name: 'Poon Hill', desc: 'Golden sunrise &middot; panoramic Himalayan peaks', img: images.pj4 },
-  { num: '07', name: 'Tatopani', desc: 'Natural hot springs &middot; deep river valleys', img: images.pj5 },
-  { num: '08', name: 'Marpha', desc: 'Apple orchards &middot; whitewashed stone houses', img: images.pj6 },
-  { num: '09', name: 'Jomsom', desc: 'Windswept landscapes &middot; the Kali Gandaki gorge', img: images.pj7 },
-  { num: '10', name: 'Kagbeni', desc: 'Ancient fortress &middot; gateway to Upper Mustang', img: images.pj8 },
-  { num: '11', name: 'Muktinath', desc: 'Sacred pilgrimage &middot; spiritual liberation', img: images.pj9 },
+  { num: '01', name: 'Kathmandu', desc: 'Ancient temples &middot; sacred beginnings &middot; living culture', img: '/places_images/kathmandu2.jpg' },
+  { num: '02', name: 'Pokhara', desc: 'Lakeside serenity &middot; gateway to the mountains', img: '/places_images/pokhara2.jpg' },
+  { num: '03', name: 'Tadapani', desc: 'Dense rhododendron forests &middot; mountain vistas', img: images.pj2 },
+  { num: '04', name: 'Chhomrong', desc: 'Stone steps &middot; heart of the Annapurna sanctuary', img: '/places_images/chomrong.webp' },
+  { num: '05', name: 'Poon Hill', desc: 'Golden sunrise &middot; panoramic Himalayan peaks', img: '/places_images/poonhill.jpg' },
+  { num: '06', name: 'Tatopani', desc: 'Natural hot springs &middot; deep river valleys', img: '/places_images/tatopani.jpg' },
+  { num: '07', name: 'Marpha', desc: 'Apple orchards &middot; whitewashed stone houses', img: '/places_images/marpha.jpg' },
+  { num: '08', name: 'Jomsom', desc: 'Windswept landscapes &middot; the Kali Gandaki gorge', img: images.pj7 },
+  { num: '09', name: 'Kagbeni', desc: 'Ancient fortress &middot; gateway to Upper Mustang', img: images.pj8 },
+  { num: '10', name: 'Muktinath', desc: 'Sacred Retreat &middot; spiritual liberation', img: '/places_images/muktinath.jpg' },
 ];
 
 export default function JourneyTimeline() {
@@ -27,12 +26,12 @@ export default function JourneyTimeline() {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
     const maxScroll = scrollWidth - clientWidth;
-    
+
     if (maxScroll > 0) {
       const progress = (scrollLeft / maxScroll) * 100;
       setScrollProgress(progress);
     }
-    
+
     const cardWidth = 332;
     const calculatedIndex = Math.min(
       destinations.length - 1,
@@ -147,11 +146,10 @@ export default function JourneyTimeline() {
                   <div className="relative mb-6 flex justify-center items-center">
                     <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-antique-gold/40 -z-10" />
                     <div
-                      className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                        isActive
+                      className={`h-3 w-3 rounded-full transition-all duration-300 ${isActive
                           ? 'bg-antique-gold ring-4 ring-antique-gold/20 scale-125'
                           : 'bg-charcoal border border-antique-gold/60 group-hover:bg-antique-gold/70'
-                      }`}
+                        }`}
                     />
                   </div>
 
@@ -199,11 +197,10 @@ export default function JourneyTimeline() {
                   key={idx}
                   onClick={() => scrollToIndex(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    idx === activeIndex
+                  className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeIndex
                       ? 'w-6 bg-antique-gold'
                       : 'w-1.5 bg-stone/30 hover:bg-antique-gold/50'
-                  }`}
+                    }`}
                 />
               ))}
             </div>
