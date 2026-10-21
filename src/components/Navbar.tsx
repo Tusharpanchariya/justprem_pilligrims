@@ -57,21 +57,33 @@ export default function Navbar({ onEnquire }: NavbarProps) {
 
   const currentLangObj = LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
 
+  const isHome = pathname === '/';
+  const isIvorySurface = isHome && scrolled;
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
-            ? 'bg-near-black/90 backdrop-blur-md border-b border-antique-gold/15 py-4 shadow-2xl'
-            : 'bg-gradient-to-b from-near-black/80 via-near-black/40 to-transparent pt-6 pb-6'
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+          isIvorySurface
+            ? 'bg-[#F5F1E8]/95 backdrop-blur-md border-b border-[#E8DFD0]/80 py-3.5 shadow-sm text-[#2D3528]'
+            : scrolled
+            ? 'bg-near-black/90 backdrop-blur-md border-b border-antique-gold/15 py-4 shadow-2xl text-ivory'
+            : 'bg-gradient-to-b from-black/60 via-black/20 to-transparent pt-6 pb-6 text-ivory'
+        }`}
       >
         <nav className="mx-auto flex w-full items-center justify-between px-6 md:px-12 max-w-[1400px]">
           {/* Logo */}
           <Link
             href="/"
-            className="group flex items-center gap-2 font-serif text-xl md:text-2xl font-light tracking-wide text-ivory transition-colors hover:text-antique-gold"
+            className={`group flex items-center gap-2 font-serif text-xl md:text-2xl font-light tracking-wide transition-colors ${
+              isIvorySurface ? 'text-[#2D3528] hover:text-[#70765A]' : 'text-ivory hover:text-antique-gold'
+            }`}
           >
-            <span className="inline-block text-antique-gold font-serif italic text-lg transition-transform group-hover:scale-110">
+            <span
+              className={`inline-block font-serif italic text-lg transition-transform group-hover:scale-110 ${
+                isIvorySurface ? 'text-[#70765A]' : 'text-antique-gold'
+              }`}
+            >
               ✦
             </span>
             <span>JustPrem</span>
@@ -84,40 +96,76 @@ export default function Navbar({ onEnquire }: NavbarProps) {
               <Link
                 href="/retreats-and-pilgrimages"
                 onMouseEnter={() => setExpDropdownOpen(true)}
-                className={`flex items-center gap-1.5 text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 py-1 ${pathname.includes('/pilgrimages') || pathname.includes('/retreats')
-                    ? 'text-antique-gold font-semibold'
+                className={`flex items-center gap-1.5 text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 py-1 ${
+                  pathname.includes('/pilgrimages') || pathname.includes('/retreats')
+                    ? isIvorySurface
+                      ? 'text-[#70765A] font-semibold'
+                      : 'text-antique-gold font-semibold'
+                    : isIvorySurface
+                    ? 'text-[#2D3528]/80 hover:text-[#2D3528]'
                     : 'text-ivory/80 hover:text-ivory'
-                  }`}
+                }`}
               >
                 <span>Retreats & Pilgrimages</span>
                 <ChevronDown
                   size={12}
-                  className={`transition-transform duration-300 ${expDropdownOpen ? 'rotate-180 text-antique-gold' : 'text-stone/50'
-                    }`}
+                  className={`transition-transform duration-300 ${
+                    expDropdownOpen
+                      ? isIvorySurface
+                        ? 'rotate-180 text-[#70765A]'
+                        : 'rotate-180 text-antique-gold'
+                      : isIvorySurface
+                      ? 'text-[#2D3528]/40'
+                      : 'text-stone/50'
+                  }`}
                 />
               </Link>
 
               {/* Sub-menu */}
               {expDropdownOpen && (
-                <div className="absolute top-full left-0 mt-3 w-64 rounded-sm bg-near-black/95 border border-antique-gold/20 p-3 backdrop-blur-xl shadow-2xl animate-fade-up">
-                  <div className="px-3 py-1.5 text-[9px] uppercase tracking-ultra text-antique-gold/60 font-semibold border-b border-antique-gold/10 mb-2">
+                <div
+                  className={`absolute top-full left-0 mt-3 w-64 rounded-sm border p-3 backdrop-blur-xl shadow-2xl animate-fade-up ${
+                    isIvorySurface
+                      ? 'bg-[#F5F1E8] border-[#E8DFD0] text-[#2D3528]'
+                      : 'bg-near-black/95 border-antique-gold/20 text-ivory'
+                  }`}
+                >
+                  <div
+                    className={`px-3 py-1.5 text-[9px] uppercase tracking-ultra font-semibold border-b mb-2 ${
+                      isIvorySurface
+                        ? 'text-[#70765A] border-[#E8DFD0]'
+                        : 'text-antique-gold/60 border-antique-gold/10'
+                    }`}
+                  >
                     Sacred Experiences
                   </div>
                   <Link
                     href="/retreats-and-pilgrimages"
-                    className="block px-3 py-2 text-xs text-ivory hover:text-antique-gold hover:bg-antique-gold/10 rounded transition-colors"
+                    className={`block px-3 py-2 text-xs rounded transition-colors ${
+                      isIvorySurface
+                        ? 'text-[#2D3528] hover:text-[#70765A] hover:bg-[#E8DFD0]/40'
+                        : 'text-ivory hover:text-antique-gold hover:bg-antique-gold/10'
+                    }`}
                   >
                     Overview & All Journeys
                   </Link>
                   <Link
                     href="/pilgrimages"
-                    className="block px-3 py-2 text-xs text-ivory hover:text-antique-gold hover:bg-antique-gold/10 rounded transition-colors"
+                    className={`block px-3 py-2 text-xs rounded transition-colors ${
+                      isIvorySurface
+                        ? 'text-[#2D3528] hover:text-[#70765A] hover:bg-[#E8DFD0]/40'
+                        : 'text-ivory hover:text-antique-gold hover:bg-antique-gold/10'
+                    }`}
                   >
                     Nepal Pilgrimages
                   </Link>
                   <Link
                     href="/retreats"
-                    className="block px-3 py-2 text-xs text-ivory hover:text-antique-gold hover:bg-antique-gold/10 rounded transition-colors"
+                    className={`block px-3 py-2 text-xs rounded transition-colors ${
+                      isIvorySurface
+                        ? 'text-[#2D3528] hover:text-[#70765A] hover:bg-[#E8DFD0]/40'
+                        : 'text-ivory hover:text-antique-gold hover:bg-antique-gold/10'
+                    }`}
                   >
                     Retreats Archive
                   </Link>
@@ -128,8 +176,15 @@ export default function Navbar({ onEnquire }: NavbarProps) {
             <li>
               <Link
                 href="/our-story"
-                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${pathname === '/our-story' ? 'text-antique-gold font-semibold' : 'text-ivory/80 hover:text-ivory'
-                  }`}
+                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${
+                  pathname === '/our-story'
+                    ? isIvorySurface
+                      ? 'text-[#70765A] font-semibold'
+                      : 'text-antique-gold font-semibold'
+                    : isIvorySurface
+                    ? 'text-[#2D3528]/80 hover:text-[#2D3528]'
+                    : 'text-ivory/80 hover:text-ivory'
+                }`}
               >
                 Our Story
               </Link>
@@ -138,8 +193,15 @@ export default function Navbar({ onEnquire }: NavbarProps) {
             <li>
               <Link
                 href="/gallery"
-                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${pathname === '/gallery' ? 'text-antique-gold font-semibold' : 'text-ivory/80 hover:text-ivory'
-                  }`}
+                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${
+                  pathname === '/gallery'
+                    ? isIvorySurface
+                      ? 'text-[#70765A] font-semibold'
+                      : 'text-antique-gold font-semibold'
+                    : isIvorySurface
+                    ? 'text-[#2D3528]/80 hover:text-[#2D3528]'
+                    : 'text-ivory/80 hover:text-ivory'
+                }`}
               >
                 Gallery
               </Link>
@@ -148,8 +210,15 @@ export default function Navbar({ onEnquire }: NavbarProps) {
             <li>
               <Link
                 href="/testimonials"
-                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${pathname === '/testimonials' ? 'text-antique-gold font-semibold' : 'text-ivory/80 hover:text-ivory'
-                  }`}
+                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${
+                  pathname === '/testimonials'
+                    ? isIvorySurface
+                      ? 'text-[#70765A] font-semibold'
+                      : 'text-antique-gold font-semibold'
+                    : isIvorySurface
+                    ? 'text-[#2D3528]/80 hover:text-[#2D3528]'
+                    : 'text-ivory/80 hover:text-ivory'
+                }`}
               >
                 Testimonials
               </Link>
@@ -158,27 +227,59 @@ export default function Navbar({ onEnquire }: NavbarProps) {
             <li>
               <Link
                 href="/connect"
-                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${pathname === '/connect' ? 'text-antique-gold font-semibold' : 'text-ivory/80 hover:text-ivory'
-                  }`}
+                className={`text-[11px] uppercase font-medium tracking-[0.18em] transition-colors duration-300 ${
+                  pathname === '/connect'
+                    ? isIvorySurface
+                      ? 'text-[#70765A] font-semibold'
+                      : 'text-antique-gold font-semibold'
+                    : isIvorySurface
+                    ? 'text-[#2D3528]/80 hover:text-[#2D3528]'
+                    : 'text-ivory/80 hover:text-ivory'
+                }`}
               >
                 Connect
               </Link>
             </li>
 
             {/* Language Selector Dropdown */}
-            <li className="relative border-l border-antique-gold/20 pl-6" ref={langRef}>
+            <li
+              className={`relative border-l pl-6 ${
+                isIvorySurface ? 'border-[#E8DFD0]' : 'border-antique-gold/20'
+              }`}
+              ref={langRef}
+            >
               <button
                 onClick={() => setLangMenuOpen((prev) => !prev)}
-                className="flex items-center gap-2 text-[11px] uppercase font-medium tracking-[0.16em] text-ivory/70 hover:text-ivory transition-colors"
+                className={`flex items-center gap-2 text-[11px] uppercase font-medium tracking-[0.16em] transition-colors ${
+                  isIvorySurface ? 'text-[#2D3528]/75 hover:text-[#2D3528]' : 'text-ivory/70 hover:text-ivory'
+                }`}
               >
-                <Globe size={13} className="text-antique-gold/80" />
+                <Globe
+                  size={13}
+                  className={isIvorySurface ? 'text-[#70765A]' : 'text-antique-gold/80'}
+                />
                 <span>{currentLangObj.code.toUpperCase()}</span>
-                <ChevronDown size={11} className="text-stone/40" />
+                <ChevronDown
+                  size={11}
+                  className={isIvorySurface ? 'text-[#2D3528]/40' : 'text-stone/40'}
+                />
               </button>
 
               {langMenuOpen && (
-                <div className="absolute top-full right-0 mt-3 w-44 rounded-sm bg-near-black/95 border border-antique-gold/20 p-2 backdrop-blur-xl shadow-2xl animate-fade-up">
-                  <div className="px-3 py-1 text-[9px] uppercase tracking-wide text-antique-gold/60 font-semibold border-b border-antique-gold/10 mb-1">
+                <div
+                  className={`absolute top-full right-0 mt-3 w-44 rounded-sm border p-2 backdrop-blur-xl shadow-2xl animate-fade-up ${
+                    isIvorySurface
+                      ? 'bg-[#F5F1E8] border-[#E8DFD0] text-[#2D3528]'
+                      : 'bg-near-black/95 border-antique-gold/20 text-ivory'
+                  }`}
+                >
+                  <div
+                    className={`px-3 py-1 text-[9px] uppercase tracking-wide font-semibold border-b mb-1 ${
+                      isIvorySurface
+                        ? 'text-[#70765A] border-[#E8DFD0]'
+                        : 'text-antique-gold/60 border-antique-gold/10'
+                    }`}
+                  >
                     Select Language
                   </div>
                   {LANGUAGES.map((lang) => (
@@ -188,13 +289,18 @@ export default function Navbar({ onEnquire }: NavbarProps) {
                         setLanguage(lang.code as Language);
                         setLangMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-1.5 text-xs rounded transition-colors flex items-center justify-between ${language === lang.code
-                          ? 'bg-antique-gold/20 text-antique-gold font-medium'
+                      className={`w-full text-left px-3 py-1.5 text-xs rounded transition-colors flex items-center justify-between ${
+                        language === lang.code
+                          ? isIvorySurface
+                            ? 'bg-[#E8DFD0]/60 text-[#2D3528] font-medium'
+                            : 'bg-antique-gold/20 text-antique-gold font-medium'
+                          : isIvorySurface
+                          ? 'text-[#2D3528]/70 hover:text-[#2D3528] hover:bg-[#E8DFD0]/30'
                           : 'text-stone/70 hover:text-ivory hover:bg-white/5'
-                        }`}
+                      }`}
                     >
                       <span>{lang.label}</span>
-                      <span className="text-[10px] text-stone/40">{lang.code.toUpperCase()}</span>
+                      <span className="text-[10px] opacity-50">{lang.code.toUpperCase()}</span>
                     </button>
                   ))}
                 </div>
@@ -205,10 +311,19 @@ export default function Navbar({ onEnquire }: NavbarProps) {
             <li>
               <button
                 onClick={onEnquire}
-                className="group relative inline-flex items-center gap-2 border border-antique-gold/40 px-4 py-2 text-[11px] uppercase font-medium tracking-[0.16em] text-ivory transition-all duration-500 hover:border-antique-gold hover:bg-antique-gold/10"
+                className={`group relative inline-flex items-center gap-2 px-4 py-2 text-[11px] uppercase font-medium tracking-[0.16em] transition-all duration-500 rounded-sm ${
+                  isIvorySurface
+                    ? 'border border-[#38392E]/40 text-[#2D3528] hover:border-[#38392E] hover:bg-[#38392E] hover:text-[#F5F1E8]'
+                    : 'border border-antique-gold/40 text-ivory hover:border-antique-gold hover:bg-antique-gold/10'
+                }`}
               >
                 <span>Enquire</span>
-                <Sparkles size={12} className="text-antique-gold transition-transform group-hover:rotate-12" />
+                <Sparkles
+                  size={12}
+                  className={`transition-transform group-hover:rotate-12 ${
+                    isIvorySurface ? 'text-[#70765A]' : 'text-antique-gold'
+                  }`}
+                />
               </button>
             </li>
           </ul>
@@ -216,7 +331,7 @@ export default function Navbar({ onEnquire }: NavbarProps) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(true)}
-            className="text-ivory p-2 lg:hidden"
+            className={`p-2 lg:hidden ${isIvorySurface ? 'text-[#2D3528]' : 'text-ivory'}`}
             aria-label="Open navigation menu"
           >
             <Menu size={24} strokeWidth={1.5} />

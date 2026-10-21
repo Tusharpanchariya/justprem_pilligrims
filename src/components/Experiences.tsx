@@ -55,7 +55,7 @@ export default function Experiences() {
           {experiences.map((exp, i) => (
             <article
               key={exp.title}
-              className={`group reveal ${i % 3 === 1 ? 'lg:mt-16' : i % 3 === 2 ? 'lg:mt-32' : ''}`}
+              className={`group reveal ${i < 3 ? 'reveal-delay-' + (i + 1) : ''}`}
             >
               <div className="relative mb-6 aspect-[4/5] overflow-hidden">
                 <img

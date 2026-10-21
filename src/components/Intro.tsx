@@ -2,95 +2,53 @@ export default function Intro() {
   return (
     <section
       id="intro"
-      className="relative bg-near-black px-6 py-24 md:px-12 md:py-36 lg:py-48"
+      className="relative bg-near-black px-6 py-20 md:px-12 md:py-28 lg:py-36 overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl">
-        <p className="reveal mb-8 text-[11px] uppercase tracking-ultra text-antique-gold md:mb-12">
-          Description
-        </p>
+      {/* Atmospheric warm golden glow behind map */}
+      <div className="pointer-events-none absolute right-[5%] top-1/2 -translate-y-1/2 h-[550px] w-[550px] rounded-full bg-[#A9895E]/10 blur-[140px]" />
 
-        <h2 className="reveal reveal-delay-1 font-serif text-3xl font-light leading-[1.2] text-ivory sm:text-4xl md:text-5xl lg:text-6xl mb-16 md:mb-20">
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <h2 className="reveal font-serif text-3xl font-light leading-[1.18] text-ivory sm:text-4xl md:text-5xl lg:text-6xl mb-12 md:mb-16">
           Some journeys take you to places.
           <br />
           <span className="text-stone/70 italic">
-            Others take you inward..
+            Others take you inward.
           </span>
         </h2>
 
-        {/* Two column grid layout for text and images */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-start">
+        {/* Two column grid layout for text and 3D map */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 items-center">
           {/* Left Column - Text Content */}
-          <div className="lg:col-span-7 space-y-6 md:space-y-8">
-            <p className="reveal reveal-delay-2 text-base font-light leading-[1.8] text-stone/80 md:text-lg">
-              Our 12-days retreat is an immersive journey through the diverse landscapes, cultures, and spiritual traditions of Nepal, culminating at the sacred temple of Muktinath, a place traditionally associated with liberation.
+          <div className="lg:col-span-6 space-y-6 md:space-y-7 max-w-[540px]">
+            <p className="reveal reveal-delay-1 font-serif text-[15px] sm:text-[16px] md:text-[17px] font-normal leading-[1.75] text-[#D8D2C4]/90">
+              Experience a 12–day Himalayan journey through Nepal with Swami Aniruddha, a travelling monk with over 20 years on the yogic path.
             </p>
 
-            <p className="reveal reveal-delay-3 text-base font-light leading-[1.8] text-stone/80 md:text-lg">
-              We begin in Kathmandu, exploring its vibrant culture, ancient temples, and spiritual heritage, before travelling to Pokhara, where Phewa Lake and views of the Annapurna range offer a gentle transition into the stillness of the Himalayas.
+            <p className="reveal reveal-delay-2 font-serif text-[15px] sm:text-[16px] md:text-[17px] font-normal leading-[1.75] text-[#D8D2C4]/90">
+              Starting with the ancient temples of Kathmandu, we will make our way through the mountain villages and valleys of Nepal, culminating our journey at Muktinath Temple, a sacred destination revered by Hindus as a shrine to Lord Vishnu and by Buddhists as a place of spiritual liberation.
             </p>
 
-            <p className="reveal reveal-delay-4 text-base font-light leading-[1.8] text-stone/80 md:text-lg">
-              From there, we continue our trekking through villages, valleys, forests, and high-altitude landscapes, meeting local communities and experiencing Nepal beyond the trail. Our days are enriched with yoga, meditation, kirtan, and satsang with Swami Aniruddha, a travelling monk who has followed the yogic path for over 20 years, creating space to embrace the journey around us while reconnecting more deeply within.
+            <p className="reveal reveal-delay-3 font-serif text-[15px] sm:text-[16px] md:text-[17px] font-normal leading-[1.75] text-[#D8D2C4]/90">
+              Along the way, we will practice yoga and meditation, sing kirtan (mantra chanting), hike through the Himalayas, and gather for evening satsangs (philosophical discussions) exploring not only the world around us, but also the space within.
             </p>
-
-            <p className="reveal reveal-delay-4 text-base font-light leading-[1.8] text-stone/80 md:text-lg">
-              Our journey culminates at Muktinath Temple, at around 3,800 metres. Revered by both Hindus and Buddhists, Muktinath means “Lord of Liberation.” Reaching this sacred place becomes a symbolic moment to turn inward and explore what liberation means for each of us.
-            </p>
-
           </div>
 
-          {/* Right Column - 3 Pictures Stacked Vertically */}
-          <div className="lg:col-span-5 flex flex-col gap-6 md:gap-8 pt-2">
-            {/* Image 1: Kathmandu */}
-            <div className="reveal reveal-delay-2 group relative overflow-hidden rounded-sm border border-antique-gold/20 shadow-2xl">
-              <div className="aspect-[16/10] overflow-hidden bg-charcoal">
-                <img
-                  src="/places_images/kathmandu2.jpg"
-                  alt="Boudhanath Stupa in Kathmandu"
-                  className="h-full w-full object-cover img-zoom transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-near-black/80 via-near-black/30 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="font-serif text-sm font-light text-ivory tracking-wide">
-                  Kathmandu & Sacred Stupas
-                </span>
-              </div>
+          {/* Right Column - 3D Relief Map */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center">
+            <div className="reveal reveal-delay-2 relative w-full flex items-center justify-center">
+              <img
+                src="/nepal_route_map.png"
+                alt="Our Himalayan Route Map of Nepal"
+                className="w-full max-w-[500px] md:max-w-[540px] h-auto object-contain transform-gpu transition-transform duration-700 ease-out hover:scale-[1.03]"
+                style={{
+                  filter:
+                    'drop-shadow(0 22px 45px rgba(0, 0, 0, 0.92)) drop-shadow(0 0 35px rgba(169, 137, 94, 0.18)) contrast(1.05) brightness(1.02)',
+                }}
+              />
             </div>
-
-            {/* Image 2: Pokhara */}
-            <div className="reveal reveal-delay-3 group relative overflow-hidden rounded-sm border border-antique-gold/20 shadow-2xl">
-              <div className="aspect-[16/10] overflow-hidden bg-charcoal">
-                <img
-                  src="/places_images/pokhara2.jpg"
-                  alt="Phewa Lake and Annapurna Views in Pokhara"
-                  className="h-full w-full object-cover img-zoom transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-near-black/80 via-near-black/30 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="font-serif text-sm font-light text-ivory tracking-wide">
-                  Pokhara & Phewa Lake
-                </span>
-              </div>
-            </div>
-
-            {/* Image 3: Muktinath */}
-            <div className="reveal reveal-delay-4 group relative overflow-hidden rounded-sm border border-antique-gold/20 shadow-2xl">
-              <div className="aspect-[16/10] overflow-hidden bg-charcoal">
-                <img
-                  src="/places_images/muktinath.jpg"
-                  alt="Muktinath Sacred Temple"
-                  className="h-full w-full object-cover img-zoom transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-near-black/80 via-near-black/30 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="font-serif text-sm font-light text-ivory tracking-wide">
-                  Muktinath Temple — Lord of Liberation
-                </span>
-              </div>
-            </div>
+            <p className="reveal reveal-delay-3 font-serif text-lg md:text-xl font-light text-[#E9E5DC] tracking-wide mt-5 md:mt-7 text-center">
+              Our Himalayan Route
+            </p>
           </div>
         </div>
       </div>

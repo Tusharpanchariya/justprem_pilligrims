@@ -48,32 +48,64 @@ export default function Guides() {
           </h2>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8 items-start mx-auto max-w-[1400px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1.26fr_1fr_1fr] gap-6 lg:gap-7 items-stretch mx-auto max-w-[1400px]">
           {team.map((member, i) => {
             const isLeader = member.name === 'Swami Aniruddha';
             return (
               <article
                 key={i}
-                className={`group reveal reveal-delay-${i + 1} flex flex-col bg-gradient-to-b from-[#121214] to-near-black border border-[#E6DCC8]/15 shadow-2xl transition-all duration-700 hover:border-[#E6DCC8]/30 hover:shadow-[0_8px_40px_rgba(230,220,200,0.05)] ${isLeader ? 'lg:col-span-2' : 'lg:col-span-1 mt-0 lg:mt-12'
-                  }`}
+                className={`group reveal reveal-delay-${i + 1} flex flex-col bg-gradient-to-b from-[#121214] to-near-black border transition-all duration-700 ${
+                  isLeader
+                    ? 'border-antique-gold/50 shadow-[0_12px_45px_rgba(169,137,94,0.14)] ring-1 ring-antique-gold/20 lg:-translate-y-2.5 hover:border-antique-gold hover:shadow-[0_16px_50px_rgba(169,137,94,0.22)]'
+                    : 'border-[#E6DCC8]/15 shadow-2xl hover:border-antique-gold/50 hover:shadow-[0_8px_40px_rgba(230,220,200,0.06)]'
+                }`}
               >
-                <div className={`relative w-full overflow-hidden ${isLeader ? 'aspect-[4/5]' : 'aspect-[1/1] sm:aspect-[4/5]'}`}>
+                <div
+                  className={`relative w-full overflow-hidden bg-charcoal ${
+                    isLeader ? 'aspect-[4/4.2]' : 'aspect-[4/5]'
+                  }`}
+                >
                   <img
                     src={member.img.src}
                     alt={member.name}
-                    className={`h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105 ${isLeader ? 'object-[30%_20%]' : 'object-center'}`}
+                    className={`h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105 ${
+                      isLeader ? 'object-[32%_15%]' : 'object-center'
+                    }`}
                     loading="lazy"
                   />
+                  {isLeader && (
+                    <span className="absolute top-3 left-3 font-sans text-[9px] uppercase tracking-[0.22em] text-antique-gold bg-black/80 px-2.5 py-1 rounded backdrop-blur-md border border-antique-gold/30">
+                      Pilgrimage Guide
+                    </span>
+                  )}
                 </div>
-                <div className={`flex flex-col items-center justify-between text-center text-[#F1EEE7] ${isLeader ? 'p-8 md:p-12' : 'p-6'}`}>
+                <div
+                  className={`flex flex-col items-center justify-between text-center text-[#F1EEE7] flex-1 ${
+                    isLeader ? 'p-6 md:p-7' : 'p-6'
+                  }`}
+                >
                   <div>
-                    <h3 className={`mb-3 font-medium ${isLeader ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'}`}>
+                    <h3
+                      className={`mb-2 font-serif ${
+                        isLeader ? 'text-[26px] md:text-[28px] font-normal text-ivory' : 'text-2xl font-light text-ivory'
+                      }`}
+                    >
                       {member.name}
                     </h3>
-                    <p className={`mb-5 uppercase tracking-[0.2em] text-[#E6DCC8]/70 ${isLeader ? 'text-[11px]' : 'text-[10px]'}`}>
+                    <p
+                      className={`mb-4 uppercase tracking-[0.2em] ${
+                        isLeader
+                          ? 'text-antique-gold font-medium text-[10.5px]'
+                          : 'text-[#E6DCC8]/70 text-[10px]'
+                      }`}
+                    >
                       {member.role}
                     </p>
-                    <p className={`font-sans font-light leading-[1.6] text-[#EBE7DE]/70 ${isLeader ? 'text-[14px]' : 'text-[13px]'}`}>
+                    <p
+                      className={`font-sans font-light leading-[1.6] ${
+                        isLeader ? 'text-[13.5px] text-[#EBE7DE]/85' : 'text-[13px] text-[#EBE7DE]/75'
+                      }`}
+                    >
                       {member.bio}
                     </p>
                   </div>
@@ -82,7 +114,11 @@ export default function Guides() {
                       href={member.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`mt-6 underline underline-offset-4 transition-colors hover:text-[#E6DCC8] ${isLeader ? 'text-sm' : 'text-xs'}`}
+                      className={`mt-6 text-xs underline underline-offset-4 transition-colors ${
+                        isLeader
+                          ? 'text-antique-gold hover:text-ivory'
+                          : 'text-[#E6DCC8]/80 hover:text-antique-gold'
+                      }`}
                     >
                       {member.link}
                     </a>

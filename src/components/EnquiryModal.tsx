@@ -257,11 +257,10 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
               Begin Your Retreat
             </p>
             <h3 className="mb-4 font-serif text-3xl md:text-4xl font-medium tracking-[-0.025em] text-[#F1EEE7]">
-              Enquire for the Retreat
+              Reserve Your Spot
             </h3>
             <p className="mb-10 font-sans text-[13px] md:text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-              Share your details and we will guide you through the next steps of
-              Heart of the Himalayas.
+              Secure your place with a &euro;999 deposit (Early Bird total: &euro;1,900). Share your details below to proceed.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">

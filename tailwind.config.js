@@ -11,6 +11,13 @@ export default {
         stone: '#CFC9BD',
         'antique-gold': '#A9895E',
         copper: '#9C704E',
+        'warm-ivory': '#F5F1E8',
+        'soft-sand': '#E8DFD0',
+        'soft-sage': '#DDE0D3',
+        'muted-olive': '#70765A',
+        'deep-earth': '#38392E',
+        terracotta: '#AC765E',
+        'natural-stone': '#C9C1B2',
       },
       fontFamily: {
         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],

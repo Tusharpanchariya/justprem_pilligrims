@@ -66,21 +66,33 @@ export default function Package({ onEnquire }: PackageProps) {
             </span>
           </div>
 
-          <p className="max-w-md font-sans text-[13px] md:text-[14px] font-light leading-relaxed text-[#EBE7DE]/70 mb-10">
+          <p className="max-w-md font-sans text-[13px] md:text-[14px] font-light leading-relaxed text-[#EBE7DE]/70 mb-8">
             Secure the Early Bird rate before 8 November and save &euro;450 on your pilgrimage.
           </p>
 
+          {/* Deposit Tag / Badge */}
+          <div className="mb-8 inline-flex items-center gap-2.5 border border-antique-gold/40 bg-antique-gold/10 px-5 py-2 rounded-sm backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-antique-gold" />
+            <span className="font-sans text-[11px] md:text-[12px] uppercase tracking-[0.22em] text-antique-gold font-medium">
+              &euro;999 Deposit to Book Slot Only
+            </span>
+          </div>
+
           <button
             onClick={onEnquire}
-            className="group inline-flex h-[56px] items-center justify-center gap-3 border border-[#E6DCC8]/30 bg-transparent px-10 transition-all duration-700 hover:border-[#E6DCC8]/70 hover:bg-[#E6DCC8]/10"
+            className="group inline-flex h-[56px] items-center justify-center gap-3 border border-[#E6DCC8]/35 bg-transparent px-10 transition-all duration-700 hover:border-antique-gold hover:bg-[#E6DCC8]/10"
           >
             <span className="font-sans text-[10px] md:text-[11px] font-medium uppercase tracking-[0.2em] text-[#F1EEE7] transition-colors duration-700 group-hover:text-white">
-              Enquire for the Retreat
+              Reserve your Spot
             </span>
             <span className="font-sans text-[#E6DCC8]/70 transition-transform duration-700 group-hover:translate-x-1 group-hover:text-white">
               &rarr;
             </span>
           </button>
+
+          <p className="mt-4 font-sans text-[11.5px] md:text-[12px] font-light tracking-wide text-[#EBE7DE]/50">
+            Secure your slot today with &euro;999 deposit &middot; Remaining balance due before departure
+          </p>
 
         </div>
 

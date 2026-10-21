@@ -71,7 +71,7 @@ export const experiences: Experience[] = [
     subtitle: 'Heart of the Himalayas Pilgrimage',
     location: 'Kathmandu, Pokhara & Sacred Himalayan Valleys',
     duration: '12 Days',
-    dates: 'October 14 – 25, 2026',
+    dates: 'April 24 – May 5, 2027',
     groupSize: '15 – 18 Travelers',
     heroImage: 'https://images.pexels.com/photos/38902559/pexels-photo-38902559.jpeg?auto=compress&cs=tinysrgb&w=1920',
     shortDescription: 'A immersive pilgrimage through the sacred temples, ancient stupas, high Himalayan valleys, and living spiritual traditions of Nepal.',
