@@ -56,7 +56,7 @@ export default function Package({ onEnquire }: PackageProps) {
               Early Bird Rate
             </span>
             <span className="font-sans text-[12px] md:text-[13px] font-light text-[#EBE7DE]/60">
-              Available until 30 November 2026
+              Available until 1 December 2026
             </span>
           </div>
 
@@ -67,7 +67,7 @@ export default function Package({ onEnquire }: PackageProps) {
           </div>
 
           <p className="max-w-md font-sans text-[13px] md:text-[14px] font-light leading-relaxed text-[#EBE7DE]/70 mb-8">
-            Secure the Early Bird rate before 8 November and save &euro;450 on your pilgrimage.
+            Secure the Early Bird rate before 1 December and save &euro;450 on your Retreat.
           </p>
 
           {/* Deposit Tag / Badge */}
@@ -91,7 +91,7 @@ export default function Package({ onEnquire }: PackageProps) {
           </button>
 
           <p className="mt-4 font-sans text-[11.5px] md:text-[12px] font-light tracking-wide text-[#EBE7DE]/50">
-            Secure your slot today with &euro;999 deposit &middot; Remaining balance is due by 28 February 2027re 
+            Secure your slot today with &euro;999 deposit &middot; Remaining balance is due by 28 February 2027 
           </p>
 
         </div>
