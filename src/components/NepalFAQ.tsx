@@ -117,7 +117,7 @@ export default function NepalFAQ() {
             Frequently Asked Questions
           </h2>
           <p className="reveal reveal-delay-2 mx-auto mt-4 max-w-xl font-serif italic text-base sm:text-lg text-stone/75">
-            Essential guidance to help you prepare mindfully for the Himalayan pilgrimage.
+            Essential guidance to help you prepare mindfully for the Himalayan Retreat.
           </p>
         </div>
 
@@ -208,7 +208,7 @@ export default function NepalFAQ() {
                   </div>
 
                   <p className="mb-6 font-serif text-[14.5px] font-light leading-[1.65] text-stone/75">
-                    Can&apos;t find what you&apos;re looking for? Send us your question and our pilgrimage coordinators will reply to you via email.
+                    Can&apos;t find what you&apos;re looking for? Send us your question and our Retreat coordinators will reply to you via email.
                   </p>
 
                   <form onSubmit={handleFormSubmit} className="space-y-4">

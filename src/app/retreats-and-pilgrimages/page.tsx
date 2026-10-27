@@ -67,7 +67,7 @@ export default function RetreatsAndPilgrimagesPage() {
                 <div className="mt-8 flex flex-wrap items-center gap-6 text-xs text-stone/70 border-y border-antique-gold/15 py-4">
                   <div>
                     <span className="block text-[9px] uppercase tracking-wide text-antique-gold/70">Duration</span>
-                    <span className="font-serif text-sm text-ivory">12 Days</span>
+                    <span className="font-serif text-sm text-ivory">11 NIGHTS / 12 DAYS</span>
                   </div>
                   <div className="h-6 w-[1px] bg-antique-gold/20" />
                   <div>

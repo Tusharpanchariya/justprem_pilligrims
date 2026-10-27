@@ -56,7 +56,7 @@ export default function Package({ onEnquire }: PackageProps) {
               Early Bird Rate
             </span>
             <span className="font-sans text-[12px] md:text-[13px] font-light text-[#EBE7DE]/60">
-              Available until 8 November 2026
+              Available until 30 November 2026
             </span>
           </div>
 
@@ -91,7 +91,7 @@ export default function Package({ onEnquire }: PackageProps) {
           </button>
 
           <p className="mt-4 font-sans text-[11.5px] md:text-[12px] font-light tracking-wide text-[#EBE7DE]/50">
-            Secure your slot today with &euro;999 deposit &middot; Remaining balance due before departure
+            Secure your slot today with &euro;999 deposit &middot; Remaining balance is due by 28 February 2027re 
           </p>
 
         </div>

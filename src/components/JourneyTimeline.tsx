@@ -42,7 +42,7 @@ const destinations: Destination[] = [
   },
   {
     num: '04',
-    name: 'Chhomrong',
+    name: 'Chomrong',
     desc: 'Stone steps &middot; heart of the Annapurna sanctuary',
     img: '/places_images/chomrong.webp',
     elevation: '~2,165 m',

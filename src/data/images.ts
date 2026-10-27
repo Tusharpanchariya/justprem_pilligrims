@@ -35,7 +35,7 @@ export const images = {
   mountainWalks:
     '/places_images/kirtanandsacredsound.JPG',
   meditationYoga:
-    'https://images.pexels.com/photos/13849093/pexels-photo-13849093.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    '/daily_sadhna.png',
   devotionalMusic:
     '/places_images/satsangandyogicwisdom.JPG',
 

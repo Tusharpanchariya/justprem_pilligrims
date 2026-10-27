@@ -49,7 +49,7 @@ export default function NepalHero({ onEnquire }: NepalHeroProps) {
       >
         {/* Highlighted Journey Dates & Duration */}
         <p className="reveal font-sans text-[13.5px] sm:text-[15px] md:text-[16.5px] font-medium uppercase tracking-[0.24em] text-[#FFFDF9] mb-8 md:mb-10 drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)]">
-          24 April &ndash; 5 May 2027 <span className="text-[#DFC498] font-normal tracking-[0.2em]">(12 Days)</span>
+          24 April &ndash; 5 May 2027 <span className="text-[#DFC498] font-normal tracking-[0.2em]">11 NIGHTS / 12 DAYS</span>
         </p>
 
         <h1 className="reveal reveal-delay-1 font-serif font-medium text-[#F1EEE7] text-[clamp(52px,7vw,108px)] leading-[0.95] tracking-[-0.025em] mb-[48px]">
