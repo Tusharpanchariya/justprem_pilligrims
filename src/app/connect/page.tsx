@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import EnquiryModal from '@/components/EnquiryModal';
 import { Mail, Phone, Instagram, Youtube, Sparkles, Send, CheckCircle2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 
 export default function ConnectPage() {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
@@ -31,18 +30,16 @@ export default function ConnectPage() {
     setError('');
 
     try {
-      const { error: sbError } = await supabase.from('Retreat_enquiries').insert({
-        name,
-        email,
-        phone,
-        country: 'Website Form Inquiry',
-        payment_method: formType,
+      await fetch('/api/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          formType,
+        }),
       });
-
-      if (sbError) {
-        // Fallback gracefully if database table differs
-        console.warn('Supabase enquiry warning:', sbError);
-      }
       setSubmitted(true);
     } catch (err) {
       setSubmitted(true);

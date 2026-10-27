@@ -1,9 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { X, Check, Loader2, ArrowRight } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { X, Check, Loader2, ArrowRight, ChevronDown } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { countries } from '@/lib/countries';
-import { ChevronDown } from 'lucide-react';
 
 type PaymentMethod = 'paypal' | 'wise';
 
@@ -19,6 +17,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
   const [dialCode, setDialCode] = useState('+44');
   const [country, setCountry] = useState('United Kingdom');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('paypal');
+  const [paymentOption, setPaymentOption] = useState<'deposit' | 'full'>('deposit');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'paypal-checkout' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -49,6 +48,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setDialCode('+44');
     setCountry('United Kingdom');
     setPaymentMethod('paypal');
+    setPaymentOption('deposit');
     setStatus('idle');
     setErrorMsg('');
   };
@@ -78,34 +78,43 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setStatus('submitting');
     setErrorMsg('');
 
-    const { error } = await supabase.from('Retreat_enquiries').insert({
-      name: name.trim(),
-      email: email.trim(),
-      phone: `${dialCode} ${phone.trim()}`,
-      country: country.trim(),
-      payment_method: paymentMethod,
-    });
-
-    if (error) {
-      setStatus('error');
-      setErrorMsg('Something went wrong. Please try again.');
-      return;
-    }
-
-    if (paymentMethod === 'paypal') {
-      setStatus('paypal-checkout');
-    } else {
-      setStatus('success');
-      // Send the email for Wise via Edge Function
-      supabase.functions.invoke('send-Retreat-email', {
-        body: {
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
           phone: `${dialCode} ${phone.trim()}`,
           country: country.trim(),
-          paymentMethod: 'wise'
-        }
-      }).catch(console.error);
+          paymentMethod: paymentMethod,
+          paymentOption: paymentOption,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({ success: true }));
+
+      if (!res.ok && data?.error) {
+        setStatus('error');
+        setErrorMsg(data.error || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      if (paymentMethod === 'paypal') {
+        setStatus('paypal-checkout');
+      } else {
+        setStatus('success');
+      }
+    } catch (err) {
+      console.error('Enquiry request error:', err);
+      // Fallback: Proceed gracefully so user is not blocked
+      if (paymentMethod === 'paypal') {
+        setStatus('paypal-checkout');
+      } else {
+        setStatus('success');
+      }
     }
   };
 
@@ -137,27 +146,63 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
 
         {status === 'paypal-checkout' ? (
           <div className="py-6 text-center">
-            <h3 className="mb-4 font-serif text-3xl font-medium tracking-[-0.02em] text-[#F1EEE7]">
-              Complete Your Payment
+            <h3 className="mb-3 font-serif text-3xl font-medium tracking-[-0.02em] text-[#F1EEE7]">
+              {paymentOption === 'deposit' ? 'Pay €999 to Book Your Spot' : 'Complete €1,900 Payment'}
             </h3>
-            <p className="mb-10 font-sans text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-              Your details have been saved securely. Please complete the &euro;1,900 Early Bird payment to reserve your spot.
+            <p className="mb-6 font-sans text-[13px] md:text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70 max-w-sm mx-auto">
+              {paymentOption === 'deposit'
+                ? 'Your details have been saved securely. Pay €999 deposit now to book your spot (Early Bird total: €1,900).'
+                : 'Your details have been saved securely. Complete the full €1,900 Early Bird payment to reserve your spot.'}
             </p>
+
+            {/* Payment Option Selector (Deposit vs Full) */}
+            <div className="mb-8 grid grid-cols-2 gap-3 p-1.5 border border-[#E6DCC8]/20 bg-[#141416]/70 rounded-sm max-w-md mx-auto">
+              <button
+                type="button"
+                onClick={() => setPaymentOption('deposit')}
+                className={`py-2.5 px-3 text-center transition-all rounded-[2px] ${
+                  paymentOption === 'deposit'
+                    ? 'bg-[#E6DCC8]/15 border border-[#E6DCC8]/50 text-[#F1EEE7] shadow-sm'
+                    : 'border border-transparent text-[#EBE7DE]/50 hover:text-[#EBE7DE]/80 hover:bg-white/5'
+                }`}
+              >
+                <span className="block font-serif text-lg font-medium text-[#F1EEE7]">&euro;999</span>
+                <span className="block font-sans text-[9px] uppercase tracking-[0.15em] text-[#E6DCC8]/90 font-medium">Book Your Spot</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPaymentOption('full')}
+                className={`py-2.5 px-3 text-center transition-all rounded-[2px] ${
+                  paymentOption === 'full'
+                    ? 'bg-[#E6DCC8]/15 border border-[#E6DCC8]/50 text-[#F1EEE7] shadow-sm'
+                    : 'border border-transparent text-[#EBE7DE]/50 hover:text-[#EBE7DE]/80 hover:bg-white/5'
+                }`}
+              >
+                <span className="block font-serif text-lg font-medium text-[#F1EEE7]">&euro;1,900</span>
+                <span className="block font-sans text-[9px] uppercase tracking-[0.15em] text-[#E6DCC8]/90 font-medium">Complete Full Payment</span>
+              </button>
+            </div>
 
             <div className="relative z-50 min-h-[150px]">
               <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test", currency: "EUR" }}>
                 <PayPalButtons
+                  key={paymentOption}
                   style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }}
                   createOrder={(data, actions) => {
+                    const amountValue = paymentOption === 'deposit' ? "999.00" : "1900.00";
+                    const orderDescription = paymentOption === 'deposit'
+                      ? "11 Nights / 12 Days Retreat (€999 Deposit to Book Spot)"
+                      : "11 Nights / 12 Days Retreat (Full Early Bird Payment)";
+
                     return actions.order.create({
                       intent: "CAPTURE",
                       purchase_units: [
                         {
                           amount: {
                             currency_code: "EUR",
-                            value: "1900.00",
+                            value: amountValue,
                           },
-                          description: "11 Nights / 12 Days Retreat (Early Bird)",
+                          description: orderDescription,
                         },
                       ],
                     });
@@ -166,15 +211,20 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                     if (actions.order) {
                       return actions.order.capture().then(() => {
                         setStatus('success');
-                        // Send the email for PayPal via Edge Function
-                        supabase.functions.invoke('send-Retreat-email', {
-                          body: {
+                        // Send confirmation via server API
+                        fetch('/api/enquiry', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
                             name: name.trim(),
                             email: email.trim(),
                             phone: `${dialCode} ${phone.trim()}`,
                             country: country.trim(),
-                            paymentMethod: 'paypal'
-                          }
+                            paymentMethod: 'paypal',
+                            paymentOption: paymentOption,
+                            amountPaid: paymentOption === 'deposit' ? '€999 (Deposit)' : '€1,900 (Full)',
+                            paymentConfirmed: true,
+                          }),
                         }).catch(console.error);
                       });
                     }
@@ -224,12 +274,14 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                     </div>
                     <div className="flex justify-between items-center pb-1">
                       <span className="text-[#EBE7DE]/50">Amount</span>
-                      <span className="font-medium text-right">&euro;1,900</span>
+                      <span className="font-medium text-right">
+                        &euro;{paymentOption === 'deposit' ? '999 (Deposit to book spot)' : '1,900 (Full Early Bird)'}
+                      </span>
                     </div>
                   </div>
 
                   <p className="mt-5 font-sans text-[10px] text-[#EBE7DE]/40 leading-[1.6] text-center border-t border-[#E6DCC8]/10 pt-4">
-                    Important: Please use "{name || 'Your Full Name'}" as the transfer reference so we can match your payment.
+                    Important: Please transfer &euro;{paymentOption === 'deposit' ? '999' : '1,900'} and use "{name || 'Your Full Name'}" as the transfer reference so we can match your payment.
                   </p>
                 </div>
               </>

@@ -4,16 +4,16 @@ import { supabase } from '@/lib/supabase';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, subscribeNews, message } = body;
+    const { name, firstName, lastName, email, phone, formType, subscribeNews, message } = body;
 
-    const fullName = `${firstName || ''} ${lastName || ''}`.trim() || 'Visitor';
+    const fullName = (name || `${firstName || ''} ${lastName || ''}`).trim() || 'Visitor';
 
     const { error } = await supabase.from('Retreat_enquiries').insert({
       name: fullName,
       email: email || '',
-      phone: subscribeNews ? 'Newsletter Subscribed' : '',
-      country: 'Our Story Connect Form',
-      payment_method: message || 'General Enquiry',
+      phone: phone || (subscribeNews ? 'Newsletter Subscribed' : ''),
+      country: 'Website Connect Form',
+      payment_method: formType || message || 'General Enquiry',
     });
 
     if (error) {
