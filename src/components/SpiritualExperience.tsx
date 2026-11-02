@@ -35,6 +35,7 @@ export default function SpiritualExperience() {
           alt="Atmospheric Himalayan mountains"
           className="absolute inset-0 h-full w-full object-cover opacity-25"
           loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-near-black via-near-black/70 to-near-black" />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-antique-gold/5 blur-[100px]" />

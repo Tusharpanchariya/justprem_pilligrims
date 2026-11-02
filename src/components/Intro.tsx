@@ -28,15 +28,20 @@ export default function Intro() {
 
         {/* 3D Relief Route Map Centered */}
         <div className="reveal reveal-delay-2 relative w-full flex items-center justify-center my-4 md:my-6">
-          <img
-            src="/nepal_map_new.png"
-            alt="Our Himalayan Route Map of Nepal"
-            className="w-full max-w-[650px] md:max-w-[760px] lg:max-w-[850px] h-auto object-contain transform-gpu transition-transform duration-700 ease-out hover:scale-[1.02]"
-            style={{
-              filter:
-                'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 45px rgba(169, 137, 94, 0.22)) contrast(1.05) brightness(1.02)',
-            }}
-          />
+          <picture className="w-full max-w-[650px] md:max-w-[760px] lg:max-w-[850px] flex justify-center">
+            <source srcSet="/nepal_map_new.webp" type="image/webp" />
+            <img
+              src="/nepal_map_new.png"
+              alt="Our Himalayan Route Map of Nepal"
+              className="w-full h-auto object-contain transform-gpu transition-transform duration-700 ease-out hover:scale-[1.02]"
+              loading="lazy"
+              decoding="async"
+              style={{
+                filter:
+                  'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 45px rgba(169, 137, 94, 0.22)) contrast(1.05) brightness(1.02)',
+              }}
+            />
+          </picture>
         </div>
 
         {/* Route Caption Below Map */}

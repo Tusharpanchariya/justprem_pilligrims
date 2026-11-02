@@ -23,6 +23,8 @@ export default function RetreatsAndPilgrimagesPage() {
               src="https://images.pexels.com/photos/32436570/pexels-photo-32436570.jpeg?auto=compress&cs=tinysrgb&w=1920"
               alt="Retreats & Pilgrimages Hero"
               className="h-full w-full object-cover scale-105"
+              fetchPriority="high"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-near-black via-near-black/70 to-near-black/40" />
             <div className="absolute inset-0 bg-black/40" />
@@ -50,6 +52,8 @@ export default function RetreatsAndPilgrimagesPage() {
                   src="https://images.pexels.com/photos/38902559/pexels-photo-38902559.jpeg?auto=compress&cs=tinysrgb&w=1920"
                   alt="Mountain Background"
                   className="h-full w-full object-cover opacity-25"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-near-black via-near-black/90 to-near-black/80" />
               </div>
@@ -124,6 +128,8 @@ export default function RetreatsAndPilgrimagesPage() {
                 src="https://images.pexels.com/photos/14461598/pexels-photo-14461598.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 alt="Pilgrims Group Gathering in Nepal"
                 className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-near-black/60 via-transparent to-transparent lg:hidden" />
             </div>
@@ -137,6 +143,8 @@ export default function RetreatsAndPilgrimagesPage() {
               src="https://images.pexels.com/photos/38902559/pexels-photo-38902559.jpeg?auto=compress&cs=tinysrgb&w=1920"
               alt="Himalayan Forest Background"
               className="h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-near-black/85" />
           </div>

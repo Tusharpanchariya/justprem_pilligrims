@@ -35,6 +35,8 @@ export default function MountainStatement() {
           alt="Panoramic Himalayan mountain range"
           className="absolute inset-0 h-full w-full object-cover"
           style={{ transform: `translateY(${imgY}px) scale(1.1)` }}
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-near-black/60 via-near-black/30 to-near-black/80" />
 

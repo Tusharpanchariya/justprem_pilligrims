@@ -59,6 +59,8 @@ export default function ExperienceDetailView({
             src={experience.heroImage}
             alt={experience.title}
             className="h-full w-full object-cover scale-105 animate-slow-zoom"
+            fetchPriority="high"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-near-black via-near-black/60 to-near-black/40" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-near-black/50 to-near-black" />
@@ -292,6 +294,8 @@ export default function ExperienceDetailView({
                     src={g.image}
                     alt={g.name}
                     className="h-32 w-32 object-cover border border-antique-gold/30 shrink-0"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div>
                     <h3 className="font-serif text-2xl font-light text-ivory">{g.name}</h3>
@@ -324,6 +328,8 @@ export default function ExperienceDetailView({
                   src={img.url}
                   alt={img.caption}
                   className="h-full w-full object-cover img-zoom"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-near-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex items-end">
                   <p className="text-xs font-serif italic text-ivory">{img.caption}</p>

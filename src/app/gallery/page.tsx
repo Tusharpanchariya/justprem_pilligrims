@@ -17,20 +17,12 @@ interface GalleryItem {
 
 const GALLERY_ITEMS: GalleryItem[] = [
   {
-    id: 'fg1',
-    url: '/phots_for_gallery/DSC03924.JPG',
-    title: 'Himalayan Trekking Trail',
-    category: 'himalayas',
-    location: 'Nepal Himalayas',
-    description: 'Breathtaking mountain trails winding through high-altitude Himalayan valleys.'
-  },
-  {
     id: 'fg2',
     url: '/phots_for_gallery/DSC04045.JPG',
-    title: 'Devotional Kirtan & Chanting',
-    category: 'music',
-    location: 'Nepal Retreat',
-    description: 'Chanting sacred mantras and devotional music during our mountain immersion.'
+    title: 'Himalayan Retreat Immersion',
+    category: 'retreats',
+    location: 'Nepal Himalayas',
+    description: 'Devotional gathering and joyful connection amidst the snowy peaks of Nepal.'
   },
   {
     id: 'fg3',
@@ -231,12 +223,16 @@ export default function GalleryPage() {
                 onClick={() => setSelectedImage(item)}
                 className="group relative cursor-pointer overflow-hidden border border-antique-gold/15 bg-charcoal/40 aspect-[4/3] transition-all hover:border-antique-gold/50"
               >
-                <img
-                  src={item.url}
-                  alt={item.title}
-                  className="h-full w-full object-cover img-zoom"
-                  loading="lazy"
-                />
+                <picture className="block h-full w-full">
+                  <source srcSet={item.url.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                  <img
+                    src={item.url}
+                    alt={item.title}
+                    className="h-full w-full object-cover img-zoom"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-near-black/90 via-near-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
                   <div className="flex items-center justify-between">
                     <div>
@@ -275,11 +271,15 @@ export default function GalleryPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex-1 bg-black flex items-center justify-center">
-              <img
-                src={selectedImage.url}
-                alt={selectedImage.title}
-                className="max-h-[75vh] w-full object-contain"
-              />
+              <picture className="flex items-center justify-center w-full">
+                <source srcSet={selectedImage.url.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                <img
+                  src={selectedImage.url}
+                  alt={selectedImage.title}
+                  className="max-h-[75vh] w-full object-contain"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div className="w-full md:w-80 p-6 md:p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l border-antique-gold/20">
               <div>

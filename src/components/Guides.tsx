@@ -1,17 +1,9 @@
 import shoorsenaImg from '../../assets/team_memebers/shoorsenadas.webp';
 import swamiImg from '../../assets/team_memebers/swamianirudha.webp';
 import vanamaliImg from '../../assets/team_memebers/vanmalio.webp';
-import aikaImg from '../../assets/team_memebers/aika.jpeg';
+import aikaImg from '../../assets/team_memebers/aika.webp';
 
 const team = [
-  {
-    name: 'Shoorasena Das',
-    role: 'JustPrem creator',
-    bio: 'Founder of Just Prem Community, Shoorasena is a filmmaker, musician, and yoga teacher who brings creativity and devotion to retreats across India and Nepal.',
-    img: shoorsenaImg,
-    link: 'Instagram',
-    url: 'https://www.instagram.com/shoorasenadas.music/'
-  },
   {
     name: 'Swami Aniruddha',
     role: 'Guide',
@@ -19,6 +11,14 @@ const team = [
     img: swamiImg,
     link: 'Instagram',
     url: 'https://www.instagram.com/sv.aniruddha/'
+  },
+  {
+    name: 'Shoorasena Das',
+    role: 'JustPrem creator',
+    bio: 'Founder of Just Prem Community, Shoorasena is a filmmaker, musician, and yoga teacher who brings creativity and devotion to retreats across India and Nepal.',
+    img: shoorsenaImg,
+    link: 'Instagram',
+    url: 'https://www.instagram.com/shoorasenadas.music/'
   },
   {
     name: 'Vanamali Dasi',
@@ -48,7 +48,7 @@ export default function Guides() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1.26fr_1fr_1fr] gap-6 lg:gap-7 items-stretch mx-auto max-w-[1400px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.26fr_1fr_1fr_1fr] gap-6 lg:gap-7 items-stretch mx-auto max-w-[1400px]">
           {team.map((member, i) => {
             const isLeader = member.name === 'Swami Aniruddha';
             return (
@@ -72,6 +72,7 @@ export default function Guides() {
                       isLeader ? 'object-[32%_15%]' : 'object-center'
                     }`}
                     loading="lazy"
+                    decoding="async"
                   />
                   {isLeader && (
                     <span className="absolute top-3 left-3 font-sans text-[9px] uppercase tracking-[0.22em] text-antique-gold bg-black/80 px-2.5 py-1 rounded backdrop-blur-md border border-antique-gold/30">

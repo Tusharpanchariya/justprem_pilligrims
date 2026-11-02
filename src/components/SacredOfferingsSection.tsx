@@ -211,6 +211,7 @@ export default function SacredOfferingsSection({ onEnquire }: SacredOfferingsSec
                         alt={journey.imageAlt}
                         className="h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.035]"
                         loading="lazy"
+                        decoding="async"
                       />
 
                       {/* Warm editorial film layer and delicate vignette */}

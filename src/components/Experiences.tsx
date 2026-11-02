@@ -58,13 +58,17 @@ export default function Experiences() {
               className={`group reveal ${i < 3 ? 'reveal-delay-' + (i + 1) : ''}`}
             >
               <div className="relative mb-6 aspect-[4/5] overflow-hidden">
-                <img
-                  src={exp.img}
-                  alt={exp.title}
-                  className="img-zoom h-full w-full object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-near-black/80 via-near-black/10 to-transparent transition-opacity duration-700 group-hover:from-near-black/60" />
+                <picture className="block h-full w-full">
+                  <source srcSet={exp.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                  <img
+                    src={exp.img}
+                    alt={exp.title}
+                    className="img-zoom h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+                <div className="absolute inset-0 bg-gradient-to-t from-near-black/80 via-near-black/10 to-transparent transition-opacity duration-700 group-hover:from-near-black/60 pointer-events-none" />
                 {/* Gold line */}
                 <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-antique-gold transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
               </div>

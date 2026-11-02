@@ -135,6 +135,7 @@ export default function CreateRetreatSection({ onEnquire }: CreateRetreatSection
                     alt="Serene mountain retreat sanctuary with terraced hills and stone lodges"
                     className="h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03]"
                     loading="lazy"
+                    decoding="async"
                   />
                   
                   {/* Subtle warm ambient film treatment layer */}

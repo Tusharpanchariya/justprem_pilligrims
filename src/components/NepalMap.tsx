@@ -22,15 +22,20 @@ export default function NepalMap() {
         {/* Map container - Large transparent 3D relief map with authentic contour depth */}
         <div className="reveal reveal-delay-2 relative w-full mx-auto flex items-center justify-center">
           <div className="relative w-full max-w-[1400px] aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center">
-            <img
-              src="/nepal_3d_map.png"
-              alt="3D Relief Map of Nepal"
-              className="w-full h-full object-contain scale-[1.3] sm:scale-[1.38] md:scale-[1.45] lg:scale-[1.5] transform-gpu transition-transform duration-700 ease-out hover:scale-[1.53]"
-              style={{
-                filter:
-                  'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 50px rgba(169, 137, 94, 0.22)) contrast(1.05) brightness(1.02)',
-              }}
-            />
+            <picture className="w-full h-full flex items-center justify-center">
+              <source srcSet="/nepal_3d_map.webp" type="image/webp" />
+              <img
+                src="/nepal_3d_map.png"
+                alt="3D Relief Map of Nepal"
+                className="w-full h-full object-contain scale-[1.3] sm:scale-[1.38] md:scale-[1.45] lg:scale-[1.5] transform-gpu transition-transform duration-700 ease-out hover:scale-[1.53]"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  filter:
+                    'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 50px rgba(169, 137, 94, 0.22)) contrast(1.05) brightness(1.02)',
+                }}
+              />
+            </picture>
           </div>
         </div>
       </div>

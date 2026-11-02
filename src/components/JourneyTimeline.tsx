@@ -273,12 +273,16 @@ export default function JourneyTimeline() {
                 >
                   {/* Image Card Container */}
                   <div className="relative mb-6 h-[210px] rounded border border-antique-gold/20 shadow-2xl overflow-hidden group-hover:border-antique-gold/70 group-hover:shadow-[0_10px_30px_rgba(169,137,94,0.18)] transition-all duration-500">
-                    <img
-                      src={d.img}
-                      alt={d.name}
-                      className="img-zoom h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
+                    <picture className="block h-full w-full">
+                      <source srcSet={d.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                      <img
+                        src={d.img}
+                        alt={d.name}
+                        className="img-zoom h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
 
                     {/* Subtle click indicator pill */}
                     <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 rounded-full bg-black/75 px-2.5 py-1 text-[9px] uppercase tracking-widest text-[#E9E5DC] backdrop-blur-md border border-antique-gold/30 opacity-80 group-hover:opacity-100 group-hover:border-antique-gold transition-all duration-300">
@@ -379,12 +383,16 @@ export default function JourneyTimeline() {
                 </div>
                 <div className="flex-1 pt-1">
                   <div className="relative mb-3 h-[180px] overflow-hidden rounded border border-antique-gold/20 shadow-xl group-hover:border-antique-gold/60 transition-colors">
-                    <img
-                      src={d.img}
-                      alt={d.name}
-                      className="img-zoom h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
+                    <picture className="block h-full w-full">
+                      <source srcSet={d.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                      <img
+                        src={d.img}
+                        alt={d.name}
+                        className="img-zoom h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
                     <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 rounded-full bg-black/75 px-2.5 py-1 text-[9px] uppercase tracking-widest text-[#E9E5DC] backdrop-blur-md border border-antique-gold/30">
                       <span>Explore</span>
                       <span className="text-antique-gold">&#8594;</span>
@@ -431,11 +439,15 @@ export default function JourneyTimeline() {
 
             {/* Destination Picture */}
             <div className="relative aspect-[16/9] w-full overflow-hidden bg-charcoal">
-              <img
-                src={selectedDestination.img}
-                alt={selectedDestination.name}
-                className="h-full w-full object-cover"
-              />
+              <picture className="block h-full w-full">
+                <source srcSet={selectedDestination.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                <img
+                  src={selectedDestination.img}
+                  alt={selectedDestination.name}
+                  className="h-full w-full object-cover"
+                  decoding="async"
+                />
+              </picture>
               <div className="absolute inset-0 bg-gradient-to-t from-[#121215] via-[#121215]/20 to-black/30 pointer-events-none" />
 
               {/* Number and Step Badge */}

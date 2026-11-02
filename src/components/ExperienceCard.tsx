@@ -24,6 +24,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
           alt={experience.title}
           className="h-full w-full object-cover img-zoom"
           loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-near-black/40 to-transparent opacity-90" />
 

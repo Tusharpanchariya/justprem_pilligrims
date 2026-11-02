@@ -56,13 +56,17 @@ export default function DayInHimalayas() {
                   </div>
                   <div className="group mt-8">
                     <div className="relative mb-6 aspect-[3/4] overflow-hidden">
-                      <img
-                        src={part.img}
-                        alt={part.time}
-                        className="img-zoom h-full w-full object-cover"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
+                      <picture className="block h-full w-full">
+                        <source srcSet={part.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                        <img
+                          src={part.img}
+                          alt={part.time}
+                          className="img-zoom h-full w-full object-cover"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </picture>
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent pointer-events-none" />
                     </div>
                     <h3 className="mb-2 font-serif text-2xl font-light text-ivory lg:text-3xl">
                       {part.time}
@@ -94,13 +98,17 @@ export default function DayInHimalayas() {
                 </div>
                 <div className="flex-1 pt-1">
                   <div className="group relative mb-4 h-[180px] overflow-hidden">
-                    <img
-                      src={part.img}
-                      alt={part.time}
-                      className="img-zoom h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
+                    <picture className="block h-full w-full">
+                      <source srcSet={part.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                      <img
+                        src={part.img}
+                        alt={part.time}
+                        className="img-zoom h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent pointer-events-none" />
                   </div>
                   <h3 className="mb-2 font-serif text-2xl font-light text-ivory">
                     {part.time}

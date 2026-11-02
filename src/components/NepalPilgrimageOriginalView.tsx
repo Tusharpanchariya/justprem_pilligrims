@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 import Navbar from '@/components/Navbar';
 import NepalHero from '@/components/NepalHero';
 import Intro from '@/components/Intro';
-import MountainStatement from '@/components/MountainStatement';
 import JourneyTimeline from '@/components/JourneyTimeline';
 import Experiences from '@/components/Experiences';
 import DayInHimalayas from '@/components/DayInHimalayas';
@@ -35,7 +34,6 @@ export default function NepalPilgrimageOriginalView() {
         <Experiences />
         <DayInHimalayas />
         <Guides />
-        <MountainStatement />
         <Testimonials />
         <PhotoJournal />
         <Package onEnquire={openEnquiry} />

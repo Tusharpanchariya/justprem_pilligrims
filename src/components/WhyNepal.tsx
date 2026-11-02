@@ -10,6 +10,7 @@ export default function WhyNepal() {
           alt="Himalayan mountains in Nepal"
           className="h-full w-full object-cover opacity-15"
           loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-blue-black via-blue-black/80 to-blue-black" />
       </div>

@@ -15,6 +15,7 @@ export default function FinalCTA({ onEnquire }: FinalCTAProps) {
         alt="Himalayan mountain peak in clouds at sunrise"
         className="absolute inset-0 h-full w-full object-cover"
         loading="lazy"
+        decoding="async"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-near-black/50 via-near-black/40 to-near-black/85" />
       <div className="absolute inset-0 bg-near-black/20" />

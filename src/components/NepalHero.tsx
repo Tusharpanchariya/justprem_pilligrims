@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import mainPageBg from '../../assets/nepal_natureimages/main_page.png';
+import mainPageBg from '../../assets/nepal_natureimages/main_page.webp';
 
 interface NepalHeroProps {
   onEnquire: () => void;

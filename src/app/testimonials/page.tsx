@@ -91,7 +91,8 @@ export default function TestimonialsPage() {
               <img
                 src={item.image}
                 alt={item.name}
-                className="h-32 w-32 md:h-40 md:w-40 object-cover border border-antique-gold/30 shrink-0"
+                loading="lazy"
+                decoding="async"
               />
 
               <div className="flex-1">
