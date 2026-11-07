@@ -10,19 +10,15 @@ export default function Intro() {
       <div className="relative z-10 mx-auto max-w-5xl">
         {/* Section Title */}
         <div className="text-center mb-10 md:mb-14">
-          <h2 className="reveal font-serif text-3xl font-light leading-[1.18] text-ivory sm:text-4xl md:text-5xl lg:text-6xl">
-            Some journeys take you to places.
-            <br />
-            <span className="text-stone/70 italic">
-              Others take you inward.
-            </span>
+          <h2 className="reveal font-serif text-3xl font-light italic leading-[1.18] text-ivory sm:text-4xl md:text-5xl lg:text-6xl">
+            Explore the Himalayas with a Monk
           </h2>
         </div>
 
         {/* Main Text Above Map */}
         <div className="mx-auto max-w-3xl text-center mb-8 md:mb-12 px-4">
           <p className="reveal reveal-delay-1 font-serif text-[16px] sm:text-[18px] md:text-[20px] font-normal italic leading-[1.8] text-[#D8D2C4]/90">
-            Join Swami Aniruddha, a travelling monk with over 20 years on the yogic path, for a 12-day Himalayan retreat in Nepal, where trekking, yoga, kirtan and meditation become a doorway to the journey within.
+          Spend 12 days with Swami Aniruddha, a travelling monk with over 20 years on the yogic path, on a Himalayan retreat in Nepal, where trekking, yoga, kirtan and meditation become a doorway to the journey within
           </p>
         </div>
 

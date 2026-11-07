@@ -1,13 +1,21 @@
-const includedItems = [
-  'Comfortable twin-shared accommodation',
-  'Daily vegetarian meals',
-  'Domestic flights (Kathmandu-Pokhara-Kathmandu)',
-  'Local transportation',
-  'Guided trekking & excursions',
-  'Yoga, meditation & pranayama',
-  'Kirtan & devotional music',
-  'Lectures on philosophy',
-  'Emergency support',
+interface IncludedItem {
+  title: string;
+  note?: string;
+}
+
+const includedItems: IncludedItem[] = [
+  { title: 'Comfortable twin-shared accommodation' },
+  { title: 'Daily vegetarian meals' },
+  {
+    title: 'Domestic transportation (Kathmandu – Pokhara – Kathmandu)',
+    note: 'If you prefer to travel by flight, please arrange your own flight tickets. Airfare is not included.',
+  },
+  { title: 'Local transportation' },
+  { title: 'Guided trekking & excursions' },
+  { title: 'Yoga, meditation & pranayama' },
+  { title: 'Kirtan & devotional music' },
+  { title: 'Lectures on philosophy' },
+  { title: 'Emergency support' },
 ];
 export default function Included() {
   return (
@@ -37,13 +45,20 @@ export default function Included() {
             <ul className="space-y-0">
               {includedItems.map((item, i) => (
                 <li
-                  key={item}
-                  className={`reveal reveal-delay-${Math.min(i + 1, 5)} group flex items-center justify-between gap-6 border-b border-antique-gold/10 py-5 transition-colors hover:border-antique-gold/30`}
+                  key={item.title}
+                  className={`reveal reveal-delay-${Math.min(i + 1, 5)} group flex items-start justify-between gap-6 border-b border-antique-gold/10 py-5 transition-colors hover:border-antique-gold/30`}
                 >
-                  <span className="font-serif text-lg font-light text-ivory transition-transform duration-500 group-hover:translate-x-2 md:text-xl">
-                    {item}
-                  </span>
-                  <span className="shrink-0 text-[10px] uppercase tracking-wide-sm text-antique-gold/50">
+                  <div className="transition-transform duration-500 group-hover:translate-x-2">
+                    <span className="font-serif text-lg font-light text-ivory md:text-xl block">
+                      {item.title}
+                    </span>
+                    {item.note && (
+                      <p className="mt-2 font-sans text-xs md:text-[13px] font-light leading-relaxed text-stone/60">
+                        {item.note}
+                      </p>
+                    )}
+                  </div>
+                  <span className="shrink-0 pt-1 text-[10px] uppercase tracking-wide-sm text-antique-gold/50">
                     Included
                   </span>
                 </li>

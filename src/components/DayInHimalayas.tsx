@@ -13,12 +13,12 @@ const dayParts = [
   },
   {
     time: 'Day',
-    desc: 'Mountain exploration · sacred sites · local experiences',
+    desc: 'MOUNTAIN EXPLORATION · SACRED SITES · LOCAL EXPERIENCES',
     img: images.day,
   },
   {
     time: 'Evening',
-    desc: 'Reflection · kirtan · shared gathering',
+    desc: 'REFLECTION · KIRTAN · SHARED GATHERING',
     img: images.evening,
   },
   {
@@ -32,13 +32,16 @@ export default function DayInHimalayas() {
   return (
     <section className="relative bg-charcoal px-6 py-32 md:px-12 md:py-48">
       <div className="mx-auto max-w-[1400px]">
-        <div className="mb-20 text-center md:mb-32">
+        <div className="mb-16 md:mb-24 text-center">
           <p className="reveal mb-6 text-[11px] uppercase tracking-ultra text-antique-gold">
             The Rhythm
           </p>
-          <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light text-ivory md:text-6xl lg:text-7xl">
-            A Day in the Himalayas
+          <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light leading-tight text-ivory sm:text-5xl md:text-6xl lg:text-7xl max-w-4xl mx-auto">
+           Recharge in the Himalayas
           </h2>
+          <p className="reveal reveal-delay-2 mt-6 max-w-3xl mx-auto text-sm font-light leading-relaxed text-stone/70 md:text-base lg:text-[17px]">
+            Over 12 days you will experience a different rhythm of daily life. Every day will bring something new, but mostly our days will follow a shared routine: morning meditation and yoga, exploring Nepal&apos;s diverse landscapes and mountains, philosophy sessions in the evenings, singing kirtan after dinners and reflecting on the day, and finally taking time to rest and recharge.
+          </p>
         </div>
 
         {/* Desktop horizontal */}

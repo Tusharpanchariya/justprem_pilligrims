@@ -312,7 +312,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
               Reserve Your Spot
             </h3>
             <p className="mb-10 font-sans text-[13px] md:text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-              Secure your place with a &euro;999 deposit (Early Bird total: &euro;1,900). Share your details below to proceed.
+           ( Price available till 27 of December). Share your details below to proceed.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">

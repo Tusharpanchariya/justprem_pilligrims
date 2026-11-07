@@ -13,7 +13,7 @@ const experiences = [
   },
   {
     title: 'Spiritual Heritage',
-    desc: 'Experience Nepal’s spiritual heritage through temples and sacred rituals..',
+    desc: "Experience Nepal's spiritual heritage through temples and sacred rituals.",
     img: images.ancientWisdom,
   },
   {
@@ -40,16 +40,18 @@ export default function Experiences() {
       className="relative bg-near-black px-6 py-32 md:px-12 md:py-48"
     >
       <div className="mx-auto max-w-[1400px]">
-        <div className="mb-20 md:mb-32">
+        <div className="mb-16 md:mb-24">
           <p className="reveal mb-6 text-[11px] uppercase tracking-ultra text-antique-gold">
             The Nepal Experience
           </p>
           <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light leading-tight text-ivory md:text-6xl lg:text-7xl">
-            More Than a Retreat
-            <br />
-
+        Explore Nepal Beyond the Usual
           </h2>
+          <p className="reveal reveal-delay-2 mt-6 max-w-3xl text-sm font-light leading-relaxed text-stone/70 md:text-base lg:text-lg">
+            Our retreat goes beyond a typical trekking journey. Alongside exploring Nepal&apos;s natural beauty and cultural heritage, we&apos;ll visit sacred places and temples, practise yoga and mantra chanting, and learn about the philosophy behind these traditions for a more immersive experience.
+          </p>
         </div>
+
 
         <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20">
           {experiences.map((exp, i) => (
@@ -59,7 +61,7 @@ export default function Experiences() {
             >
               <div className="relative mb-6 aspect-[4/5] overflow-hidden">
                 <picture className="block h-full w-full">
-                  <source srcSet={exp.img.replace(/\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
+                  <source srcSet={exp.img.replace(/\\.(jpe?g|png|avif)$/i, '.webp')} type="image/webp" />
                   <img
                     src={exp.img}
                     alt={exp.title}

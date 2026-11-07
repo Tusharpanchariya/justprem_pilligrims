@@ -3,6 +3,7 @@ import swamiImg from '../../assets/team_memebers/swamianirudha.webp';
 import vanamaliImg from '../../assets/team_memebers/vanmalio.webp';
 import aikaImg from '../../assets/team_memebers/aika.webp';
 
+// Team members list
 const team = [
   {
     name: 'Swami Aniruddha',

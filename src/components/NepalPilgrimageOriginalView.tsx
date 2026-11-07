@@ -33,10 +33,10 @@ export default function NepalPilgrimageOriginalView() {
         <JourneyTimeline />
         <Experiences />
         <DayInHimalayas />
+        <Package onEnquire={openEnquiry} />
         <Guides />
         <Testimonials />
         <PhotoJournal />
-        <Package onEnquire={openEnquiry} />
         <Included />
         <NepalFAQ />
         <FinalCTA onEnquire={openEnquiry} />
