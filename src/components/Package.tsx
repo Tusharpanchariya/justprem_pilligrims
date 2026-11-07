@@ -61,7 +61,7 @@ export default function Package({ onEnquire }: PackageProps) {
           </div>
 
           <div className="mb-10">
-            <span className="font-sans text-[17px] sm:text-[19px] md:text-[21px] font-medium tracking-wide text-[#F1EEE7]/90 line-through decoration-antique-gold decoration-[2px]">
+            <span className="font-serif text-2xl md:text-3xl font-light text-[#F1EEE7] line-through decoration-antique-gold/80 decoration-[2px]">
               Standard Rate &euro;2,350
             </span>
           </div>
