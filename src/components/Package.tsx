@@ -56,7 +56,7 @@ export default function Package({ onEnquire }: PackageProps) {
               Early Bird Rate
             </span>
             <span className="font-sans text-[12px] md:text-[13px] font-light text-[#EBE7DE]/60">
-              Available until 25 December 2026
+              Available until 1 January 2027
             </span>
           </div>
 
@@ -67,7 +67,7 @@ export default function Package({ onEnquire }: PackageProps) {
           </div>
 
           <p className="max-w-md font-sans text-[13px] md:text-[14px] font-light leading-relaxed text-[#EBE7DE]/70 mb-8">
-            Secure the Early Bird rate before 25 December and save &euro;450 on your Retreat.
+            Secure the Early Bird rate before 1 January and save &euro;450 on your Retreat.
           </p>
 
           {/* Deposit Tag / Badge */}
