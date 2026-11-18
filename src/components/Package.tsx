@@ -1,3 +1,6 @@
+import { DEFAULT_PACKAGE_PRICE_CENTS } from '@/lib/payments/catalog';
+import { formatCentsToEuros } from '@/lib/payments/plans';
+
 const inclusions = [
   'Accommodation',
   'Daily meals',
@@ -50,7 +53,7 @@ export default function Package({ onEnquire }: PackageProps) {
 
           <div className="mb-6 flex flex-col items-center">
             <span className="font-serif text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight text-[#F1EEE7] mb-4">
-              &euro;1,900
+              {formatCentsToEuros(DEFAULT_PACKAGE_PRICE_CENTS)}
             </span>
             <span className="font-sans text-[11px] md:text-[12px] uppercase tracking-[0.15em] text-[#E6DCC8]/80 mb-2">
               Early Bird Rate

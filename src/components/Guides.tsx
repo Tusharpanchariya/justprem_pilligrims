@@ -7,8 +7,8 @@ import aikaImg from '../../assets/team_memebers/aika.webp';
 const team = [
   {
     name: 'Swami Aniruddha',
-    role: 'Guide',
-    bio: 'A devoted disciple of Paramahamsa Vishwananda, Swami Aniruddha has walked the yogic path for over 20 years. He is known for leading Himalayan Retreats, blending yoga, devotion, and community. He inspires seekers to discover the sacred in every step of life.',
+    role: 'Guide & SPIRITUAL TEACHER',
+    bio: 'A devoted disciple of Paramahamsa Vishwananda, Swami Aniruddha has spent over 20 years exploring the paths of yoga, Bhakti and Sanatana Dharma, bringing together ancient wisdom and self-inquiry.Through satsang and personal guidance, he invites those on the spiritual path to explore spiritual knowledge, understand the Self and experience the Divine..',
     img: swamiImg,
     link: 'Instagram',
     url: 'https://www.instagram.com/sv.aniruddha/'
@@ -16,7 +16,7 @@ const team = [
   {
     name: 'Shoorasena Das',
     role: 'JustPrem creator',
-    bio: 'Founder of Just Prem Community, Shoorasena is a filmmaker, musician, and yoga teacher who brings creativity and devotion to retreats across India and Nepal.',
+    bio: 'Founder of Just Prem Community, Shoorasena Das is a filmmaker, musician and yoga teacher deeply rooted in the spiritual traditions of India and Nepal. Through films, documentaries and music, he brings these traditions to life. With over 1,200 hours of yoga training and experience leading more than 20 retreats worldwide, he brings together modern sadhana, ancient knowledge and Bhakti.',
     img: shoorsenaImg,
     link: 'Instagram',
     url: 'https://www.instagram.com/shoorasenadas.music/'
@@ -24,7 +24,7 @@ const team = [
   {
     name: 'Vanamali Dasi',
     role: 'Retreat organiser',
-    bio: 'Vanamali Dasi blends art, music, and spirituality through meditation, chanting, yoga, and retreats. A devoted disciple of Paramahamsa Vishwananda, she inspires hearts at spiritual events worldwide.',
+    bio: 'Vanamali Dasi brings together the wisdom of Paramahansa Yogananda’s tradition- classical yoga and contemporary approaches to āsana practice. A passionate traveller, writer and kirtan singer, she draws inspiration from her years living in India and Nepal..',
     img: vanamaliImg,
     link: 'Instagram',
     url: 'https://www.instagram.com/vikamiy/'

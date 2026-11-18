@@ -91,6 +91,14 @@ export default function Footer({ onEnquire }: FooterProps) {
                   Connect
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/my-booking"
+                  className="text-sm font-light text-[#C0B9AA] transition-colors hover:text-[#F5F1E8]"
+                >
+                  My Booking
+                </Link>
+              </li>
             </ul>
           </div>
 

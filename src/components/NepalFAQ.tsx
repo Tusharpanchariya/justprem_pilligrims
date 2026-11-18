@@ -2,10 +2,11 @@
 
 import { useState, type FormEvent } from 'react';
 import { ChevronDown, Send, CheckCircle2, Loader2, Mail, HelpCircle } from 'lucide-react';
+import { includedItems, notIncludedItems, packingItems } from '@/data/nepal-pilgrimage-details';
 
 interface FAQItem {
   question: string;
-  answer: string;
+  answer: string | string[];
 }
 
 const faqList: FAQItem[] = [
@@ -18,6 +19,14 @@ const faqList: FAQItem[] = [
     question: 'What travel documents do I need?',
     answer:
       'Your passport should be valid for at least six months. Most international visitors need a Nepal tourist visa, which can be arranged online or on arrival at Kathmandu Airport, depending on your nationality. Check the official Nepal immigration website before travelling.',
+  },
+  {
+    question: 'What is included in the pilgrimage?',
+    answer: includedItems.map((item) => item.note ? `${item.title} — ${item.note}` : item.title),
+  },
+  {
+    question: 'What is not included in the pilgrimage?',
+    answer: notIncludedItems,
   },
   {
     question: 'What level of fitness is required?',
@@ -40,9 +49,8 @@ const faqList: FAQItem[] = [
       'Yes, we strongly recommend travel insurance that specifically covers trekking at the maximum altitude of our route, emergency medical treatment and helicopter evacuation. Please check that your policy covers all planned activities before departure.',
   },
   {
-    question: 'What should I pack for the Himalayas?',
-    answer:
-      'Bring comfortable trekking shoes, warm layers, a waterproof jacket, sun protection, a reusable water bottle and any personal medication you need. A detailed packing list will be shared before departure to help you prepare for the changing mountain conditions.',
+    question: 'What should I bring for the Himalayas?',
+    answer: packingItems,
   },
   {
     question: 'What happens if weather affects the itinerary?',
@@ -174,9 +182,17 @@ export default function NepalFAQ() {
                   >
                     <div className="overflow-hidden">
                       <div className="px-5 sm:px-6 pb-6 pt-2 border-t border-[#E6DCC8]/10">
-                        <p className="font-serif text-[15px] sm:text-[16.5px] font-normal leading-[1.8] text-[#D8D2C4]/90 pl-8 sm:pl-10 pr-2">
-                          {item.answer}
-                        </p>
+                        {Array.isArray(item.answer) ? (
+                          <ul className="list-disc space-y-2 pl-14 pr-2 font-serif text-[15px] font-normal leading-[1.7] text-[#D8D2C4]/90 sm:pl-16 sm:text-[16px]">
+                            {item.answer.map((answerItem) => (
+                              <li key={answerItem} className="pl-1">{answerItem}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="font-serif text-[15px] sm:text-[16.5px] font-normal leading-[1.8] text-[#D8D2C4]/90 pl-8 sm:pl-10 pr-2">
+                            {item.answer}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

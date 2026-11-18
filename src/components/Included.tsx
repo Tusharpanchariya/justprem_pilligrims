@@ -1,22 +1,5 @@
-interface IncludedItem {
-  title: string;
-  note?: string;
-}
+import { includedItems } from '@/data/nepal-pilgrimage-details';
 
-const includedItems: IncludedItem[] = [
-  { title: 'Comfortable twin-shared accommodation' },
-  { title: 'Daily vegetarian meals' },
-  {
-    title: 'Domestic transportation (Kathmandu – Pokhara – Kathmandu)',
-    note: 'If you prefer to travel by flight, please arrange your own flight tickets. Airfare is not included.',
-  },
-  { title: 'Local transportation' },
-  { title: 'Guided trekking & excursions' },
-  { title: 'Yoga, meditation & pranayama' },
-  { title: 'Kirtan & devotional music' },
-  { title: 'Lectures on philosophy' },
-  { title: 'Emergency support' },
-];
 export default function Included() {
   return (
     <section className="relative bg-charcoal px-6 py-32 md:px-12 md:py-48">
@@ -28,7 +11,7 @@ export default function Included() {
               What is Included
             </p>
             <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light leading-[1.15] text-ivory md:text-5xl lg:text-6xl">
-              Everything is taken care of.
+              Everything is <span className="whitespace-nowrap">taken care of.</span>
               <br />
               <span className="text-stone/60 italic">
                 So you can be fully present.
@@ -39,7 +22,6 @@ export default function Included() {
               From accommodation and meals to transportation, trekking support, and our daily practices — we take care of the details so you can focus on the journey.
             </p>
           </div>
-
           {/* Right */}
           <div className="flex flex-col justify-center">
             <ul className="space-y-0">

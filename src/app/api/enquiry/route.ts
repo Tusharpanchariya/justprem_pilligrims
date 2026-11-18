@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     }
 
     // Attempt to trigger email edge function if available
-    if (paymentMethod === 'wise' || body.paymentConfirmed) {
+    if (paymentMethod === 'wise') {
       try {
         await supabase.functions.invoke('send-Retreat-email', {
           body: {

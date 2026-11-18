@@ -1,7 +1,13 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { X, Check, Loader2, ArrowRight, ChevronDown } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { countries } from '@/lib/countries';
+import PaymentPlanSelector from '@/components/payments/PaymentPlanSelector';
+import type { PlanType } from '@/lib/payments/types';
+import { calculateAllPaymentPlans } from '@/lib/payments/plans';
+import { DEFAULT_DEPARTURE_DATE, DEFAULT_PACKAGE_PRICE_CENTS } from '@/lib/payments/catalog';
+import { SUPPORTED_COUNTRIES } from '@/lib/payments/countries';
+import type { CountryEligibility } from '@/components/payments/PaymentPlanSelector';
 
 type PaymentMethod = 'paypal' | 'wise';
 
@@ -17,7 +23,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
   const [dialCode, setDialCode] = useState('+44');
   const [country, setCountry] = useState('United Kingdom');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('paypal');
-  const [paymentOption, setPaymentOption] = useState<'deposit' | 'full'>('deposit');
+  const [paymentPlan, setPaymentPlan] = useState<PlanType>('full');
+  const [countryCode, setCountryCode] = useState('GB');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [eligibility, setEligibility] = useState<CountryEligibility | null>(null);
+  const [bookingId, setBookingId] = useState('');
+  const [installmentId, setInstallmentId] = useState('');
+  const [bookingReference, setBookingReference] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'paypal-checkout' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -48,10 +60,26 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setDialCode('+44');
     setCountry('United Kingdom');
     setPaymentMethod('paypal');
-    setPaymentOption('deposit');
+    setPaymentPlan('full');
+    setCountryCode('GB');
+    setTermsAccepted(false);
+    setEligibility(null);
+    setBookingId('');
+    setInstallmentId('');
+    setBookingReference('');
     setStatus('idle');
     setErrorMsg('');
   };
+
+  const selectedPlan = calculateAllPaymentPlans({
+    totalPriceCents: DEFAULT_PACKAGE_PRICE_CENTS,
+    countryCode,
+  }).find((plan) => plan.planType === paymentPlan)!;
+
+  const handleEligibilityChange = useCallback((next: CountryEligibility) => {
+    setEligibility(next);
+    setTermsAccepted(false);
+  }, []);
 
   const handleClose = () => {
     if (status === 'success') resetForm();
@@ -79,7 +107,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/enquiry', {
+      const res = await fetch('/api/payments/create-booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,19 +116,30 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
           name: name.trim(),
           email: email.trim(),
           phone: `${dialCode} ${phone.trim()}`,
-          country: country.trim(),
-          paymentMethod: paymentMethod,
-          paymentOption: paymentOption,
+          countryCode,
+          planType: paymentPlan,
+          termsAccepted,
+          acceptedTermsVersion: eligibility?.termsVersion,
+          acceptedCancellationPolicyVersion: eligibility?.cancellationPolicyVersion,
         }),
       });
 
-      const data = await res.json().catch(() => ({ success: true }));
+      const data = await res.json();
 
       if (!res.ok && data?.error) {
         setStatus('error');
         setErrorMsg(data.error || 'Something went wrong. Please try again.');
         return;
       }
+
+      setBookingId(data.bookingId);
+      setBookingReference(data.bookingReference);
+      setInstallmentId(data.planDetails.installmentId);
+      void fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), phone: `${dialCode} ${phone.trim()}`, country: country.trim(), paymentMethod }),
+      }).catch((error) => console.error('Enquiry notification failed:', error));
 
       if (paymentMethod === 'paypal') {
         setStatus('paypal-checkout');
@@ -109,12 +148,8 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
       }
     } catch (err) {
       console.error('Enquiry request error:', err);
-      // Fallback: Proceed gracefully so user is not blocked
-      if (paymentMethod === 'paypal') {
-        setStatus('paypal-checkout');
-      } else {
-        setStatus('success');
-      }
+      setStatus('error');
+      setErrorMsg('We could not save your booking. Please try again.');
     }
   };
 
@@ -147,88 +182,45 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
         {status === 'paypal-checkout' ? (
           <div className="py-6 text-center">
             <h3 className="mb-3 font-serif text-3xl font-medium tracking-[-0.02em] text-[#F1EEE7]">
-              {paymentOption === 'deposit' ? 'Pay €999 to Book Your Spot' : 'Complete €1,900 Payment'}
+              {`Pay ${selectedPlan.formattedInitial} today`}
             </h3>
             <p className="mb-6 font-sans text-[13px] md:text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70 max-w-sm mx-auto">
-              {paymentOption === 'deposit'
-                ? 'Your details have been saved securely. Pay €999 deposit now to book your spot (Early Bird total: €1,900).'
-                : 'Your details have been saved securely. Complete the full €1,900 Early Bird payment to reserve your spot.'}
+              {`Your details have been saved. The total pilgrimage price is ${selectedPlan.formattedTotal}.`}
             </p>
-
-            {/* Payment Option Selector (Deposit vs Full) */}
-            <div className="mb-8 grid grid-cols-2 gap-3 p-1.5 border border-[#E6DCC8]/20 bg-[#141416]/70 rounded-sm max-w-md mx-auto">
-              <button
-                type="button"
-                onClick={() => setPaymentOption('deposit')}
-                className={`py-2.5 px-3 text-center transition-all rounded-[2px] ${
-                  paymentOption === 'deposit'
-                    ? 'bg-[#E6DCC8]/15 border border-[#E6DCC8]/50 text-[#F1EEE7] shadow-sm'
-                    : 'border border-transparent text-[#EBE7DE]/50 hover:text-[#EBE7DE]/80 hover:bg-white/5'
-                }`}
-              >
-                <span className="block font-serif text-lg font-medium text-[#F1EEE7]">&euro;999</span>
-                <span className="block font-sans text-[9px] uppercase tracking-[0.15em] text-[#E6DCC8]/90 font-medium">Book Your Spot</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setPaymentOption('full')}
-                className={`py-2.5 px-3 text-center transition-all rounded-[2px] ${
-                  paymentOption === 'full'
-                    ? 'bg-[#E6DCC8]/15 border border-[#E6DCC8]/50 text-[#F1EEE7] shadow-sm'
-                    : 'border border-transparent text-[#EBE7DE]/50 hover:text-[#EBE7DE]/80 hover:bg-white/5'
-                }`}
-              >
-                <span className="block font-serif text-lg font-medium text-[#F1EEE7]">&euro;1,900</span>
-                <span className="block font-sans text-[9px] uppercase tracking-[0.15em] text-[#E6DCC8]/90 font-medium">Complete Full Payment</span>
-              </button>
-            </div>
 
             <div className="relative z-50 min-h-[150px]">
               <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test", currency: "EUR" }}>
                 <PayPalButtons
-                  key={paymentOption}
+                  key={paymentPlan}
                   style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }}
-                  createOrder={(data, actions) => {
-                    const amountValue = paymentOption === 'deposit' ? "999.00" : "1900.00";
-                    const orderDescription = paymentOption === 'deposit'
-                      ? "11 Nights / 12 Days Retreat (€999 Deposit to Book Spot)"
-                      : "11 Nights / 12 Days Retreat (Full Early Bird Payment)";
-
-                    return actions.order.create({
-                      intent: "CAPTURE",
-                      purchase_units: [
-                        {
-                          amount: {
-                            currency_code: "EUR",
-                            value: amountValue,
-                          },
-                          description: orderDescription,
-                        },
-                      ],
+                  createOrder={async () => {
+                    const response = await fetch('/api/payments/create-paypal-order', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ bookingId, installmentId }),
                     });
+                    const order = await response.json();
+                    if (!response.ok || !order.orderId) throw new Error(order.error || 'Unable to start PayPal checkout');
+                    return order.orderId;
                   }}
-                  onApprove={(data, actions) => {
-                    if (actions.order) {
-                      return actions.order.capture().then(() => {
-                        setStatus('success');
-                        // Send confirmation via server API
-                        fetch('/api/enquiry', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            name: name.trim(),
-                            email: email.trim(),
-                            phone: `${dialCode} ${phone.trim()}`,
-                            country: country.trim(),
-                            paymentMethod: 'paypal',
-                            paymentOption: paymentOption,
-                            amountPaid: paymentOption === 'deposit' ? '€999 (Deposit)' : '€1,900 (Full)',
-                            paymentConfirmed: true,
-                          }),
-                        }).catch(console.error);
-                      });
+                  onApprove={async (data) => {
+                    const response = await fetch('/api/payments/capture-paypal-order', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ orderId: data.orderID }),
+                    });
+                    const result = await response.json();
+                    if (!response.ok || !result.success) {
+                      setStatus('error');
+                      setErrorMsg(result.error || 'Payment verification failed. Contact support before retrying.');
+                      return;
                     }
-                    return Promise.resolve();
+                    setStatus('success');
+                  }}
+                  onError={(error) => {
+                    console.error('PayPal checkout error:', error);
+                    setStatus('error');
+                    setErrorMsg('PayPal could not complete this payment. Please try again or choose Wise transfer.');
                   }}
                 />
               </PayPalScriptProvider>
@@ -253,7 +245,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   Enquiry Received
                 </h3>
                 <p className="mb-8 font-sans text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-                  Thank you, {name.split(' ')[0] || 'traveler'}. Your spot is held. Please complete your transfer to finalize your booking.
+                  Thank you, {name.split(' ')[0] || 'traveler'}. Your booking {bookingReference} is saved. The bank transfer will remain pending until our team verifies it.
                 </p>
 
                 <div className="mt-8 text-left border border-[#E6DCC8]/20 bg-[#141416] p-6 shadow-inner">
@@ -275,13 +267,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                     <div className="flex justify-between items-center pb-1">
                       <span className="text-[#EBE7DE]/50">Amount</span>
                       <span className="font-medium text-right">
-                        &euro;{paymentOption === 'deposit' ? '999 (Deposit to book spot)' : '1,900 (Full Early Bird)'}
+                        {selectedPlan.formattedInitial}
                       </span>
                     </div>
                   </div>
 
                   <p className="mt-5 font-sans text-[10px] text-[#EBE7DE]/40 leading-[1.6] text-center border-t border-[#E6DCC8]/10 pt-4">
-                    Important: Please transfer &euro;{paymentOption === 'deposit' ? '999' : '1,900'} and use "{name || 'Your Full Name'}" as the transfer reference so we can match your payment.
+                    Important: Please transfer {selectedPlan.formattedInitial} and use "{bookingReference}-P1" as the transfer reference so we can match your payment.
                   </p>
                 </div>
               </>
@@ -291,7 +283,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   Payment Successful
                 </h3>
                 <p className="mb-4 font-sans text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-                  Thank you, {name.split(' ')[0] || 'traveler'}. Your Retreat is officially booked! We will contact you shortly with preparation details.
+                  Thank you, {name.split(' ')[0] || 'traveler'}. PayPal confirmed your first payment for booking {bookingReference}. We will contact you shortly with preparation details.
                 </p>
               </>
             )}
@@ -364,7 +356,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 </label>
                 <div className="flex items-end gap-3">
                   <div className="relative w-[100px] border-b border-[#E6DCC8]/20 transition-colors focus-within:border-[#E6DCC8]/60">
-                    <select
+                  <select
                       value={dialCode}
                       onChange={(e) => setDialCode(e.target.value)}
                       className="w-full appearance-none bg-transparent py-3 pl-2 pr-6 font-sans text-[14px] font-light text-[#F1EEE7] outline-none cursor-pointer"
@@ -400,10 +392,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   Country
                 </label>
                 <div className="relative border-b border-[#E6DCC8]/20 transition-colors focus-within:border-[#E6DCC8]/60">
-                  <select
+                    <select
                     id="enq-country"
                     value={country}
-                    onChange={(e) => setCountry(e.target.value)}
+                    onChange={(e) => {
+                      setCountry(e.target.value);
+                      setCountryCode(countries.find((c) => c.name === e.target.value)?.code || 'OTHER');
+                    }}
                     className="w-full appearance-none bg-transparent py-3 pl-2 pr-10 font-sans text-[14px] font-light text-[#F1EEE7] outline-none cursor-pointer"
                   >
                     <option value="" disabled className="bg-[#101012] text-[#EBE7DE]/30">Select your country</option>
@@ -416,6 +411,23 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   <ChevronDown size={16} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[#E6DCC8]/60" />
                 </div>
               </div>
+
+              <PaymentPlanSelector
+                totalPriceCents={DEFAULT_PACKAGE_PRICE_CENTS}
+                departureDate={DEFAULT_DEPARTURE_DATE}
+                selectedCountryCode={countryCode}
+                onCountryChange={(code) => {
+                  setCountryCode(code);
+                  const selectedCountry = countries.find((item) => item.code === code)
+                    || SUPPORTED_COUNTRIES.find((item) => item.code === code);
+                  if (selectedCountry) setCountry(selectedCountry.name);
+                }}
+                selectedPlan={paymentPlan}
+                onPlanChange={setPaymentPlan}
+                termsAccepted={termsAccepted}
+                onTermsAcceptedChange={setTermsAccepted}
+                onEligibilityChange={handleEligibilityChange}
+              />
 
               {/* Payment method */}
               <div className="pt-2">
