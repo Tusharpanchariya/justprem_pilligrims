@@ -61,9 +61,9 @@ export default function OurStoryPage() {
         {/* SECTION 1: WHO WE ARE (Header section with picture) */}
         <section className="pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-12 lg:px-16 max-w-[1500px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
+
             {/* Left Column: Story Content */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeInOut' }}
@@ -136,7 +136,7 @@ export default function OurStoryPage() {
             </motion.div>
 
             {/* Right Column: Founder / Header Image from about_page */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, delay: 0.2 }}
@@ -173,7 +173,7 @@ export default function OurStoryPage() {
 
           <div className="relative z-10 max-w-7xl mx-auto w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-              
+
               {/* Left side: Connect Info */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

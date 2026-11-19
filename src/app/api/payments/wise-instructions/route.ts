@@ -11,6 +11,9 @@ export async function POST(req: NextRequest) {
     const { data: booking } = await supabaseServer.from('bookings').select('id, booking_reference')
       .eq('booking_reference', bookingReference.trim().toUpperCase()).maybeSingle();
     if (!booking) return NextResponse.json({ error: 'Booking not found.' }, { status: 404 });
+    const { data: signedAgreement } = await supabaseServer.from('signed_agreements')
+      .select('id').eq('booking_id', booking.id).maybeSingle();
+    if (!signedAgreement) return NextResponse.json({ error: 'Sign the retreat agreement before making a payment.' }, { status: 409 });
     const { data: plan } = await supabaseServer.from('payment_plans').select('id')
       .eq('booking_id', booking.id).maybeSingle();
     if (!plan) return NextResponse.json({ error: 'Payment schedule not found.' }, { status: 404 });

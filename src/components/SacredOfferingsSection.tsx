@@ -175,9 +175,8 @@ export default function SacredOfferingsSection({ onEnquire }: SacredOfferingsSec
                     },
                   },
                 }}
-                className={`group flex flex-col justify-between ${
-                  isRightColumn ? 'md:pt-16 lg:pt-24' : ''
-                }`}
+                className={`group flex flex-col justify-between ${isRightColumn ? 'md:pt-16 lg:pt-24' : ''
+                  }`}
               >
                 <Link
                   href={journey.href}

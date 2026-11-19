@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, ChevronDown, ChevronUp, Download } from 'lucide-react';
 
 function formatCents(cents: number): string {
@@ -59,6 +59,34 @@ export default function AdminDashboardClient({ initialBookings, initialInstallme
   const [wiseForm, setWiseForm] = useState({ bookingId: '', installmentId: '', transferRef: '', amountCents: '', notes: '' });
   const [wiseStatus, setWiseStatus] = useState<'idle' | 'submitting' | 'done' | 'error'>('idle');
   const [wiseMsg, setWiseMsg] = useState('');
+  const [agreementTitle, setAgreementTitle] = useState('Heart of the Himalayas Retreat Terms & Conditions');
+  const [agreementVersion, setAgreementVersion] = useState('2026-11-v1');
+  const [agreementContent, setAgreementContent] = useState('');
+  const [agreementLegalReviewed, setAgreementLegalReviewed] = useState(false);
+  const [agreementMessage, setAgreementMessage] = useState('');
+  const [agreementBusy, setAgreementBusy] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/agreements?admin=1', { headers: { 'x-admin-secret': adminKey } })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Could not load agreement versions.');
+        const current = data.terms?.find((item: any) => item.pilgrimage_slug === 'nepal-himalaya-2027' && item.status === 'published')
+          || data.terms?.find((item: any) => item.pilgrimage_slug === 'nepal-himalaya-2027');
+        if (current) { setAgreementTitle(current.title); setAgreementVersion(current.version); setAgreementContent(current.content); }
+      }).catch((error) => setAgreementMessage(error.message));
+  }, [adminKey]);
+
+  const saveAgreement = async (status: 'draft' | 'published') => {
+    setAgreementBusy(true); setAgreementMessage('');
+    try {
+      const response = await fetch('/api/agreements', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-secret': adminKey }, body: JSON.stringify({ action: 'manage_terms', pilgrimageSlug: 'nepal-himalaya-2027', title: agreementTitle, version: agreementVersion, content: agreementContent, status, legalReviewed: agreementLegalReviewed }) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Could not save the agreement.');
+      setAgreementMessage(status === 'published' ? `Version ${agreementVersion} is published.` : `Draft ${agreementVersion} is saved.`);
+    } catch (error) { setAgreementMessage(error instanceof Error ? error.message : 'Could not save the agreement.'); }
+    finally { setAgreementBusy(false); }
+  };
 
   const filteredBookings = bookings.filter((b) => {
     if (activeTab === 'all') return true;
@@ -168,6 +196,19 @@ export default function AdminDashboardClient({ initialBookings, initialInstallme
             </div>
           ))}
         </div>
+
+        <section className="mb-10 border border-[#E6DCC8]/15 bg-[#141416] p-5 sm:p-7">
+          <h2 className="mb-2 font-sans text-[10px] font-medium uppercase tracking-[0.25em] text-[#E6DCC8]/70">Retreat Terms &amp; Conditions</h2>
+          <p className="mb-5 text-[11px] leading-relaxed text-[#EBE7DE]/45">Edit a versioned agreement. Publishing archives the previous live version; existing signed agreements keep their original snapshot. Verify legal and jurisdiction-specific language before publishing.</p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="text-[10px] uppercase tracking-widest text-[#EBE7DE]/50">Version<input value={agreementVersion} onChange={(event) => setAgreementVersion(event.target.value)} className="mt-2 block w-full border border-[#E6DCC8]/15 bg-[#101012] px-3 py-2 text-sm normal-case tracking-normal text-[#F1EEE7]" /></label>
+            <label className="text-[10px] uppercase tracking-widest text-[#EBE7DE]/50">Document title<input value={agreementTitle} onChange={(event) => setAgreementTitle(event.target.value)} className="mt-2 block w-full border border-[#E6DCC8]/15 bg-[#101012] px-3 py-2 text-sm normal-case tracking-normal text-[#F1EEE7]" /></label>
+          </div>
+          <label className="mt-4 block text-[10px] uppercase tracking-widest text-[#EBE7DE]/50">Agreement content<textarea value={agreementContent} onChange={(event) => setAgreementContent(event.target.value)} rows={12} className="mt-2 block w-full border border-[#E6DCC8]/15 bg-[#101012] px-3 py-3 text-sm normal-case leading-relaxed tracking-normal text-[#F1EEE7]" placeholder="Enter the complete retreat agreement, including payment, cancellation, safety, privacy, and governing-law terms." /></label>
+          <label className="mt-4 flex items-start gap-2 text-xs text-[#EBE7DE]/60"><input type="checkbox" checked={agreementLegalReviewed} onChange={(event) => setAgreementLegalReviewed(event.target.checked)} className="mt-0.5 accent-[#DFC498]" />I confirm the jurisdiction-specific clauses and commercial policy have been reviewed before publication.</label>
+          {agreementMessage && <p className="mt-3 text-xs text-amber-300">{agreementMessage}</p>}
+          <div className="mt-4 flex flex-wrap gap-3"><button disabled={agreementBusy} onClick={() => saveAgreement('draft')} className="border border-[#E6DCC8]/25 px-4 py-2 text-xs text-[#EBE7DE]/80 disabled:opacity-50">Save Draft</button><button disabled={agreementBusy || !agreementLegalReviewed} onClick={() => saveAgreement('published')} className="bg-[#DFC498] px-4 py-2 text-xs text-[#101012] disabled:opacity-50">Publish New Version</button></div>
+        </section>
 
         {/* Bookings Table */}
         <div className="border border-[#E6DCC8]/15 bg-[#141416] mb-10">

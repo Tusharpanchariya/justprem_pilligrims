@@ -19,10 +19,10 @@ export default function CreateRetreatSection({ onEnquire }: CreateRetreatSection
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-24 items-center">
-          
+
           {/* LEFT COLUMN: Editorial Typography & Call-To-Action */}
           <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center">
-            
+
             {/* 1. Eyebrow */}
             <motion.div
               initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }}
@@ -110,7 +110,7 @@ export default function CreateRetreatSection({ onEnquire }: CreateRetreatSection
           {/* RIGHT COLUMN: Large, Premium Retreat-Location Photograph */}
           <div className="lg:col-span-5 xl:col-span-6 w-full">
             <div className="relative group">
-              
+
               {/* Outer clipping mask container */}
               <motion.div
                 initial={{
@@ -137,7 +137,7 @@ export default function CreateRetreatSection({ onEnquire }: CreateRetreatSection
                     loading="lazy"
                     decoding="async"
                   />
-                  
+
                   {/* Subtle warm ambient film treatment layer */}
                   <div className="absolute inset-0 bg-[#F3EFE5]/5 mix-blend-multiply pointer-events-none" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#292B22]/20 via-transparent to-transparent pointer-events-none opacity-40 transition-opacity duration-700 group-hover:opacity-20" />

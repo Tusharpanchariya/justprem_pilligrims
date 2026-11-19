@@ -23,6 +23,9 @@ interface BookingData {
   totalPriceCents: number;
   bookingStatus: string;
   createdAt: string;
+  agreementReference?: string | null;
+  agreementVersion?: string | null;
+  agreementSignedAt?: string | null;
 }
 
 interface PlanData {
@@ -236,6 +239,14 @@ export default function MyBookingPage() {
                 <StatusBadge status={booking.bookingStatus} />
               </div>
               <h2 className="font-serif text-2xl font-light text-[#F1EEE7] mb-2">{booking.pilgrimageTitle}</h2>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                {booking.agreementReference ? (
+                  <>
+                    <span className="border border-emerald-500/30 bg-emerald-900/10 px-3 py-2 text-[11px] text-emerald-400">Document Signed Successfully · v{booking.agreementVersion}</span>
+                    <a href={`/api/agreements?download=1&ref=${encodeURIComponent(booking.bookingReference)}&email=${encodeURIComponent(booking.customerEmail)}`} className="border border-[#E6DCC8]/30 px-3 py-2 text-[11px] text-[#E6DCC8] hover:border-[#E6DCC8]/60">Download Signed Agreement (PDF)</a>
+                  </>
+                ) : <span className="border border-amber-500/30 px-3 py-2 text-[11px] text-amber-400">Agreement not signed</span>}
+              </div>
               <div className="flex flex-wrap gap-6 mt-4">
                 <div>
                   <p className="font-sans text-[9px] font-medium uppercase tracking-[0.18em] text-[#EBE7DE]/40 mb-1">Departure</p>

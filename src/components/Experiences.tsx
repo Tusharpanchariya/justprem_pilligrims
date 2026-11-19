@@ -2,23 +2,23 @@ import { images } from '@/data/images';
 
 const experiences = [
   {
-    title: 'The Living Himalayas',
-    desc: 'Meet Nepal through its living culture and traditions.',
+    title: 'Meet the Soul of Nepal',
+    desc: 'Connect with the Land and its people.',
     img: images.sacredEncounters,
   },
   {
-    title: 'Mountain Trekking',
-    desc: 'Walk through villages, forests, valleys, and dramatic Himalayan landscapes.',
+    title: 'Into the Heart of the Himalayas ',
+    desc: 'Embrace the adventure and new discovery',
     img: images.himalayanSilence,
   },
   {
-    title: 'Spiritual Heritage',
-    desc: "Experience Nepal's spiritual heritage through temples and sacred rituals.",
+    title: 'Where Ancient Wisdom Lives ',
+    desc: "Explore culture and spirituality.",
     img: images.ancientWisdom,
   },
   {
-    title: 'Kirtan & Sacred Sound',
-    desc: 'Chant, sing, and connect through the transformative power of sound.',
+    title: 'The Heart Opens Through Sound ',
+    desc: 'bhakti and devotion',
     img: images.mountainWalks,
   },
   {
@@ -45,10 +45,13 @@ export default function Experiences() {
             The Nepal Experience
           </p>
           <h2 className="reveal reveal-delay-1 font-serif text-4xl font-light leading-tight text-ivory md:text-6xl lg:text-7xl">
-        Explore Nepal Beyond the Usual
+            Step Into a World Unlike Any Other
+
           </h2>
           <p className="reveal reveal-delay-2 mt-6 max-w-3xl text-sm font-light leading-relaxed text-stone/70 md:text-base lg:text-lg">
-            Our retreat goes beyond a typical trekking journey. Alongside exploring Nepal&apos;s natural beauty and cultural heritage, we&apos;ll visit sacred places and temples, practise yoga and mantra chanting, and learn about the philosophy behind these traditions for a more immersive experience.
+            Discover Nepal, where ancient temples, Buddhist stupas and sacred traditions are woven into everyday life. From the vibrant streets of Kathmandu and the royal squares of Bhaktapur to remote Himalayan villages, every place reveals a unique side of this extraordinary Land.
+            Hear the temple bells, witness sacred rituals and feel the peaceful rhythm of life in the mountains. Let Nepal become more than a journey through a beautiful country - let it be a journey within oneself. Slow down, reconnect with yourself and discover the living spirit of the Himalayas.
+
           </p>
         </div>
 

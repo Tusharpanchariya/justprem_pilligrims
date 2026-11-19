@@ -1,6 +1,6 @@
 import { PlanType, CalculatedPlan, CalculatedInstallment } from './types';
 import { getCountryByCode } from './countries';
-import { DEFAULT_DEPARTURE_DATE, DEFAULT_PACKAGE_PRICE_CENTS } from './catalog';
+import { DEFAULT_DEPARTURE_DATE, DEFAULT_INSTALLMENT_DUE_DATES, DEFAULT_PACKAGE_PRICE_CENTS, isInstallmentBookingWindowOpen } from './catalog';
 
 export function formatCentsToEuros(cents: number): string {
   const euros = cents / 100;
@@ -49,6 +49,8 @@ export function calculateDefaultDueDates(departureDateStr: string) {
 
 export interface CalculatePlansOptions {
   totalPriceCents?: number;
+  installmentTotalPriceCents?: number;
+  bookingDueExtraCents?: number;
   departureDate?: string;
   countryCode?: string;
   isCountryPlanEnabled?: boolean;
@@ -66,21 +68,23 @@ export function calculateAllPaymentPlans(options: CalculatePlansOptions = {}): C
   const countryCode = options.countryCode || 'GB';
   const country = getCountryByCode(countryCode);
 
-  const isEnabled =
-    options.emergencyDisabled === true
-      ? false
-      : options.isCountryPlanEnabled !== undefined
-      ? options.isCountryPlanEnabled
-      : country.defaultPlanEnabled;
-  const isPlanApproved = (planType: PlanType) => isEnabled && (options.approvedPlanTypes
-    ? options.approvedPlanTypes.includes(planType)
-    : true);
+  const isEnabled = options.emergencyDisabled === true ? false : true;
+  const isPlanApproved = (planType: PlanType) =>
+    isEnabled && (options.approvedPlanTypes ? options.approvedPlanTypes.includes(planType) : true);
 
-  const { secondDueDate: defaultSecond, thirdDueDate: defaultThird } = calculateDefaultDueDates(departureDate);
+  const calculatedDates = departureDate === DEFAULT_DEPARTURE_DATE
+    ? DEFAULT_INSTALLMENT_DUE_DATES
+    : calculateDefaultDueDates(departureDate);
+  const { secondDueDate: defaultSecond, thirdDueDate: defaultThird } = calculatedDates;
   const secondDueDate = options.customDueDates?.secondDueDate || defaultSecond;
   const thirdDueDate = options.customDueDates?.thirdDueDate || defaultThird;
 
   const todayStr = new Date().toISOString().split('T')[0];
+  const hasFutureSchedule = secondDueDate >= todayStr && thirdDueDate >= todayStr && secondDueDate < thirdDueDate;
+  const withinBookingWindow = isInstallmentBookingWindowOpen();
+  const installmentTotalCents = options.installmentTotalPriceCents ?? totalPriceCents;
+  const bookingDueExtraCents = Math.max(0, options.bookingDueExtraCents ?? 0);
+  const installmentPlanTotalCents = installmentTotalCents + bookingDueExtraCents;
 
   // 1. Full Payment Plan
   const fullPlan: CalculatedPlan = {
@@ -109,22 +113,22 @@ export function calculateAllPaymentPlans(options: CalculatePlansOptions = {}): C
   };
 
   // 2. Two-Part Payment Plan (50% / 50%)
-  const twoPartInitialCents = Math.floor(totalPriceCents / 2);
-  const twoPartSecondCents = totalPriceCents - twoPartInitialCents;
+  const twoPartBaseInitialCents = Math.floor(installmentTotalCents / 2);
+  const twoPartInitialCents = twoPartBaseInitialCents + bookingDueExtraCents;
+  const twoPartSecondCents = installmentTotalCents - twoPartBaseInitialCents;
   const twoPartsPlan: CalculatedPlan = {
     planType: 'two_parts',
     title: 'Two Instalments',
     subtitle: '50% today to secure your place, remainder before departure.',
-    totalAmountCents: totalPriceCents,
-    formattedTotal: formatCentsToEuros(totalPriceCents),
+    totalAmountCents: installmentPlanTotalCents,
+    formattedTotal: formatCentsToEuros(installmentPlanTotalCents),
     initialPaymentCents: twoPartInitialCents,
     formattedInitial: formatCentsToEuros(twoPartInitialCents),
     remainingBalanceCents: twoPartSecondCents,
     formattedRemaining: formatCentsToEuros(twoPartSecondCents),
-    legallyApproved: isPlanApproved('two_parts'),
-    disclaimer: isEnabled
-      ? 'Interest-free scheduled payments offered directly by JustPrem (VITTHAL PREM TRAVELS LLP). Not a loan or third-party credit product.'
-      : `Scheduled instalment payments are currently pending regulatory review for ${country.name}. Full payment is available.`,
+    legallyApproved: isPlanApproved('two_parts') && hasFutureSchedule && withinBookingWindow,
+    disclaimer:
+      'Interest-free scheduled payments offered directly by JustPrem (VITTHAL PREM TRAVELS LLP). Not a loan or third-party credit product.',
     installments: [
       {
         number: 1,
@@ -147,30 +151,29 @@ export function calculateAllPaymentPlans(options: CalculatePlansOptions = {}): C
     ],
   };
 
-  // 3. Three-Part Payment Plan (50% / 25% / 25%)
-  const threePartInitialCents = Math.floor(totalPriceCents / 2);
-  const threePartRemaining = totalPriceCents - threePartInitialCents;
-  const threePartSecondCents = Math.floor(threePartRemaining / 2);
-  const threePartThirdCents = threePartRemaining - threePartSecondCents;
+  // 3. Three equal instalments; the booking deposit is the first instalment.
+  const threePartBaseInitialCents = Math.floor(installmentTotalCents / 3);
+  const threePartInitialCents = threePartBaseInitialCents + bookingDueExtraCents;
+  const threePartSecondCents = threePartBaseInitialCents;
+  const threePartThirdCents = installmentTotalCents - threePartBaseInitialCents - threePartSecondCents;
 
   const threePartsPlan: CalculatedPlan = {
     planType: 'three_parts',
-    title: 'Three Instalments',
-    subtitle: '50% today, then two balanced quarterly instalments.',
-    totalAmountCents: totalPriceCents,
-    formattedTotal: formatCentsToEuros(totalPriceCents),
+    title: 'Three Equal Instalments',
+    subtitle: 'One-third due at booking, followed by two scheduled payments.',
+    totalAmountCents: installmentPlanTotalCents,
+    formattedTotal: formatCentsToEuros(installmentPlanTotalCents),
     initialPaymentCents: threePartInitialCents,
     formattedInitial: formatCentsToEuros(threePartInitialCents),
     remainingBalanceCents: threePartSecondCents + threePartThirdCents,
     formattedRemaining: formatCentsToEuros(threePartSecondCents + threePartThirdCents),
-    legallyApproved: isPlanApproved('three_parts'),
-    disclaimer: isEnabled
-      ? 'Interest-free scheduled payments offered directly by JustPrem (VITTHAL PREM TRAVELS LLP). Not a loan or third-party credit product.'
-      : `Scheduled instalment payments are currently pending regulatory review for ${country.name}. Full payment is available.`,
+    legallyApproved: isPlanApproved('three_parts') && hasFutureSchedule && withinBookingWindow,
+    disclaimer:
+      'Interest-free scheduled payments offered directly by JustPrem (VITTHAL PREM TRAVELS LLP). Not a loan or third-party credit product.',
     installments: [
       {
         number: 1,
-        label: 'First Instalment (50%)',
+        label: 'Booking Deposit (First Instalment)',
         amountCents: threePartInitialCents,
         formattedAmount: formatCentsToEuros(threePartInitialCents),
         dueDate: todayStr,
@@ -179,7 +182,7 @@ export function calculateAllPaymentPlans(options: CalculatePlansOptions = {}): C
       },
       {
         number: 2,
-        label: 'Second Instalment (25%)',
+        label: 'Second Instalment',
         amountCents: threePartSecondCents,
         formattedAmount: formatCentsToEuros(threePartSecondCents),
         dueDate: secondDueDate,
@@ -188,7 +191,7 @@ export function calculateAllPaymentPlans(options: CalculatePlansOptions = {}): C
       },
       {
         number: 3,
-        label: 'Final Instalment (25%)',
+        label: 'Final Instalment',
         amountCents: threePartThirdCents,
         formattedAmount: formatCentsToEuros(threePartThirdCents),
         dueDate: thirdDueDate,

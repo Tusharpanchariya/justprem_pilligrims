@@ -60,8 +60,8 @@ export default function NepalHero({ onEnquire }: NepalHeroProps) {
         </h1>
 
         <p className="reveal reveal-delay-3 font-sans text-[15px] md:text-[18px] font-normal leading-[1.55] max-w-[620px] text-[#F5F2EB]/82 mb-[72px]">
-         Sometimes the best thing we can do is step away from our usual lives and take a different path.
-A path through the mountains, towards sacred places, surrounded by nature and the spirit of pilgrimage
+          Sometimes the best thing we can do is step away from our usual lives and take a different path.
+          A path through the mountains, towards sacred places, surrounded by nature and the spirit of pilgrimage
         </p>
 
         <div className="reveal reveal-delay-5 flex flex-col items-center justify-center gap-5">

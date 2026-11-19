@@ -16,11 +16,11 @@ const destinations: Destination[] = [
   {
     num: '01',
     name: 'Kathmandu',
-    desc: 'Ancient temples &middot; sacred beginnings &middot; living culture',
+    desc: 'HIMALAYAN GATEWAY; BUDDHIST HERITAGE; COLOURFUL BAZAARS',
     img: '/places_images/kathmandu2.jpg',
     elevation: '~1,400 m',
     story:
-      'Kathmandu is the capital city of Nepal and the starting point of our retreat for discovering the country’s rich culture and spiritual heritage. Ancient temples, traditional architecture, and lively local markets will offer us a first glimpse into Nepal’s traditions and everyday life.',
+      'Kathmandu is where our journey begins. A beautiful mix of ancient temples, Buddhist stupas, colourful streets and busy local markets. Everywhere you look, there is something to discover: from sacred places and traditional architecture to the unique everyday life of the people. It’s an intimate first encounter with Nepal, its history, culture & traditions. ',
   },
   {
     num: '02',
@@ -97,7 +97,7 @@ const destinations: Destination[] = [
   {
     num: '10',
     name: 'Muktinath',
-    desc: 'Sacred Retreat &middot; spiritual liberation',
+    desc: '108 WATERS ; ONE DIVINE SOURCE; PATH TO MOKSHA ',
     img: '/places_images/muktinath.jpg',
     elevation: '~3,800 m',
     story:
@@ -300,11 +300,10 @@ export default function JourneyTimeline() {
                   <div className="relative mb-6 flex justify-center items-center">
                     <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-antique-gold/40 -z-10" />
                     <div
-                      className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                        isActive
-                          ? 'bg-antique-gold ring-4 ring-antique-gold/20 scale-125'
-                          : 'bg-charcoal border border-antique-gold/60 group-hover:bg-antique-gold/70'
-                      }`}
+                      className={`h-3 w-3 rounded-full transition-all duration-300 ${isActive
+                        ? 'bg-antique-gold ring-4 ring-antique-gold/20 scale-125'
+                        : 'bg-charcoal border border-antique-gold/60 group-hover:bg-antique-gold/70'
+                        }`}
                     />
                   </div>
 
@@ -355,11 +354,10 @@ export default function JourneyTimeline() {
                   key={idx}
                   onClick={() => scrollToIndex(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    idx === activeIndex
-                      ? 'w-6 bg-antique-gold'
-                      : 'w-1.5 bg-stone/30 hover:bg-antique-gold/50'
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeIndex
+                    ? 'w-6 bg-antique-gold'
+                    : 'w-1.5 bg-stone/30 hover:bg-antique-gold/50'
+                    }`}
                 />
               ))}
             </div>

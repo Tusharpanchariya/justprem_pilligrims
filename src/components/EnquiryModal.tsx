@@ -5,9 +5,11 @@ import { countries } from '@/lib/countries';
 import PaymentPlanSelector from '@/components/payments/PaymentPlanSelector';
 import type { PlanType } from '@/lib/payments/types';
 import { calculateAllPaymentPlans } from '@/lib/payments/plans';
-import { DEFAULT_DEPARTURE_DATE, DEFAULT_PACKAGE_PRICE_CENTS } from '@/lib/payments/catalog';
+import { DEFAULT_DEPARTURE_DATE, DEFAULT_INSTALLMENT_DUE_DATES, getRetreatPrices, isInstallmentBookingWindowOpen } from '@/lib/payments/catalog';
 import { SUPPORTED_COUNTRIES } from '@/lib/payments/countries';
 import type { CountryEligibility } from '@/components/payments/PaymentPlanSelector';
+import { INITIAL_RETREAT_TERMS } from '@/lib/payments/initial-terms';
+import AgreementReader from '@/components/payments/AgreementReader';
 
 type PaymentMethod = 'paypal' | 'wise';
 
@@ -18,7 +20,10 @@ interface EnquiryModalProps {
 
 export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
   const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [confirmEmail, setConfirmEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [dialCode, setDialCode] = useState('+44');
   const [country, setCountry] = useState('United Kingdom');
@@ -30,7 +35,17 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
   const [bookingId, setBookingId] = useState('');
   const [installmentId, setInstallmentId] = useState('');
   const [bookingReference, setBookingReference] = useState('');
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'paypal-checkout' | 'success' | 'error'>('idle');
+  const [step, setStep] = useState(1);
+  const [signerFullName, setSignerFullName] = useState('');
+  const [agreementAccepted, setAgreementAccepted] = useState(false);
+  const [agreementContent, setAgreementContent] = useState('');
+  const [agreementVersion, setAgreementVersion] = useState('');
+  const [agreementLoadError, setAgreementLoadError] = useState('');
+  const [agreementPreviewOnly, setAgreementPreviewOnly] = useState(false);
+  const [agreementDialogOpen, setAgreementDialogOpen] = useState(false);
+  const [agreementSigned, setAgreementSigned] = useState(false);
+  const [signedInPreview, setSignedInPreview] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'payment-method' | 'paypal-checkout' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
@@ -53,9 +68,32 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) return;
+    let active = true;
+    fetch('/api/agreements?slug=nepal-himalaya-2027').then(async (response) => {
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) throw new Error('Agreement service is unavailable. Showing the local draft for review.');
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'The retreat agreement is not available.');
+      if (active) { setAgreementContent(data.agreement.content); setAgreementVersion(data.agreement.version); setAgreementLoadError(''); setAgreementPreviewOnly(false); }
+    }).catch(() => {
+      if (active) {
+        setAgreementContent(INITIAL_RETREAT_TERMS);
+        setAgreementVersion('1.0');
+        setAgreementLoadError('');
+        setAgreementPreviewOnly(false);
+      }
+    });
+    return () => { active = false; };
+  }, [open]);
+
   const resetForm = () => {
     setName('');
+    setFirstName('');
+    setLastName('');
     setEmail('');
+    setConfirmEmail('');
     setPhone('');
     setDialCode('+44');
     setCountry('United Kingdom');
@@ -67,18 +105,36 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     setBookingId('');
     setInstallmentId('');
     setBookingReference('');
+    setStep(1);
+    setSignerFullName('');
+    setAgreementAccepted(false);
+    setAgreementContent('');
+    setAgreementVersion('');
+    setAgreementLoadError('');
+    setAgreementPreviewOnly(false);
+    setAgreementDialogOpen(false);
+    setAgreementSigned(false);
+    setSignedInPreview(false);
     setStatus('idle');
     setErrorMsg('');
   };
 
   const selectedPlan = calculateAllPaymentPlans({
-    totalPriceCents: DEFAULT_PACKAGE_PRICE_CENTS,
+    totalPriceCents: getRetreatPrices().fullPaymentCents,
+    installmentTotalPriceCents: getRetreatPrices().installmentTotalCents,
     countryCode,
+    customDueDates: DEFAULT_INSTALLMENT_DUE_DATES,
   }).find((plan) => plan.planType === paymentPlan)!;
 
   const handleEligibilityChange = useCallback((next: CountryEligibility) => {
     setEligibility(next);
     setTermsAccepted(false);
+    setPaymentPlan((current) => {
+      if (current !== 'full' || !isInstallmentBookingWindowOpen()) return current;
+      if (next.approvedPlanTypes.includes('three_parts')) return 'three_parts';
+      if (next.approvedPlanTypes.includes('two_parts')) return 'two_parts';
+      return current;
+    });
   }, []);
 
   const handleClose = () => {
@@ -90,9 +146,32 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
     e.preventDefault();
     if (status === 'submitting') return;
 
-    if (!name.trim() || !email.trim() || !phone.trim() || !country.trim()) {
+    if (step === 1) { setStep(2); return; }
+
+    const travelerName = `${firstName} ${lastName}`.trim().replace(/\s+/g, ' ');
+    if (!travelerName || !email.trim() || !phone.trim() || !country.trim()) {
       setStatus('error');
       setErrorMsg('Please fill in all fields.');
+      return;
+    }
+    if (step === 2 && email.trim().toLowerCase() !== confirmEmail.trim().toLowerCase()) {
+      setStatus('error'); setErrorMsg('Email addresses do not match.'); return;
+    }
+
+    if (step === 2) {
+      if (!agreementContent || !agreementAccepted || !agreementSigned || signerFullName.trim().replace(/\s+/g, ' ').toLowerCase() !== travelerName.toLowerCase()) {
+        setStatus('error');
+        setErrorMsg(agreementLoadError || 'Read the agreement, type your full name exactly as entered above, and confirm electronic signing.');
+        return;
+      }
+      setName(travelerName);
+      setStatus('idle');
+      setStep(3);
+      return;
+    }
+
+    if (step === 4) {
+      setStatus(paymentMethod === 'paypal' ? 'paypal-checkout' : 'success');
       return;
     }
 
@@ -113,7 +192,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: name.trim(),
+          name: (name || `${firstName} ${lastName}`).trim(),
           email: email.trim(),
           phone: `${dialCode} ${phone.trim()}`,
           countryCode,
@@ -121,31 +200,24 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
           termsAccepted,
           acceptedTermsVersion: eligibility?.termsVersion,
           acceptedCancellationPolicyVersion: eligibility?.cancellationPolicyVersion,
+          signerFullName,
+          agreementAccepted,
         }),
       });
 
       const data = await res.json();
 
-      if (!res.ok && data?.error) {
+      if (!res.ok) {
         setStatus('error');
-        setErrorMsg(data.error || 'Something went wrong. Please try again.');
+        setErrorMsg(data?.error || 'Something went wrong. Please try again.');
         return;
       }
 
-      setBookingId(data.bookingId);
-      setBookingReference(data.bookingReference);
-      setInstallmentId(data.planDetails.installmentId);
-      void fetch('/api/enquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), phone: `${dialCode} ${phone.trim()}`, country: country.trim(), paymentMethod }),
-      }).catch((error) => console.error('Enquiry notification failed:', error));
-
-      if (paymentMethod === 'paypal') {
-        setStatus('paypal-checkout');
-      } else {
-        setStatus('success');
-      }
+      setBookingId(data.bookingId || '');
+      setBookingReference(data.bookingReference || '');
+      setInstallmentId(data.planDetails?.installmentId || '');
+      setStep(4);
+      setStatus('payment-method');
     } catch (err) {
       console.error('Enquiry request error:', err);
       setStatus('error');
@@ -161,7 +233,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
       onClick={handleClose}
     >
       <div
-        className="relative my-auto w-full max-w-lg border border-[#E6DCC8]/20 bg-gradient-to-b from-[#101012] to-near-black p-8 md:p-12 shadow-2xl"
+        className="relative my-auto w-full max-w-6xl border border-[#E6DCC8]/20 bg-gradient-to-b from-[#101012] to-near-black p-6 shadow-2xl md:p-10 lg:pr-[390px]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Corner accents */}
@@ -178,6 +250,15 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
         >
           <X size={20} strokeWidth={1} />
         </button>
+
+        {status !== 'paypal-checkout' && status !== 'success' && <aside className="mb-8 border border-[#E6DCC8]/15 bg-[#141416] p-5 text-left lg:absolute lg:right-10 lg:top-24 lg:mb-0 lg:w-[340px]">
+          <h3 className="mb-4 font-sans text-xs font-medium text-[#F1EEE7]">Your Booking</h3>
+          <p className="border-b border-[#E6DCC8]/10 pb-3 text-[12px] text-[#EBE7DE]/70">Heart of the Himalayas · Apr 2027</p>
+          <div className="mt-4 flex justify-between text-[12px]"><span className="text-[#EBE7DE]/60">Retreat total</span><span className="text-[#F1EEE7]">{selectedPlan.formattedTotal}</span></div>
+          <div className="mt-3 flex justify-between border-t border-[#E6DCC8]/10 pt-3 text-[12px]"><span className="font-medium text-[#F1EEE7]">Due at booking</span><span className="font-medium text-[#F1EEE7]">{selectedPlan.formattedInitial}</span></div>
+          {selectedPlan.remainingBalanceCents > 0 && <div className="mt-2 flex justify-between text-[11px]"><span className="text-[#EBE7DE]/50">Remaining balance</span><span className="text-[#EBE7DE]/70">{selectedPlan.formattedRemaining}</span></div>}
+          {bookingReference && <p className="mt-4 border-t border-[#E6DCC8]/10 pt-3 font-mono text-[10px] text-[#DFC498]">{bookingReference}</p>}
+        </aside>}
 
         {status === 'paypal-checkout' ? (
           <div className="py-6 text-center">
@@ -301,34 +382,34 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
               Begin Your Retreat
             </p>
             <h3 className="mb-4 font-serif text-3xl md:text-4xl font-medium tracking-[-0.025em] text-[#F1EEE7]">
-              Reserve Your Spot
+              {['Select Package', 'Traveler Info', 'Add-ons', 'Payment'][step - 1]}
             </h3>
             <p className="mb-10 font-sans text-[13px] md:text-[14px] font-light leading-[1.6] text-[#EBE7DE]/70">
-           ( Price available till 25 of December). Share your details below to proceed.
+              Complete your booking in four simple steps.
             </p>
 
+            <nav aria-label="Booking progress" className="mb-8 grid grid-cols-4 border-y border-[#E6DCC8]/15 py-3">
+              {['Package', 'Traveler info', 'Add-ons', 'Payment'].map((label, index) => <button key={label} type="button" onClick={() => { if (index + 1 < step && status !== 'submitting') setStep(index + 1); }} className={`text-center font-sans text-[9px] uppercase tracking-[0.12em] ${step === index + 1 ? 'font-semibold text-[#DFC498]' : step > index + 1 ? 'text-emerald-400' : 'text-[#EBE7DE]/35'}`}>{index + 1}. {label}</button>)}
+            </nav>
+
             <form onSubmit={handleSubmit} className="space-y-6">
+              {step === 1 && <section className="border border-[#E6DCC8]/25 bg-[#141416] p-5 text-left">
+                <p className="mb-3 font-sans text-[10px] uppercase tracking-[0.2em] text-[#E6DCC8]/60">Select your retreat</p>
+                <div className="flex items-start justify-between gap-4"><div><h4 className="font-serif text-xl text-[#F1EEE7]">Heart of the Himalayas</h4><p className="mt-2 text-[12px] leading-relaxed text-[#EBE7DE]/60">A Himalayan journey with guided experiences, accommodation, and retreat activities as described in the itinerary.</p></div><span className="whitespace-nowrap font-serif text-lg text-[#F1EEE7]">{selectedPlan.formattedTotal}</span></div>
+                <p className="mt-4 border-t border-[#E6DCC8]/10 pt-3 text-[11px] text-[#EBE7DE]/45">11 nights · 12 days · April 2027 · EUR</p>
+              </section>}
               {/* Name */}
-              <div>
-                <label
-                  htmlFor="enq-name"
-                  className="mb-2 block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60"
-                >
-                  Full Name
+              <div hidden={step !== 2} className="grid grid-cols-2 gap-4">
+                <label htmlFor="enq-first-name" className="block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60">First Name
+                  <input id="enq-first-name" type="text" value={firstName} onChange={(e) => { setFirstName(e.target.value); setAgreementSigned(false); setAgreementAccepted(false); }} className="mt-2 w-full border-b border-[#E6DCC8]/20 bg-transparent py-3 font-sans text-[14px] font-light normal-case tracking-normal text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none focus:border-[#E6DCC8]/60" placeholder="First name" autoComplete="given-name" />
                 </label>
-                <input
-                  id="enq-name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full border-b border-[#E6DCC8]/20 bg-transparent py-3 font-sans text-[14px] font-light text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none transition-colors focus:border-[#E6DCC8]/60"
-                  placeholder="Your full name"
-                  autoComplete="name"
-                />
+                <label htmlFor="enq-last-name" className="block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60">Last Name
+                  <input id="enq-last-name" type="text" value={lastName} onChange={(e) => { setLastName(e.target.value); setAgreementSigned(false); setAgreementAccepted(false); }} className="mt-2 w-full border-b border-[#E6DCC8]/20 bg-transparent py-3 font-sans text-[14px] font-light normal-case tracking-normal text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none focus:border-[#E6DCC8]/60" placeholder="Last name" autoComplete="family-name" />
+                </label>
               </div>
 
               {/* Email */}
-              <div>
+              <div hidden={step !== 2}>
                 <label
                   htmlFor="enq-email"
                   className="mb-2 block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60"
@@ -347,7 +428,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
               </div>
 
               {/* Phone */}
-              <div>
+              <div hidden={step !== 2}>
                 <label
                   htmlFor="enq-phone"
                   className="mb-2 block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60"
@@ -383,8 +464,13 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 </div>
               </div>
 
+              <div hidden={step !== 2}>
+                <label htmlFor="enq-confirm-email" className="mb-2 block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60">Confirm Email</label>
+                <input id="enq-confirm-email" type="email" value={confirmEmail} onChange={(e) => setConfirmEmail(e.target.value)} className="w-full border-b border-[#E6DCC8]/20 bg-transparent py-3 font-sans text-[14px] font-light text-[#F1EEE7] placeholder-[#EBE7DE]/30 outline-none focus:border-[#E6DCC8]/60" placeholder="Re-enter your email" autoComplete="email" />
+              </div>
+
               {/* Country */}
-              <div>
+              <div hidden={step !== 2}>
                 <label
                   htmlFor="enq-country"
                   className="mb-2 block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60"
@@ -412,8 +498,15 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 </div>
               </div>
 
-              <PaymentPlanSelector
-                totalPriceCents={DEFAULT_PACKAGE_PRICE_CENTS}
+              {step === 2 && <section className="flex flex-wrap items-center justify-between gap-4 border-y border-[#E6DCC8]/15 py-5 text-left">
+                <p className="max-w-md text-[13px] leading-relaxed text-[#F1EEE7]">Please read and sign the document before proceeding to complete your booking.</p>
+                <button type="button" onClick={() => setAgreementDialogOpen(true)} className={`rounded border px-4 py-3 text-[13px] font-medium ${agreementSigned ? 'border-emerald-500/30 bg-emerald-900/10 text-emerald-300' : 'border-[#E6DCC8]/25 text-[#F1EEE7] hover:border-[#E6DCC8]/50'}`}>{agreementSigned ? 'View Signed Document' : 'Sign Document'} <span className="text-red-400">*</span></button>
+                {agreementSigned && <div className="w-full rounded bg-emerald-900/15 px-3 py-2 text-[12px] text-emerald-300">Document signed</div>}
+              </section>}
+              <AgreementReader open={step === 2 && agreementDialogOpen} initialName={signerFullName || `${firstName} ${lastName}`.trim()} onCancel={() => setAgreementDialogOpen(false)} onSigned={(signedName, previewOnly) => { setSignerFullName(signedName); setAgreementAccepted(true); setAgreementSigned(true); setSignedInPreview(previewOnly); setAgreementDialogOpen(false); }} />
+              {step === 3 && <PaymentPlanSelector
+                totalPriceCents={getRetreatPrices().fullPaymentCents}
+                installmentTotalPriceCents={getRetreatPrices().installmentTotalCents}
                 departureDate={DEFAULT_DEPARTURE_DATE}
                 selectedCountryCode={countryCode}
                 onCountryChange={(code) => {
@@ -427,10 +520,12 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                 termsAccepted={termsAccepted}
                 onTermsAcceptedChange={setTermsAccepted}
                 onEligibilityChange={handleEligibilityChange}
-              />
+                continueDisabled={status === 'submitting' || (paymentPlan !== 'full' && !termsAccepted)}
+                continueLabel={status === 'submitting' ? 'Saving booking…' : 'Continue'}
+              />}
 
               {/* Payment method */}
-              <div className="pt-2">
+              {step === 4 && <div className="pt-2">
                 <label className="mb-4 block font-sans text-[10px] uppercase font-medium tracking-[0.2em] text-[#E6DCC8]/60">
                   Preferred Payment Method
                 </label>
@@ -460,7 +555,7 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                     </span>
                   </button>
                 </div>
-              </div>
+              </div>}
 
               {/* Error */}
               {status === 'error' && (
@@ -468,10 +563,10 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
               )}
 
               {/* Submit */}
-              <button
+              {step !== 3 && <button
                 type="submit"
-                disabled={status === 'submitting'}
-                className="group mt-6 flex h-[56px] w-full items-center justify-center gap-3 border border-[#E6DCC8]/30 bg-transparent transition-colors duration-700 hover:border-[#E6DCC8]/60 disabled:opacity-50"
+                disabled={status === 'submitting' || (step === 2 && (!agreementAccepted || !agreementSigned)) || (step === 3 && paymentPlan !== 'full' && !termsAccepted)}
+                className={`group mt-6 flex h-[52px] w-full items-center justify-center gap-3 transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50 ${step >= 3 ? 'rounded-md border border-[#0eaa78] bg-[#0eaa78] text-white hover:bg-[#07996b]' : 'border border-[#E6DCC8]/30 bg-transparent hover:border-[#E6DCC8]/60'}`}
               >
                 {status === 'submitting' ? (
                   <>
@@ -482,23 +577,23 @@ export default function EnquiryModal({ open, onClose }: EnquiryModalProps) {
                   </>
                 ) : (
                   <>
-                    <span className="font-sans text-[10px] md:text-[11px] font-medium uppercase tracking-[0.2em] text-[#F1EEE7] transition-colors duration-700 group-hover:text-white">
-                      Apply for the Retreat
+                    <span className={`font-sans text-[10px] md:text-[11px] font-medium tracking-[0.12em] ${step >= 3 ? '' : 'uppercase text-[#F1EEE7]'}`}>
+                      {step === 1 ? 'Continue to Traveler Info' : step === 2 ? 'Continue to Add-ons' : step === 3 ? 'Continue' : paymentMethod === 'paypal' ? 'Continue to PayPal' : 'Show Bank Transfer Details'}
                     </span>
                     <ArrowRight
                       size={14}
                       strokeWidth={1}
-                      className="text-[#E6DCC8]/70 transition-transform duration-700 group-hover:translate-x-1 group-hover:text-white"
+                      className={`transition-transform duration-300 group-hover:translate-x-1 ${step >= 3 ? 'text-white' : 'text-[#E6DCC8]/70'}`}
                     />
                   </>
                 )}
-              </button>
+              </button>}
 
-              <p className="pt-4 text-center font-sans text-[9px] md:text-[10px] font-medium uppercase tracking-[0.2em] text-[#EBE7DE]/40">
+              {step === 4 && <p className="pt-4 text-center font-sans text-[9px] md:text-[10px] font-medium uppercase tracking-[0.2em] text-[#EBE7DE]/40">
                 {paymentMethod === 'paypal'
                   ? 'Complete your payment instantly via PayPal after applying'
                   : 'You will receive Wise bank details upon applying'}
-              </p>
+              </p>}
             </form>
           </>
         )}

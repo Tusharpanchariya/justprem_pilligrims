@@ -48,6 +48,9 @@ export async function GET(req: NextRequest) {
       .eq('booking_id', booking.id)
       .order('created_at', { ascending: false });
 
+    const { data: agreement } = await supabaseServer.from('signed_agreements')
+      .select('agreement_reference, terms_version, signed_at').eq('booking_id', booking.id).maybeSingle();
+
     return NextResponse.json({
       success: true,
       booking: {
@@ -62,6 +65,9 @@ export async function GET(req: NextRequest) {
         totalPriceCents: booking.total_price_cents,
         bookingStatus: booking.booking_status,
         createdAt: booking.created_at,
+        agreementReference: agreement?.agreement_reference || null,
+        agreementVersion: agreement?.terms_version || null,
+        agreementSignedAt: agreement?.signed_at || null,
       },
       plan: plan ? {
         id: plan.id,

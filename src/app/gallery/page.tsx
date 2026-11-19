@@ -204,8 +204,8 @@ export default function GalleryPage() {
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id as CategoryFilter)}
                 className={`px-4 py-1.5 text-xs uppercase tracking-wide font-medium transition-all ${activeCategory === cat.id
-                    ? 'bg-antique-gold text-near-black border border-antique-gold font-semibold shadow-md'
-                    : 'bg-charcoal/60 text-stone/60 border border-antique-gold/15 hover:text-ivory'
+                  ? 'bg-antique-gold text-near-black border border-antique-gold font-semibold shadow-md'
+                  : 'bg-charcoal/60 text-stone/60 border border-antique-gold/15 hover:text-ivory'
                   }`}
               >
                 {cat.label}
