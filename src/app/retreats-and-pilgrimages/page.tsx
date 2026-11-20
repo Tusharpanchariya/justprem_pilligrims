@@ -23,8 +23,6 @@ export default function RetreatsAndPilgrimagesPage() {
               src="https://images.pexels.com/photos/32436570/pexels-photo-32436570.jpeg?auto=compress&cs=tinysrgb&w=1920"
               alt="Retreats & Pilgrimages Hero"
               className="h-full w-full object-cover scale-105"
-              fetchPriority="high"
-              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-near-black via-near-black/70 to-near-black/40" />
             <div className="absolute inset-0 bg-black/40" />
@@ -52,8 +50,6 @@ export default function RetreatsAndPilgrimagesPage() {
                   src="https://images.pexels.com/photos/38902559/pexels-photo-38902559.jpeg?auto=compress&cs=tinysrgb&w=1920"
                   alt="Mountain Background"
                   className="h-full w-full object-cover opacity-25"
-                  loading="lazy"
-                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-near-black via-near-black/90 to-near-black/80" />
               </div>
@@ -64,14 +60,14 @@ export default function RetreatsAndPilgrimagesPage() {
                 </span>
 
                 <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-ivory leading-tight">
-                  Nepal Retreat-Heart of the Himalayas
+                  Nepal Retreat-Heart ofHimalayas
                 </h2>
 
                 {/* Metadata Row */}
                 <div className="mt-8 flex flex-wrap items-center gap-6 text-xs text-stone/70 border-y border-antique-gold/15 py-4">
                   <div>
                     <span className="block text-[9px] uppercase tracking-wide text-antique-gold/70">Duration</span>
-                    <span className="font-serif text-sm text-ivory">11 NIGHTS / 12 DAYS</span>
+                    <span className="font-serif text-sm text-ivory">12 Days</span>
                   </div>
                   <div className="h-6 w-[1px] bg-antique-gold/20" />
                   <div>
@@ -128,8 +124,6 @@ export default function RetreatsAndPilgrimagesPage() {
                 src="https://images.pexels.com/photos/14461598/pexels-photo-14461598.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 alt="Pilgrims Group Gathering in Nepal"
                 className="h-full w-full object-cover"
-                loading="lazy"
-                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-near-black/60 via-transparent to-transparent lg:hidden" />
             </div>
@@ -143,8 +137,6 @@ export default function RetreatsAndPilgrimagesPage() {
               src="https://images.pexels.com/photos/38902559/pexels-photo-38902559.jpeg?auto=compress&cs=tinysrgb&w=1920"
               alt="Himalayan Forest Background"
               className="h-full w-full object-cover"
-              loading="lazy"
-              decoding="async"
             />
             <div className="absolute inset-0 bg-near-black/85" />
           </div>

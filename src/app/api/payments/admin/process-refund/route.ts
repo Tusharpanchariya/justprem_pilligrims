@@ -3,6 +3,8 @@ import { timingSafeEqual } from 'node:crypto';
 import { supabaseServer } from '@/lib/supabase-server';
 import { getPayPalAccessToken, getPayPalApiBaseUrl } from '@/lib/payments/paypal-server';
 
+export const dynamic = 'force-dynamic';
+
 function isAdmin(req: NextRequest) {
   const secret = process.env.ADMIN_SECRET || '';
   const supplied = Buffer.from(req.headers.get('x-admin-secret') || '');

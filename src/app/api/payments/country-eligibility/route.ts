@@ -3,6 +3,8 @@ import { getCountryByCode } from '@/lib/payments/countries';
 import { isInstallmentBookingWindowOpen } from '@/lib/payments/catalog';
 import { CANCELLATION_POLICY_TEXT, CANCELLATION_POLICY_VERSION, INSTALLMENT_TERMS_TEXT, INSTALLMENT_TERMS_VERSION } from '@/lib/payments/installment-terms';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const countryCode = req.nextUrl.searchParams.get('countryCode')?.toUpperCase() || 'GB';
   const country = getCountryByCode(countryCode);

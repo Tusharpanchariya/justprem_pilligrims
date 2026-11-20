@@ -4,6 +4,8 @@ import { supabaseServer } from '@/lib/supabase-server';
 import { createSignedAgreementPdf } from '@/lib/payments/agreement-pdf';
 import { INITIAL_RETREAT_TERMS } from '@/lib/payments/initial-terms';
 
+export const dynamic = 'force-dynamic';
+
 const ACCEPTANCE = 'I agree to electronically sign and be legally bound by this document.';
 
 function validAdmin(req: NextRequest): boolean {

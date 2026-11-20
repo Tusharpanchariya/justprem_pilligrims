@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { randomBytes, createHash } from 'node:crypto';
 import { supabaseServer } from '@/lib/supabase-server';
+
+export const dynamic = 'force-dynamic';
 import { calculateAllPaymentPlans } from '@/lib/payments/plans';
 import {
   DEFAULT_DEPARTURE_DATE,

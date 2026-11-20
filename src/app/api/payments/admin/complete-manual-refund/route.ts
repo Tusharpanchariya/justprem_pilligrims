@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'node:crypto';
 import { supabaseServer } from '@/lib/supabase-server';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   const secret = process.env.ADMIN_SECRET || '';
   const supplied = Buffer.from(req.headers.get('x-admin-secret') || '');
